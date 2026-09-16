@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /sms/teacher/
+Disallow: /sms/student/
+Disallow: /school/
+Disallow: /api/
+Disallow: /login
+Disallow: /register
+
+# Sitemap
+Sitemap: {{ url('/sitemap.xml') }}
