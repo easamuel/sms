@@ -17,6 +17,7 @@ use App\Models\Sms\Result;
 use App\Models\Sms\SmsFee;
 use App\Models\Sms\StudentFee;
 use App\Models\Sms\SmsAttendance;
+use App\Models\Sms\SmsNotice;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
@@ -135,9 +136,11 @@ class SmsDemoDataSeeder extends Seeder
             }
 
             // Assign as class teacher (remove 'A' suffix if present)
-            $classKey = str_replace('A', '', $teacherInfo['classes'][0]);
-            if (isset($classes[$classKey])) {
-                $classes[$classKey]->update(['class_teacher_id' => $teacher->id]);
+            foreach ($teacherInfo['classes'] as $className) {
+                $classKey = str_replace('A', '', $className);
+                if (isset($classes[$classKey])) {
+                    $classes[$classKey]->update(['class_teacher_id' => $teacher->id]);
+                }
             }
 
             $teachers[] = $teacher;
@@ -446,6 +449,44 @@ class SmsDemoDataSeeder extends Seeder
                     ]
                 );
             }
+        }
+
+        // Create Demo Notices
+        $demoNotices = [
+            [
+                'title' => 'First Term Continuous Assessment (CA1) Schedule',
+                'content' => 'All teachers are advised to ensure all CA1 test questions are uploaded to the CBT portal by Friday. The examination window opens on Monday for all junior and senior classes.',
+                'target_audience' => 'all',
+                'published_at' => Carbon::now()->subDays(2),
+                'expires_at' => Carbon::now()->addDays(14),
+                'is_active' => true,
+            ],
+            [
+                'title' => 'Staff Academic Review & Lesson Plan Submission',
+                'content' => 'Reminder to all subject teachers: Week 4 lesson notes and psychomotor evaluation sheets are due for submission to the Vice Principal Academics.',
+                'target_audience' => 'teachers',
+                'published_at' => Carbon::now()->subDays(1),
+                'expires_at' => Carbon::now()->addDays(7),
+                'is_active' => true,
+            ],
+            [
+                'title' => 'Upcoming PTA Meeting & Termly Fee Clearance',
+                'content' => 'Dear Parents and Guardians, the first general PTA meeting of the term holds next Saturday at 10:00 AM in the school auditorium. Kindly ensure school fee receipts are verified.',
+                'target_audience' => 'parents',
+                'published_at' => Carbon::now()->subDays(3),
+                'expires_at' => Carbon::now()->addDays(20),
+                'is_active' => true,
+            ],
+        ];
+
+        foreach ($demoNotices as $noticeData) {
+            SmsNotice::firstOrCreate(
+                [
+                    'school_id' => $school->id,
+                    'title' => $noticeData['title'],
+                ],
+                $noticeData
+            );
         }
 
         $this->command->info('SMS Demo Data Seeded Successfully!');
