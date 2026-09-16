@@ -439,7 +439,7 @@ class SmsDemoDataSeeder extends Seeder
                                     'transaction_id' => 'TXN-' . strtoupper(uniqid()),
                                     'receipt_number' => 'REC-' . strtoupper(uniqid()),
                                     'receipt_generated' => true,
-                                    'payment_status' => 'successful',
+                                    'payment_status' => 'success',
                                 ]
                             );
                         }
