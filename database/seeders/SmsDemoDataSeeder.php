@@ -409,7 +409,7 @@ class SmsDemoDataSeeder extends Seeder
                         $paidAmount = rand(0, $fee->amount);
                         $balance = $fee->amount - $paidAmount;
                         
-                        StudentFee::firstOrCreate(
+                        $studentFee = StudentFee::firstOrCreate(
                             [
                                 'student_id' => $student->id,
                                 'fee_id' => $fee->id,
@@ -423,6 +423,26 @@ class SmsDemoDataSeeder extends Seeder
                                 'due_date' => $fee->due_date,
                             ]
                         );
+
+                        if ($paidAmount > 0) {
+                            \App\Models\Sms\SmsFeePayment::firstOrCreate(
+                                [
+                                    'student_fee_id' => $studentFee->id,
+                                ],
+                                [
+                                    'school_id' => $school->id,
+                                    'fee_id' => $fee->id,
+                                    'student_id' => $student->id,
+                                    'amount_paid' => $paidAmount,
+                                    'payment_date' => Carbon::now()->subDays(rand(1, 45)),
+                                    'payment_method' => 'bank_transfer',
+                                    'transaction_id' => 'TXN-' . strtoupper(uniqid()),
+                                    'receipt_number' => 'REC-' . strtoupper(uniqid()),
+                                    'receipt_generated' => true,
+                                    'payment_status' => 'successful',
+                                ]
+                            );
+                        }
                     }
                 }
             }

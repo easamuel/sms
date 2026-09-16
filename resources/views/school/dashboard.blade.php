@@ -436,7 +436,7 @@
         </h1>
         <p class="sms-page-subtitle">
             @if($school)
-                {{ $school->school_name }}
+                {{ $school->name ?? $school->school_name }}
             @else
                 Manage your school and students
             @endif
