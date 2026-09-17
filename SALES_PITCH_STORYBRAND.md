@@ -119,9 +119,10 @@ Proprietor, we've set up an interactive live demo where you can test the system 
 Would you be open to a quick 10-minute chat or WhatsApp walkthrough this week to see how this can benefit [School Name]?
 
 Warm regards,
-[Your Name]
 ExtremeSolutions SMS Team
-[Phone / WhatsApp Number]
+Phone / WhatsApp: 09052585622
+Email: sms@extremesolutions.com.ng
+Website: https://extremesolutions.com.ng
 ```
 
 ### Follow-Up WhatsApp After Sending Demo Link
@@ -132,3 +133,4 @@ Most proprietors love how easy it is to see outstanding fees and generate clean,
 
 I can set up a test environment for [School Name] in 24 hours at no cost so your team can test it hands-on. Would Wednesday at 11 AM or Thursday at 2 PM work for a quick call?
 ```
+

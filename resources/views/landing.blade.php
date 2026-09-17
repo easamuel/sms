@@ -3,8 +3,80 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ES-SCHOOLS - Stop Chasing Fees & Fighting Paperwork | Nigeria's #1 School Management Platform</title>
-    <meta name="description" content="ES-SCHOOLS is the all-in-one management platform for Nigerian private schools. Automate tuition fee recovery, generate terminal report cards in 1 click, and run your school on autopilot.">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform</title>
+    <meta name="title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform">
+    <meta name="description" content="ES-SCHOOLS is Nigeria's premier school management and automated tuition fee recovery platform. Generate 1-click terminal report cards, track student attendance, and run your school on autopilot. Call: 09052585622 | sms@extremesolutions.com.ng">
+    <meta name="keywords" content="School management system Nigeria, SMS software Nigeria, school fees payment tracker, student report card generator, Lagos private schools software, Abuja schools portal, CBT exam system, ExtremeSolutions SMS, school admission portal">
+    <meta name="author" content="ExtremeSolutions Nigeria">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://sms.extremesolutions.com.ng/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sms.extremesolutions.com.ng/">
+    <meta property="og:title" content="ES-SCHOOLS - Automate Tuition Recovery &amp; School Operations">
+    <meta property="og:description" content="Stop chasing school fees and fighting manual paperwork. ES-SCHOOLS automates tuition recovery, 1-click terminal report cards, and parent communication for Nigerian schools.">
+    <meta property="og:image" content="https://sms.extremesolutions.com.ng/apple-touch-icon.png">
+    <meta property="og:site_name" content="ES-SCHOOLS">
+    <meta property="og:locale" content="en_NG">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sms.extremesolutions.com.ng/">
+    <meta property="twitter:title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork">
+    <meta property="twitter:description" content="Nigeria's premier school management system. Automate tuition recovery, 1-click report cards, and parent communications.">
+    <meta property="twitter:image" content="https://sms.extremesolutions.com.ng/apple-touch-icon.png">
+
+    <!-- Browser Favicon & App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#1e3a8a">
+
+    <!-- Schema.org JSON-LD Structured Data for Search Engines & AI Crawlers -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "ES-SCHOOLS",
+          "operatingSystem": "All (Cloud Web Application)",
+          "applicationCategory": "EducationalApplication",
+          "description": "All-in-one school management and automated tuition fee recovery platform for Nigerian private schools, supporting Universal Basic, WAEC, and NECO curriculum structures.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "NGN"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "ExtremeSolutions Nigeria",
+            "url": "https://extremesolutions.com.ng",
+            "telephone": "+2349052585622",
+            "email": "sms@extremesolutions.com.ng"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "ES-SCHOOLS",
+          "url": "https://sms.extremesolutions.com.ng",
+          "logo": "https://sms.extremesolutions.com.ng/favicon.svg",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+2349052585622",
+            "contactType": "customer service",
+            "areaServed": "NG",
+            "availableLanguage": "English"
+          }
+        }
+      ]
+    }
+    </script>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,8 +142,8 @@
         .top-bar {
             background: linear-gradient(90deg, #172554, #1e3a8a, #059669);
             color: #ffffff;
-            padding: 0.5rem 1rem;
-            font-size: 0.84rem;
+            padding: 0.45rem 1rem;
+            font-size: 0.82rem;
             text-align: center;
             font-weight: 600;
             display: flex;
@@ -87,7 +159,7 @@
             margin-left: 0.25rem;
         }
         
-        /* Navbar */
+        /* Unified & Balanced Navbar (No Login, Clean Spacing) */
         .navbar {
             position: sticky;
             top: 0;
@@ -97,7 +169,7 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
-            padding: 0.85rem 0;
+            padding: 0.75rem 0;
             transition: all 0.3s ease;
         }
 
@@ -112,6 +184,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1.5rem;
         }
         
         .logo-link {
@@ -120,6 +193,7 @@
             gap: 0.65rem;
             text-decoration: none;
             transition: transform 0.2s;
+            flex-shrink: 0;
         }
         
         .logo-link:hover {
@@ -127,14 +201,14 @@
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             flex-shrink: 0;
         }
         
         .logo-text {
             font-family: 'Poppins', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 800;
             color: var(--primary);
             letter-spacing: -0.02em;
@@ -153,14 +227,15 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 1.75rem;
+            gap: 1.5rem;
+            white-space: nowrap;
         }
         
         .nav-links a {
             color: var(--text-main);
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.9375rem;
+            font-size: 0.92rem;
             transition: color 0.2s;
         }
         
@@ -168,19 +243,44 @@
             color: var(--primary);
         }
 
+        .nav-admission-badge {
+            color: #059669 !important;
+            font-weight: 700 !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: #ecfdf5;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            border: 1px solid #a7f3d0;
+            text-decoration: none;
+            font-size: 0.875rem !important;
+        }
+
+        .nav-admission-badge span {
+            background: #10b981;
+            color: white;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 800;
+        }
+
         .nav-btn-audit {
             background: var(--accent-green);
             color: #ffffff !important;
-            padding: 0.6rem 1.35rem;
+            padding: 0.55rem 1.25rem;
             border-radius: 8px;
             font-weight: 700 !important;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.45rem;
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
             transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-btn-audit:hover {
@@ -193,7 +293,7 @@
             display: none;
             background: none;
             border: none;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             color: var(--text-main);
             cursor: pointer;
         }
@@ -211,7 +311,7 @@
             display: flex;
         }
 
-        /* Hero Section */
+        /* Hero Section (5-Second Grunt Test) */
         .hero {
             position: relative;
             background: linear-gradient(180deg, #f0f4ff 0%, #ffffff 100%);
@@ -1124,7 +1224,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
             .nav-links {
                 display: none;
             }
@@ -1194,11 +1294,11 @@
 
     <!-- Top Announcement Bar -->
     <div class="top-bar">
-        <span><i class="fas fa-sparkles"></i> <strong>2026/2027 Academic Session:</strong> Online Student Admission Portal is Now Live!</span>
-        <a href="{{ route('admission.create') }}">Apply Online Here &rarr;</a>
+        <span><i class="fas fa-headset"></i> Need support or demo assistance? Call/WhatsApp: <strong>09052585622</strong> | <strong>sms@extremesolutions.com.ng</strong></span>
+        <a href="{{ route('admission.create') }}">Online Admission Portal [OPEN] &rarr;</a>
     </div>
 
-    <!-- Navigation (Balanced & Clean, No Login Button) -->
+    <!-- Navigation (Streamlined, Straight, Balanced, No Login) -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo-link">
@@ -1222,15 +1322,14 @@
 
             <div class="nav-links">
                 <a href="#demos">Live Demos</a>
-                <a href="#problem">The Problem</a>
-                <a href="#solution">Solution</a>
                 <a href="#plan">How It Works</a>
-                <a href="#transformation">Before & After</a>
-                <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; background: #ecfdf5; padding: 0.4rem 0.85rem; border-radius: 20px; border: 1px solid #a7f3d0;">
-                    <i class="fas fa-user-plus"></i> Online Admission <span style="background: #10b981; color: white; font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px;">OPEN</span>
+                <a href="#solution">Why Us</a>
+                <a href="{{ route('admission.create') }}" class="nav-admission-badge">
+                    <i class="fas fa-user-plus"></i> Online Admission <span>OPEN</span>
                 </a>
+                <a href="{{ route('contact') }}">Contact</a>
                 <a href="#audit" class="nav-btn-audit">
-                    <i class="fas fa-calendar-check"></i> Free School Audit
+                    <i class="fas fa-calendar-check"></i> Free Audit
                 </a>
             </div>
 
@@ -1241,13 +1340,12 @@
 
         <div class="mobile-menu" id="mobileMenu">
             <a href="#demos"><i class="fas fa-play-circle" style="color: #3b82f6;"></i> Interactive Live Demos</a>
-            <a href="#problem"><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> The Cost of Manual Records</a>
-            <a href="#solution"><i class="fas fa-check-circle" style="color: #10b981;"></i> The ES-SCHOOLS Solution</a>
             <a href="#plan"><i class="fas fa-tasks" style="color: #8b5cf6;"></i> 3-Step Simple Plan</a>
-            <a href="#transformation"><i class="fas fa-chart-line" style="color: #f59e0b;"></i> Before vs. After</a>
+            <a href="#solution"><i class="fas fa-shield-alt" style="color: #10b981;"></i> Why ES-SCHOOLS</a>
             <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700;">
                 <i class="fas fa-user-plus"></i> Online Admission [OPEN]
             </a>
+            <a href="{{ route('contact') }}"><i class="fas fa-envelope" style="color: #1e3a8a;"></i> Contact Us</a>
             <a href="#audit" class="nav-btn-audit" style="justify-content: center;">
                 <i class="fas fa-calendar-check"></i> Request Free School Audit
             </a>
@@ -1259,7 +1357,7 @@
         <div class="container hero-inner">
             <div class="hero-badge">
                 <i class="fas fa-award" style="color: #f59e0b;"></i>
-                <span>Trusted by Leading Nigerian Private Schools &bull; WAEC & Universal Basic Aligned</span>
+                <span>Trusted by Leading Nigerian Private Schools &bull; WAEC &amp; Universal Basic Aligned</span>
             </div>
 
             <h1>
@@ -1654,16 +1752,16 @@
                 </div>
 
                 <div class="audit-actions">
-                    <a href="https://wa.me/2348000000000?text=Hello%20ES-SCHOOLS%20Team%2C%20I%20am%20a%20school%20proprietor%20and%20I%20would%20like%20to%20request%20a%20Free%2015-Minute%20School%20Digitization%20Audit%20and%20Demo." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                    <a href="https://wa.me/2349052585622?text=Hello%20ES-SCHOOLS%20Team%2C%20I%20am%20a%20school%20proprietor%20and%20I%20would%20like%20to%20request%20a%20Free%2015-Minute%20School%20Digitization%20Audit%20and%20Demo." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
                         <i class="fab fa-whatsapp" style="font-size: 1.35rem;"></i>
-                        <span>Chat With Us on WhatsApp</span>
+                        <span>Chat on WhatsApp: 09052585622</span>
                     </a>
                     <a href="{{ route('contact') }}" class="btn-contact-form">
                         <i class="fas fa-envelope"></i>
                         <span>Send Official Inquiry</span>
                     </a>
-                    <a href="tel:+2348000000000" style="color: var(--primary); text-align: center; text-decoration: none; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
-                        <i class="fas fa-phone-alt"></i> Call: +234 (0) 800 000 0000
+                    <a href="tel:09052585622" style="color: var(--primary); text-align: center; text-decoration: none; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                        <i class="fas fa-phone-alt"></i> Call: 09052585622
                     </a>
                 </div>
             </div>
@@ -1753,7 +1851,7 @@
                     ES-SCHOOLS
                 </h4>
                 <p>
-                    Nigeria's premium school management and fee recovery platform. We empower private school proprietors to eliminate paperwork, automate revenue collection, and run world-class institutions.
+                    Nigeria's premium school management and fee recovery platform by <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer" style="color: #34d399; font-weight: 600;">ExtremeSolutions</a>. We empower private school proprietors to eliminate paperwork, automate revenue collection, and run world-class institutions.
                 </p>
                 <div style="display: flex; gap: 1rem;">
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style="color: #cbd5e1; font-size: 1.15rem;"><i class="fab fa-facebook"></i></a>
@@ -1767,7 +1865,7 @@
                 <h5>Platform</h5>
                 <div class="footer-links-list">
                     <a href="#demos">Interactive Demos</a>
-                    <a href="#problem">Why Switch?</a>
+                    <a href="#problem">The Cost of Manual</a>
                     <a href="#solution">Features &amp; Modules</a>
                     <a href="#plan">3-Step Onboarding</a>
                     <a href="#transformation">Before vs After</a>
@@ -1779,7 +1877,7 @@
                 <h5>Access &amp; Admissions</h5>
                 <div class="footer-links-list">
                     <a href="{{ route('admission.create') }}" style="color: #34d399; font-weight: 700;">
-                        <i class="fas fa-user-plus"></i> Online Admission
+                        <i class="fas fa-user-plus"></i> Online Admission [OPEN]
                     </a>
                     <a href="#demos">Admin Demo</a>
                     <a href="#demos">Teacher Demo</a>
@@ -1793,16 +1891,17 @@
                 <h5>Contact &amp; Audit</h5>
                 <div class="footer-links-list">
                     <a href="#audit" style="color: #6ee7b7; font-weight: 600;"><i class="fas fa-calendar-check"></i> Book Free Audit</a>
-                    <a href="{{ route('contact') }}">Contact Support</a>
-                    <a href="mailto:help@extremesolutions.com.ng">help@extremesolutions.com.ng</a>
-                    <a href="tel:+2348000000000">+234 (0) 800 000 0000</a>
-                    <a href="https://wa.me/2348000000000" target="_blank" rel="noopener noreferrer">WhatsApp Specialist</a>
+                    <a href="{{ route('contact') }}">Contact Us</a>
+                    <a href="mailto:sms@extremesolutions.com.ng">sms@extremesolutions.com.ng</a>
+                    <a href="tel:09052585622">09052585622</a>
+                    <a href="https://wa.me/2349052585622" target="_blank" rel="noopener noreferrer">WhatsApp: 09052585622</a>
+                    <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer" style="color: #60a5fa;">Parent Company Website &rarr;</a>
                 </div>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} ES-SCHOOLS by <a href="https://extremesolutions.com.ng" target="_blank" style="color: #34d399; font-weight: 600; margin-left: 0;">ExtremeSolutions</a>. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} ES-SCHOOLS by <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer" style="color: #34d399; font-weight: 600; margin-left: 0;">ExtremeSolutions Nigeria</a>. All rights reserved.</p>
             <div>
                 <a href="{{ route('privacy-policy') }}">Privacy Policy</a>
                 <a href="{{ route('terms-of-service') }}">Terms of Service</a>
@@ -1861,7 +1960,7 @@
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
                         e.preventDefault();
-                        const headerOffset = 75;
+                        const headerOffset = 70;
                         const elementPosition = targetElement.getBoundingClientRect().top;
                         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                         

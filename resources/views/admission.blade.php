@@ -12,6 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
     <style>
         :root {
             --primary: #1e3a8a;
@@ -857,8 +863,13 @@
 
     <!-- Footer -->
     <footer style="background: #ffffff; border-top: 1px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-muted); font-size: 0.875rem;">
-        <div style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
-            <p>&copy; {{ date('Y') }} ES-SCHOOLS (ExtremeSolutions School Management Platform). All rights reserved.</p>
+        <div style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <p>&copy; {{ date('Y') }} ES-SCHOOLS by <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer" style="color: #10b981; font-weight: 600; text-decoration: none;">ExtremeSolutions Nigeria</a>. All rights reserved.</p>
+            <div style="display: flex; gap: 1.25rem; font-size: 0.85rem;">
+                <span><i class="fas fa-phone-alt" style="color: #1e3a8a;"></i> 09052585622</span>
+                <span><i class="fas fa-envelope" style="color: #10b981;"></i> sms@extremesolutions.com.ng</span>
+                <a href="{{ route('contact') }}" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Contact Support</a>
+            </div>
         </div>
     </footer>
 

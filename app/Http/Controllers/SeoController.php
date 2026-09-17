@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 class SeoController extends Controller
 {
+    /**
+     * Generate dynamic XML sitemap for search engines and AI bots
+     */
     public function sitemap()
     {
         $baseUrl = url('/');
@@ -18,10 +21,40 @@ class SeoController extends Controller
                 'priority' => '1.0'
             ],
             [
-                'loc' => $baseUrl . '/school-management',
+                'loc' => $baseUrl . '/admission',
+                'lastmod' => now()->format('Y-m-d'),
+                'changefreq' => 'daily',
+                'priority' => '0.95'
+            ],
+            [
+                'loc' => $baseUrl . '/school-management/demo-login',
                 'lastmod' => now()->format('Y-m-d'),
                 'changefreq' => 'weekly',
-                'priority' => '0.9'
+                'priority' => '0.90'
+            ],
+            [
+                'loc' => $baseUrl . '/contact',
+                'lastmod' => now()->format('Y-m-d'),
+                'changefreq' => 'weekly',
+                'priority' => '0.85'
+            ],
+            [
+                'loc' => $baseUrl . '/privacy-policy',
+                'lastmod' => now()->format('Y-m-d'),
+                'changefreq' => 'monthly',
+                'priority' => '0.50'
+            ],
+            [
+                'loc' => $baseUrl . '/terms-of-service',
+                'lastmod' => now()->format('Y-m-d'),
+                'changefreq' => 'monthly',
+                'priority' => '0.50'
+            ],
+            [
+                'loc' => $baseUrl . '/cookie-policy',
+                'lastmod' => now()->format('Y-m-d'),
+                'changefreq' => 'monthly',
+                'priority' => '0.50'
             ],
         ];
         
@@ -43,17 +76,42 @@ class SeoController extends Controller
             ->header('Content-Type', 'application/xml');
     }
     
+    /**
+     * Generate robots.txt allowing all web search and AI crawlers
+     */
     public function robots()
     {
-        $robots = "User-agent: *\n";
+        $robots = "# Robots.txt for ES-SCHOOLS (ExtremeSolutions SMS)\n";
+        $robots .= "User-agent: *\n";
         $robots .= "Allow: /\n";
-        $robots .= "Disallow: /admin/\n";
-        $robots .= "Disallow: /sms/teacher/\n";
-        $robots .= "Disallow: /sms/student/\n";
-        $robots .= "Disallow: /school/\n";
-        $robots .= "Disallow: /api/\n";
-        $robots .= "Disallow: /login\n";
-        $robots .= "Disallow: /register\n\n";
+        $robots .= "Disallow: /sms/logout\n";
+        $robots .= "Disallow: /logout\n";
+        $robots .= "Disallow: /school-management/authorized-login\n\n";
+
+        $aiBots = [
+            'Googlebot',
+            'Google-Extended',
+            'Bingbot',
+            'GPTBot',
+            'ChatGPT-User',
+            'ClaudeBot',
+            'Claude-Web',
+            'anthropic-ai',
+            'PerplexityBot',
+            'Applebot',
+            'Applebot-Extended',
+            'CCBot',
+            'cohere-ai',
+            'Meta-ExternalAgent',
+            'Bytespider',
+            'Amazonbot',
+        ];
+
+        foreach ($aiBots as $bot) {
+            $robots .= "User-agent: {$bot}\n";
+            $robots .= "Allow: /\n\n";
+        }
+        
         $robots .= "Sitemap: " . url('/sitemap.xml') . "\n";
         
         return response($robots, 200)

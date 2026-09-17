@@ -8,7 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -135,9 +138,9 @@
         <h2>14. Contact Information</h2>
         <p>If you have any questions about these Terms, please contact us at:</p>
         <p>
-            <strong>Email:</strong> <a href="mailto:help@extremesolutions.com.ng">help@extremesolutions.com.ng</a><br>
-            <strong>Address:</strong> ES-SCHOOLS Platform<br>
-            <strong>Phone:</strong> +234 800 000 0000
+            <strong>Email:</strong> <a href="mailto:sms@extremesolutions.com.ng">sms@extremesolutions.com.ng</a><br>
+            <strong>Parent Company:</strong> <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer">ExtremeSolutions Nigeria</a><br>
+            <strong>Phone / WhatsApp:</strong> <a href="tel:09052585622">09052585622</a>
         </p>
     </div>
 </body>
