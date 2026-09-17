@@ -35,6 +35,7 @@ use App\Http\Controllers\Sms\SmsTeacherExamController;
 use App\Http\Controllers\Sms\ResultsEntryController;
 use App\Http\Controllers\Sms\SmsAdminController;
 use App\Http\Controllers\Sms\SmsLogoutController;
+use App\Http\Controllers\AdmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,11 @@ Route::get('/welcome', function () {
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+// Online Admission Portal
+Route::get('/admission', [AdmissionController::class, 'index'])->name('admission.create');
+Route::post('/admission', [AdmissionController::class, 'store'])->name('admission.store');
+Route::get('/online-admission', [AdmissionController::class, 'index'])->name('admission.online');
 
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');

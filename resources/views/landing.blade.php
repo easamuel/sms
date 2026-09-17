@@ -1606,6 +1606,10 @@
                 <a href="#features">Features</a>
                 <a href="#who">Who It's For</a>
                 <a href="#why">Why Choose Us</a>
+                <a href="{{ route('admission.create') }}" style="color: #10b981; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(16, 185, 129, 0.1); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <i class="fas fa-user-plus"></i>
+                    Online Admission <span style="background: #10b981; color: white; font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 10px; font-weight: 800;">OPEN</span>
+                </a>
                 <a href="{{ route('school-management.demo-login') }}" style="color: var(--green-dark); font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem;">
                     <i class="fas fa-play-circle" style="color: var(--green);"></i>
                     Live Demo
@@ -1627,6 +1631,10 @@
             <a href="#features">Features</a>
             <a href="#who">Who It's For</a>
             <a href="#why">Why Choose Us</a>
+            <a href="{{ route('admission.create') }}" style="color: #10b981; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem;">
+                <i class="fas fa-user-plus"></i>
+                Online Admission <span style="background: #10b981; color: white; font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 10px; margin-left: auto; font-weight: 800;">OPEN</span>
+            </a>
             <a href="{{ route('school-management.demo-login') }}" style="color: var(--green-dark); font-weight: 700; display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem;">
                 <i class="fas fa-play-circle" style="color: var(--green);"></i>
                 Explore Live Demo
@@ -1652,6 +1660,10 @@
                             <h1>Transform Your School Administration with Confidence</h1>
                             <p class="subtitle">ES-SCHOOLS is the comprehensive platform trusted by schools across Nigeria and Africa. Streamline operations, engage parents, and empower your entire school community with our modern, secure solution.</p>
                             <div class="hero-buttons">
+                                <a href="{{ route('admission.create') }}" class="hero-cta" style="background: var(--green);">
+                                    <i class="fas fa-user-plus"></i>
+                                    Online Admission
+                                </a>
                                 <a href="{{ route('login') }}" class="hero-cta">
                                     <i class="fas fa-rocket"></i>
                                     Get Started Today
@@ -1668,6 +1680,10 @@
                             <h1>Empower Teachers, Engage Parents, Inspire Students</h1>
                             <p class="subtitle">Join hundreds of schools already using ES-SCHOOLS to manage attendance, track performance, handle fees, and communicate seamlessly with parents. Built specifically for Nigerian and African schools.</p>
                             <div class="hero-buttons">
+                                <a href="{{ route('admission.create') }}" class="hero-cta" style="background: var(--green);">
+                                    <i class="fas fa-user-plus"></i>
+                                    Online Admission
+                                </a>
                                 <a href="{{ route('login') }}" class="hero-cta">
                                     <i class="fas fa-rocket"></i>
                                     Get Started Today
@@ -1684,6 +1700,10 @@
                             <h1>Modern Technology for Modern Schools</h1>
                             <p class="subtitle">From student enrollment to exam results, from fee management to parent communication - everything you need in one powerful, easy-to-use platform designed for educational excellence.</p>
                             <div class="hero-buttons">
+                                <a href="{{ route('admission.create') }}" class="hero-cta" style="background: var(--green);">
+                                    <i class="fas fa-user-plus"></i>
+                                    Online Admission
+                                </a>
                                 <a href="{{ route('login') }}" class="hero-cta">
                                     <i class="fas fa-rocket"></i>
                                     Get Started Today
@@ -1700,6 +1720,10 @@
                             <h1>Trusted by Schools Across Africa</h1>
                             <p class="subtitle">Experience the difference that professional school management software makes. Reduce administrative workload, improve parent engagement, and focus on what matters most - education.</p>
                             <div class="hero-buttons">
+                                <a href="{{ route('admission.create') }}" class="hero-cta" style="background: var(--green);">
+                                    <i class="fas fa-user-plus"></i>
+                                    Online Admission
+                                </a>
                                 <a href="{{ route('login') }}" class="hero-cta">
                                     <i class="fas fa-rocket"></i>
                                     Get Started Today
@@ -1715,6 +1739,31 @@
             <span class="hero-indicator" data-slide="1"></span>
             <span class="hero-indicator" data-slide="2"></span>
             <span class="hero-indicator" data-slide="3"></span>
+        </div>
+    </section>
+    
+    <!-- Online Admission Announcement Banner (Like Onest) -->
+    <section style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #172554 100%); padding: 3rem 1.5rem; color: white; position: relative; overflow: hidden; border-bottom: 3px solid #10b981;">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; position: relative; z-index: 2;">
+            <div style="flex: 1; min-width: 300px;">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); color: #6ee7b7; padding: 0.35rem 1rem; border-radius: 20px; font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+                    <i class="fas fa-bullhorn"></i> Online Admission 2026/2027 Open
+                </div>
+                <h2 style="font-size: 2rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem; color: white;">
+                    Enroll Your Child Today - Instant Online Application
+                </h2>
+                <p style="font-size: 1rem; opacity: 0.9; max-width: 680px; line-height: 1.6;">
+                    Applications are currently being received for Creche, Nursery, Basic (Primary), JSS, and SSS classes. Complete your form online in 5 easy steps and receive an instant printable registration slip.
+                </p>
+            </div>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <a href="{{ route('admission.create') }}" style="background: #10b981; color: white; padding: 0.875rem 2rem; border-radius: 10px; font-weight: 700; font-size: 1.0625rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 4px 18px rgba(16, 185, 129, 0.45); transition: all 0.2s;">
+                    <i class="fas fa-user-plus"></i> Apply for Admission Now
+                </a>
+                <a href="{{ route('school-management.demo-login') }}" style="background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 0.875rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: 0.9375rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-play-circle"></i> View Live Demo
+                </a>
+            </div>
         </div>
     </section>
     
@@ -2090,6 +2139,7 @@
             </div>
             <div class="footer-section">
                 <h5>Access</h5>
+                <a href="{{ route('admission.create') }}" style="color: #10b981; font-weight: 700;"><i class="fas fa-user-plus" style="font-size: 0.8rem; margin-right: 0.3rem;"></i> Online Admission</a>
                 <a href="{{ route('login') }}">Login</a>
                 <a href="{{ route('login') }}">Student/Teacher Login</a>
                 <a href="{{ route('school-management.demo-login') }}">Try Demo</a>
