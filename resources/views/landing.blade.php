@@ -301,14 +301,45 @@
         .mobile-menu {
             display: none;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.5rem;
             background: #ffffff;
-            padding: 1.5rem;
+            padding: 1.25rem 1rem;
             border-top: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
         }
 
         .mobile-menu.active {
             display: flex;
+        }
+
+        .mobile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a:active {
+            background: #eff6ff;
+            color: var(--primary);
+            border-color: #bfdbfe;
+            text-decoration: none !important;
+        }
+
+        .mobile-menu a i {
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
         }
 
         /* Hero Section (5-Second Grunt Test) */
@@ -1298,6 +1329,136 @@
         }
 
         @media (max-width: 768px) {
+            .hero {
+                padding: 2.5rem 0 2rem;
+            }
+            .hero-inner {
+                padding: 0 0.5rem;
+            }
+            .hero-badge {
+                font-size: 0.75rem;
+                padding: 0.35rem 0.85rem;
+                line-height: 1.35;
+                text-align: center;
+            }
+            .hero h1 {
+                font-size: 1.85rem !important;
+                line-height: 1.2 !important;
+            }
+            .hero p.subtitle {
+                font-size: 0.95rem !important;
+                line-height: 1.55 !important;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
+            }
+            .hero-cta-group a {
+                width: 100%;
+                justify-content: center;
+                font-size: 0.95rem;
+                padding: 0.85rem 1rem;
+            }
+            /* Trust Stats Card on Mobile: Fit '24 Hours' and metrics perfectly */
+            .trust-stats {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 0.75rem !important;
+                padding: 1.15rem 0.65rem !important;
+                margin-top: 1.5rem !important;
+                box-sizing: border-box !important;
+            }
+            .stat-item {
+                padding: 0.5rem 0.25rem !important;
+                border-right: none !important;
+                box-sizing: border-box !important;
+            }
+            .stat-item:nth-child(1),
+            .stat-item:nth-child(3) {
+                border-right: 1px solid var(--border-color) !important;
+            }
+            .stat-item:nth-child(1),
+            .stat-item:nth-child(2) {
+                border-bottom: 1px solid var(--border-subtle) !important;
+                padding-bottom: 0.75rem !important;
+            }
+            .stat-number {
+                font-size: clamp(1.15rem, 4.2vw, 1.45rem) !important;
+                white-space: nowrap !important;
+                letter-spacing: -0.02em !important;
+                line-height: 1.2 !important;
+                margin-bottom: 0.2rem !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            .stat-label {
+                font-size: 0.72rem !important;
+                line-height: 1.3 !important;
+                font-weight: 600 !important;
+            }
+
+            /* Free Proprietary Consultation Card (#audit) */
+            .audit-section {
+                padding: 3rem 0;
+            }
+            .audit-box {
+                padding: 1.75rem 1.15rem !important;
+                gap: 1.5rem !important;
+                border-radius: 18px !important;
+                box-sizing: border-box !important;
+            }
+            .audit-text {
+                min-width: 0 !important;
+                width: 100% !important;
+                text-align: center;
+                box-sizing: border-box !important;
+            }
+            .audit-text .section-eyebrow {
+                display: inline-block;
+                max-width: 100%;
+                white-space: normal;
+                padding: 0.35rem 0.9rem;
+                font-size: 0.75rem;
+                margin-bottom: 0.75rem;
+                border-radius: 20px;
+                line-height: 1.4;
+                word-break: break-word;
+            }
+            .audit-text h2 {
+                font-size: 1.45rem !important;
+                line-height: 1.25 !important;
+                margin-bottom: 0.75rem !important;
+                word-break: break-word;
+            }
+            .audit-text p {
+                font-size: 0.92rem !important;
+                line-height: 1.55 !important;
+                margin-bottom: 1.25rem !important;
+            }
+            .audit-perks {
+                align-items: flex-start;
+                text-align: left;
+                gap: 0.6rem;
+            }
+            .audit-perk {
+                font-size: 0.85rem !important;
+                line-height: 1.4;
+            }
+            .audit-actions {
+                min-width: 0 !important;
+                width: 100% !important;
+                gap: 0.75rem;
+                box-sizing: border-box !important;
+            }
+            .btn-whatsapp,
+            .btn-contact-form {
+                width: 100% !important;
+                font-size: 0.92rem !important;
+                padding: 0.85rem 1rem !important;
+                justify-content: center;
+                box-sizing: border-box !important;
+            }
+
             .compare-table {
                 min-width: 580px;
             }
@@ -1356,12 +1517,12 @@
             <a href="#demos"><i class="fas fa-play-circle" style="color: #3b82f6;"></i> Interactive Live Demos</a>
             <a href="#plan"><i class="fas fa-tasks" style="color: #8b5cf6;"></i> 3-Step Simple Plan</a>
             <a href="#solution"><i class="fas fa-shield-alt" style="color: #10b981;"></i> Why ES-SCHOOLS</a>
-            <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700;">
+            <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700; background: #ecfdf5; border-color: #a7f3d0;">
                 <i class="fas fa-user-plus"></i> Online Admission [OPEN]
             </a>
             <a href="{{ route('contact') }}"><i class="fas fa-envelope" style="color: #1e3a8a;"></i> Contact Us</a>
-            <a href="#audit" class="nav-btn-audit" style="justify-content: center;">
-                <i class="fas fa-calendar-check"></i> Request Free School Audit
+            <a href="#audit" style="background: var(--accent-green); color: white !important; justify-content: center; font-weight: 700;">
+                <i class="fas fa-calendar-check" style="color: white;"></i> Request Free School Audit
             </a>
         </div>
     </nav>

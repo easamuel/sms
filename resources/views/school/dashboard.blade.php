@@ -1018,10 +1018,10 @@
 
                 <div class="profile-badge">
                     <div class="profile-avatar">
-                        {{ strtoupper(substr(session('sms_user')->name ?? 'A', 0, 1)) }}
+                        {{ strtoupper(substr(optional(session('sms_user'))->name ?? 'A', 0, 1)) }}
                     </div>
                     <div class="profile-info">
-                        <span class="profile-name">{{ session('sms_user')->name ?? 'Super Admin' }}</span>
+                        <span class="profile-name">{{ optional(session('sms_user'))->name ?? 'School Administrator' }}</span>
                         <span class="profile-role">School Administrator</span>
                     </div>
                 </div>
@@ -1134,41 +1134,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($recentActivities as $student)
+                                    @forelse(($recentStudents ?? $recentActivities ?? []) as $student)
                                     <tr>
-                                        <td><strong>{{ $student->name }}</strong></td>
-                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">{{ $student->student_id }}</span></td>
-                                        <td>{{ $student->class ?? 'Basic 1' }}</td>
-                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                        <td>
-                                            <a href="{{ route('school.students.show', $student->id) }}" class="btn-action">
-                                                Profile
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <td><strong>Adebayo Oluwaseun</strong></td>
-                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00001</span></td>
-                                        <td>SSS 2 Science</td>
-                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                        <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Chukwu Obi</strong></td>
-                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00033</span></td>
-                                        <td>Basic 3</td>
-                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                        <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Fatima Mohammed</strong></td>
-                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00055</span></td>
-                                        <td>JSS 1</td>
-                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                        <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
-                                    </tr>
-                                    @endforelse
+                                         <td><strong>{{ $student->user->name ?? $student->name ?? 'Student' }}</strong></td>
+                                         <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">{{ $student->student_id_number ?? $student->student_id ?? ('STU-000' . ($student->id ?? '1')) }}</span></td>
+                                         <td>{{ is_object($student->class) ? ($student->class->name ?? 'Basic 1') : ($student->class ?? 'Basic 1') }}</td>
+                                         <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">{{ ucfirst($student->status ?? 'active') }}</span></td>
+                                         <td>
+                                             <a href="{{ route('school.students.show', $student->id ?? 1) }}" class="btn-action">
+                                                 Profile
+                                             </a>
+                                         </td>
+                                     </tr>
+                                     @empty
+                                     <tr>
+                                         <td><strong>Adebayo Oluwaseun</strong></td>
+                                         <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00001</span></td>
+                                         <td>SSS 2 Science</td>
+                                         <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
+                                         <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
+                                     </tr>
+                                     <tr>
+                                         <td><strong>Chukwu Obi</strong></td>
+                                         <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00033</span></td>
+                                         <td>Basic 3</td>
+                                         <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
+                                         <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
+                                     </tr>
+                                     <tr>
+                                         <td><strong>Fatima Mohammed</strong></td>
+                                         <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00055</span></td>
+                                         <td>JSS 1</td>
+                                         <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
+                                         <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
+                                     </tr>
+                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -1216,11 +1216,11 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            @forelse($upcomingEvents as $event)
+                            @forelse(($upcomingEvents ?? $upcomingExams ?? []) as $event)
                             <div style="padding: 0.75rem; background: var(--border-subtle); border-radius: 8px; margin-bottom: 0.75rem; font-size: 0.8125rem;">
-                                <strong style="color: var(--primary); display: block; margin-bottom: 0.2rem;">{{ $event->title }}</strong>
-                                <span style="color: var(--text-muted); font-size: 0.75rem;">{{ $event->description }}</span>
-                                <div style="font-size: 0.6875rem; color: #94a3b8; margin-top: 0.35rem;">{{ $event->date }}</div>
+                                <strong style="color: var(--primary); display: block; margin-bottom: 0.2rem;">{{ $event->title ?? $event->name ?? 'Upcoming Assessment' }}</strong>
+                                <span style="color: var(--text-muted); font-size: 0.75rem;">{{ $event->description ?? (is_object($event->subject ?? null) ? $event->subject->name : 'Scheduled Academic Event') }}</span>
+                                <div style="font-size: 0.6875rem; color: #94a3b8; margin-top: 0.35rem;">{{ $event->date ?? (!empty($event->scheduled_date) ? date('M d, Y', strtotime($event->scheduled_date)) : 'Ongoing') }}</div>
                             </div>
                             @empty
                             <div style="padding: 0.75rem; background: var(--border-subtle); border-radius: 8px; margin-bottom: 0.75rem; font-size: 0.8125rem;">

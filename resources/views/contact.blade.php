@@ -182,14 +182,45 @@
         .mobile-menu {
             display: none;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.5rem;
             background: #ffffff;
-            padding: 1.5rem;
+            padding: 1.25rem 1rem;
             border-top: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
         }
 
         .mobile-menu.active {
             display: flex;
+        }
+
+        .mobile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a:active {
+            background: #eff6ff;
+            color: var(--primary);
+            border-color: #bfdbfe;
+            text-decoration: none !important;
+        }
+
+        .mobile-menu a i {
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
         }
         
         /* Hero */
@@ -563,15 +594,15 @@
         </div>
 
         <div class="mobile-menu" id="mobileMenu">
-            <a href="/">Home</a>
+            <a href="/"><i class="fas fa-home" style="color: #1e3a8a;"></i> Home</a>
             <a href="/#demos"><i class="fas fa-play-circle" style="color: #3b82f6;"></i> Interactive Live Demos</a>
             <a href="/#plan"><i class="fas fa-tasks" style="color: #8b5cf6;"></i> 3-Step Plan</a>
             <a href="/#why"><i class="fas fa-shield-alt" style="color: #10b981;"></i> Why ES-SCHOOLS</a>
-            <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700;">
+            <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700; background: #ecfdf5; border-color: #a7f3d0;">
                 <i class="fas fa-user-plus"></i> Online Admission [OPEN]
             </a>
-            <a href="/#audit" class="nav-btn-audit" style="justify-content: center;">
-                <i class="fas fa-calendar-check"></i> Request Free School Audit
+            <a href="/#audit" style="background: var(--accent-green); color: white !important; justify-content: center; font-weight: 700;">
+                <i class="fas fa-calendar-check" style="color: white;"></i> Request Free School Audit
             </a>
         </div>
     </nav>

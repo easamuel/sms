@@ -63,13 +63,18 @@
             --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
         }
 
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100% !important;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            overflow-x: hidden;
             transition: background-color 0.2s ease, color 0.2s ease;
         }
 
@@ -823,13 +828,15 @@
         }
 
         .table-responsive {
-            width: 100%;
-            overflow-x: auto;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: auto !important;
             -webkit-overflow-scrolling: touch;
+            display: block !important;
         }
 
         .table-responsive > table {
-            min-width: 520px;
+            min-width: 480px;
         }
 
         /* Responsive */
@@ -862,6 +869,8 @@
                 margin-left: 0 !important;
                 width: 100% !important;
                 min-width: 0 !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }
             .mobile-toggle-btn {
                 display: flex !important;
@@ -878,13 +887,101 @@
             .top-header {
                 padding: 0 1rem;
                 height: 60px;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }
             .page-content {
-                padding: 1rem 0.85rem;
+                padding: 0.85rem 0.65rem !important;
+                min-width: 0 !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }
             .metric-cards-grid, .lower-grid, .children-grid {
                 grid-template-columns: 1fr !important;
-                gap: 1rem;
+                gap: 0.85rem !important;
+                min-width: 0 !important;
+                width: 100% !important;
+            }
+            .lower-grid > div {
+                min-width: 0 !important;
+                width: 100% !important;
+            }
+            .metric-card {
+                padding: 1rem 0.85rem !important;
+                gap: 0.75rem !important;
+                min-width: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .metric-details {
+                min-width: 0 !important;
+                overflow: hidden !important;
+            }
+            .metric-number {
+                font-size: 1.25rem !important;
+                word-break: break-word !important;
+            }
+            .child-card {
+                padding: 1.15rem 0.85rem !important;
+                min-width: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .child-header {
+                gap: 0.75rem !important;
+            }
+            .child-name {
+                font-size: 0.95rem !important;
+                word-break: break-word !important;
+            }
+            .child-info-row {
+                font-size: 0.78rem !important;
+                gap: 0.5rem;
+            }
+            .child-info-val {
+                text-align: right;
+                word-break: break-word;
+            }
+            .btn-child-portal {
+                font-size: 0.8rem !important;
+                padding: 0.6rem 0.75rem !important;
+                text-align: center;
+                justify-content: center;
+            }
+            .children-title-row {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.5rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+            .fee-boxes-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.65rem !important;
+            }
+            .fee-box {
+                padding: 0.85rem 0.65rem !important;
+            }
+            .fee-box h4 {
+                font-size: 1.05rem !important;
+                word-break: break-word !important;
+            }
+            .quick-tiles-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 0.65rem !important;
+            }
+            .quick-tile {
+                padding: 0.85rem 0.5rem !important;
+                font-size: 0.75rem !important;
+            }
+            .panel-card {
+                min-width: 0 !important;
+                width: 100% !important;
+                border-radius: 12px !important;
+            }
+            .panel-body {
+                padding: 0.85rem 0.65rem !important;
+                min-width: 0 !important;
+                width: 100% !important;
             }
         }
     </style>
@@ -1088,7 +1185,7 @@
             </div>
 
             <!-- Children Cards Section -->
-            <div style="margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;">
+            <div class="children-title-row" style="margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
                 <h2 style="font-size: 1.125rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
                     <i class="fas fa-graduation-cap" style="color: var(--primary);"></i>
                     <span>My Enrolled Children</span>
@@ -1212,16 +1309,16 @@
                             </a>
                         </div>
                         <div class="panel-body">
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.85rem; text-align: center;">
-                                <div style="padding: 1rem; background: var(--border-subtle); border-radius: 10px;">
+                            <div class="fee-boxes-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.85rem; text-align: center;">
+                                <div class="fee-box" style="padding: 1rem; background: var(--border-subtle); border-radius: 10px;">
                                     <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Total Billed</span>
                                     <h4 style="font-size: 1.125rem; font-weight: 800; margin-top: 0.25rem;">₦{{ number_format($feeSummary['total_fees'] ?? 136000, 2) }}</h4>
                                 </div>
-                                <div style="padding: 1rem; background: #dcfce7; border-radius: 10px; color: #15803d;">
+                                <div class="fee-box" style="padding: 1rem; background: #dcfce7; border-radius: 10px; color: #15803d;">
                                     <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Amount Paid</span>
                                     <h4 style="font-size: 1.125rem; font-weight: 800; margin-top: 0.25rem;">₦{{ number_format($feeSummary['paid_fees'] ?? 70017, 2) }}</h4>
                                 </div>
-                                <div style="padding: 1rem; background: #fee2e2; border-radius: 10px; color: #b91c1c;">
+                                <div class="fee-box" style="padding: 1rem; background: #fee2e2; border-radius: 10px; color: #b91c1c;">
                                     <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Outstanding</span>
                                     <h4 style="font-size: 1.125rem; font-weight: 800; margin-top: 0.25rem;">₦{{ number_format($feeSummary['pending_fees'] ?? 65983, 2) }}</h4>
                                 </div>
@@ -1272,7 +1369,7 @@
                             <a href="{{ route('sms.parent.notices') }}" style="font-size: 0.75rem; color: var(--primary); text-decoration: none; font-weight: 700;">View All</a>
                         </div>
                         <div class="panel-body">
-                            @forelse($notices as $notice)
+                            @forelse(($notices ?? []) as $notice)
                             <div style="padding: 0.75rem; background: var(--border-subtle); border-radius: 8px; margin-bottom: 0.75rem; font-size: 0.8125rem;">
                                 <strong style="color: var(--primary); display: block; margin-bottom: 0.2rem;">{{ $notice->title }}</strong>
                                 <span style="color: var(--text-muted); font-size: 0.75rem;">{{ Str::limit($notice->content, 90) }}</span>

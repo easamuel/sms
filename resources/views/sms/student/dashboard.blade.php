@@ -63,13 +63,18 @@
             --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
         }
 
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100% !important;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            overflow-x: hidden;
             transition: background-color 0.2s ease, color 0.2s ease;
         }
 
@@ -687,13 +692,15 @@
         }
 
         .table-responsive {
-            width: 100%;
-            overflow-x: auto;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: auto !important;
             -webkit-overflow-scrolling: touch;
+            display: block !important;
         }
 
         .table-responsive > table {
-            min-width: 520px;
+            min-width: 480px;
         }
 
         /* Responsive */
@@ -726,6 +733,8 @@
                 margin-left: 0 !important;
                 width: 100% !important;
                 min-width: 0 !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }
             .mobile-toggle-btn {
                 display: flex !important;
@@ -742,13 +751,67 @@
             .top-header {
                 padding: 0 1rem;
                 height: 60px;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }
             .page-content {
-                padding: 1rem 0.85rem;
+                padding: 0.85rem 0.65rem !important;
+                min-width: 0 !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }
             .metric-cards-grid, .lower-grid {
                 grid-template-columns: 1fr !important;
-                gap: 1rem;
+                gap: 0.85rem !important;
+                min-width: 0 !important;
+                width: 100% !important;
+            }
+            .lower-grid > div {
+                min-width: 0 !important;
+                width: 100% !important;
+            }
+            .metric-card {
+                padding: 1rem 0.85rem !important;
+                gap: 0.75rem !important;
+                min-width: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .metric-details {
+                min-width: 0 !important;
+                overflow: hidden !important;
+            }
+            .metric-number {
+                font-size: 1.25rem !important;
+                word-break: break-word !important;
+            }
+            .attendance-boxes-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.65rem !important;
+            }
+            .attendance-box {
+                padding: 0.85rem 0.65rem !important;
+            }
+            .attendance-box h4 {
+                font-size: 1.15rem !important;
+            }
+            .quick-tiles-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 0.65rem !important;
+            }
+            .quick-tile {
+                padding: 0.85rem 0.5rem !important;
+                font-size: 0.75rem !important;
+            }
+            .panel-card {
+                min-width: 0 !important;
+                width: 100% !important;
+                border-radius: 12px !important;
+            }
+            .panel-body {
+                padding: 0.85rem 0.65rem !important;
+                min-width: 0 !important;
+                width: 100% !important;
             }
         }
     </style>
@@ -986,16 +1049,16 @@
                             </a>
                         </div>
                         <div class="panel-body">
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.85rem; text-align: center;">
-                                <div style="padding: 1rem; background: #dcfce7; border-radius: 10px; color: #15803d;">
+                            <div class="attendance-boxes-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.85rem; text-align: center;">
+                                <div class="attendance-box" style="padding: 1rem; background: #dcfce7; border-radius: 10px; color: #15803d;">
                                     <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Days Present</span>
                                     <h4 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">{{ $attendanceSummary['present'] ?? 24 }}</h4>
                                 </div>
-                                <div style="padding: 1rem; background: #fee2e2; border-radius: 10px; color: #b91c1c;">
+                                <div class="attendance-box" style="padding: 1rem; background: #fee2e2; border-radius: 10px; color: #b91c1c;">
                                     <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Days Absent</span>
                                     <h4 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">{{ $attendanceSummary['absent'] ?? 1 }}</h4>
                                 </div>
-                                <div style="padding: 1rem; background: #eff6ff; border-radius: 10px; color: #1e40af;">
+                                <div class="attendance-box" style="padding: 1rem; background: #eff6ff; border-radius: 10px; color: #1e40af;">
                                     <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Overall Rate</span>
                                     <h4 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">{{ $attendanceSummary['percentage'] ?? 96 }}%</h4>
                                 </div>
@@ -1105,7 +1168,7 @@
                             <a href="{{ route('sms.student.notices') }}" style="font-size: 0.75rem; color: var(--primary); text-decoration: none; font-weight: 700;">View All</a>
                         </div>
                         <div class="panel-body">
-                            @if($latestNotice)
+                            @if(!empty($latestNotice))
                             <div style="padding: 0.85rem; background: var(--border-subtle); border-radius: 8px;">
                                 <strong style="color: var(--primary); display: block; margin-bottom: 0.35rem;">{{ $latestNotice->title }}</strong>
                                 <span style="color: var(--text-muted); font-size: 0.8125rem; line-height: 1.5; display: block;">{{ Str::limit($latestNotice->content, 120) }}</span>
