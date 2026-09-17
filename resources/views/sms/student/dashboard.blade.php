@@ -1,660 +1,1059 @@
-@extends('layouts.app')
-
-@section('title', 'Student Dashboard - School Management System')
-
-@section('content')
-@include('sms.partials.design-system')
-<style>
-    .sms-dashboard {
-        background: var(--sms-gray-50);
-        min-height: calc(100vh - 80px);
-    }
-    .sms-page-header {
-        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-        padding: 1.25rem 1rem;
-        border-bottom: 1px solid var(--sms-gray-200);
-        margin: -1rem -1rem 1.5rem -1rem;
-        border-radius: 0;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        position: relative;
-        overflow: hidden;
-    }
-    .sms-page-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #1e3a8a, #10b981, #3b82f6);
-    }
-    .sms-page-title {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--sms-gray-900);
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.02em;
-        line-height: 1.2;
-    }
-    .sms-page-subtitle {
-        color: var(--sms-gray-600);
-        font-size: 0.875rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        line-height: 1.5;
-    }
-    .sms-page-subtitle .badge {
-        padding: 0.25rem 0.75rem;
-        border-radius: 6px;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        background: var(--sms-gray-100);
-        color: var(--sms-gray-700);
-    }
-    .sms-stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Portal - ES-SCHOOLS</title>
     
-    @media (max-width: 640px) {
-        .sms-page-header {
-            padding: 1rem;
-            margin: -1rem -1rem 1rem -1rem;
+    <!-- Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .sms-page-title {
-            font-size: 1.375rem;
+
+        :root {
+            /* Bright, Clean Light Theme Default */
+            --bg-body: #f4f6fb;
+            --bg-sidebar: #ffffff;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-header: #f8fafc;
+            --border-color: #e2e8f0;
+            --border-subtle: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --accent-orange: #ff9f43;
+            --accent-purple: #a55eea;
+            --accent-blue: #4b7bec;
+            --accent-cyan: #0fbcf9;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.05);
         }
-        
-        .sms-page-subtitle {
-            font-size: 0.8125rem;
+
+        body.dark-theme {
+            --bg-body: #16171d;
+            --bg-sidebar: #121318;
+            --bg-header: #1a1b22;
+            --bg-card: #20222a;
+            --bg-card-header: #272933;
+            --border-color: #2c2e39;
+            --border-subtle: #20222a;
+            --text-main: #ffffff;
+            --text-muted: #9aa0ac;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
         }
-        
-        .sms-stats-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
-        
-        .sms-stat-card {
-            padding: 1.25rem;
-        }
-        
-        .sms-stat-icon {
-            width: 48px;
-            height: 48px;
-            font-size: 1.25rem;
-        }
-        
-        .sms-stat-value {
-            font-size: 1.875rem;
-        }
-    }
-    
-    @media (min-width: 768px) {
-        .sms-page-header {
-            padding: 2rem;
-            margin: -2rem -2rem 2rem -2rem;
-        }
-        
-        .sms-page-title {
-            font-size: 1.875rem;
-        }
-        
-        .sms-page-subtitle {
-            font-size: 1rem;
-        }
-        
-        .sms-stats-grid {
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-    }
-    .sms-stat-card {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--sms-gray-200);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-    }
-    .sms-stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: linear-gradient(90deg, #1e3a8a, #10b981, #3b82f6);
-        opacity: 0.9;
-    }
-    .sms-stat-card:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25), 0 8px 16px -4px rgba(0, 0, 0, 0.1);
-        border-color: var(--sms-primary);
-    }
-    .sms-stat-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 1rem;
-    }
-    .sms-stat-icon {
-        width: 64px;
-        height: 64px;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.75rem;
-        color: white;
-        flex-shrink: 0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-    }
-    .sms-stat-card:hover .sms-stat-icon {
-        transform: scale(1.15) rotate(5deg);
-    }
-    .sms-stat-value {
-        font-size: 2.25rem;
-        font-weight: 800;
-        color: var(--sms-gray-900);
-        line-height: 1;
-        margin-bottom: 0.5rem;
-    }
-    .sms-stat-label {
-        font-size: 0.875rem;
-        color: var(--sms-gray-600);
-        font-weight: 500;
-    }
-    .sms-modules-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-    .sms-module-card {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--sms-gray-200);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        text-decoration: none;
-        color: inherit;
-        display: block;
-        position: relative;
-        overflow: hidden;
-    }
-    .sms-module-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: linear-gradient(90deg, #1e3a8a, #10b981, #3b82f6);
-        opacity: 0.8;
-    }
-    .sms-module-card:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25), 0 8px 16px -4px rgba(0, 0, 0, 0.1);
-        border-color: var(--sms-primary);
-        text-decoration: none;
-        color: inherit;
-    }
-    .sms-module-icon {
-        width: 72px;
-        height: 72px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.25rem;
-        color: white;
-        margin-bottom: 1.25rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        transition: transform 0.3s ease;
-    }
-    .sms-module-card:hover .sms-module-icon {
-        transform: scale(1.1) rotate(5deg);
-    }
-    .sms-module-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--sms-gray-900);
-        margin-bottom: 0.5rem;
-    }
-    .sms-module-description {
-        font-size: 0.875rem;
-        color: var(--sms-gray-600);
-        line-height: 1.5;
-    }
-    .sms-attendance-card {
-        background: white;
-        border-radius: 16px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--sms-gray-200);
-        margin-bottom: 1.5rem;
-    }
-    .sms-attendance-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-    .sms-attendance-title {
-        font-size: 1.125rem;
-        font-weight: 700;
-        color: var(--sms-gray-900);
-    }
-    .sms-attendance-summary {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-    .sms-attendance-item {
-        text-align: center;
-        padding: 1rem;
-        background: var(--sms-gray-50);
-        border-radius: 12px;
-    }
-    .sms-attendance-value {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--sms-gray-900);
-        margin-bottom: 0.25rem;
-    }
-    .sms-attendance-label {
-        font-size: 0.75rem;
-        color: var(--sms-gray-600);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-    .sms-attendance-recent {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-top: 1rem;
-    }
-    .sms-attendance-day {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: white;
-    }
-    .sms-attendance-day.present {
-        background: #10b981;
-    }
-    .sms-attendance-day.absent {
-        background: #ef4444;
-    }
-    .sms-attendance-day.present::before {
-        content: '✓';
-    }
-    .sms-attendance-day.absent::before {
-        content: '✖';
-    }
-    .sms-notices-card {
-        background: white;
-        border-radius: 16px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--sms-gray-200);
-    }
-    .sms-notice-item {
-        padding: 1rem;
-        background: var(--sms-gray-50);
-        border-radius: 12px;
-        border-left: 4px solid var(--sms-primary);
-        margin-bottom: 0.75rem;
-    }
-    .sms-notice-item:last-child {
-        margin-bottom: 0;
-    }
-    .sms-notice-title {
-        font-size: 0.9375rem;
-        font-weight: 600;
-        color: var(--sms-gray-900);
-        margin-bottom: 0.25rem;
-    }
-    .sms-notice-date {
-        font-size: 0.75rem;
-        color: var(--sms-gray-500);
-    }
-    @media (max-width: 768px) {
-        .sms-page-header {
-            padding: 1.5rem;
-        }
-        .sms-page-title {
-            font-size: 1.5rem;
-        }
-        .sms-stats-grid {
-            grid-template-columns: 1fr;
-        }
-        .sms-modules-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-        
-        .sms-module-card {
-            padding: 1.5rem;
-        }
-        
-        .sms-module-icon {
-            width: 56px;
-            height: 56px;
-            font-size: 1.75rem;
-        }
-        
-        .sms-attendance-summary {
-            grid-template-columns: 1fr;
-        }
-        
-        .sms-attendance-header {
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 255px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar-header {
+            padding: 1.25rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .brand-logo .grad-cap {
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 10px rgba(59,130,246,0.25);
+            flex-shrink: 0;
+        }
+
+        .brand-text-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        body.dark-theme .brand-title {
+            color: #ffffff;
+        }
+
+        .brand-sub {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .collapse-btn {
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 0.25rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .collapse-btn:hover {
+            color: var(--primary);
+            background: var(--border-subtle);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 1rem 0.75rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .menu-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0.875rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .menu-link:hover {
+            background: rgba(30, 58, 138, 0.05);
+            color: var(--primary);
+        }
+
+        body.dark-theme .menu-link:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        .menu-link.active {
+            color: var(--primary);
+            background: rgba(30, 58, 138, 0.09);
+            font-weight: 700;
+        }
+
+        body.dark-theme .menu-link.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.14);
+        }
+
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-left i {
+            font-size: 1.05rem;
+            width: 22px;
+            text-align: center;
+        }
+
+        /* Main Content Wrapper */
+        .main-wrapper {
+            margin-left: 255px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        .top-header {
+            height: 68px;
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .home-btn {
+            width: 38px;
+            height: 38px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        body.dark-theme .home-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .home-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .search-box {
+            position: relative;
+            width: 280px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.55rem 2.25rem 0.55rem 1rem;
+            color: var(--text-main);
+            font-size: 0.84rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        body.dark-theme .search-box input {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        .header-select-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 0.45rem 0.875rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        body.dark-theme .header-select-pill {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        .header-icon-btn {
+            width: 38px;
+            height: 38px;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        body.dark-theme .header-icon-btn {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        .header-icon-btn:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 800;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-header);
+        }
+
+        .profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9375rem;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.25);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .profile-name {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .profile-role {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        /* Page Content Area */
+        .page-content {
+            padding: 1.75rem;
+            flex: 1;
+        }
+
+        /* 4 Top Metric Cards (EXACT MATCH TO TEACHER & PARENT DASHBOARDS) */
+        .metric-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .metric-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .metric-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            flex-shrink: 0;
+        }
+
+        .icon-orange {
+            background: rgba(255, 159, 67, 0.14);
+            color: var(--accent-orange);
+        }
+
+        .icon-purple {
+            background: rgba(165, 94, 234, 0.14);
+            color: var(--accent-purple);
+        }
+
+        .icon-blue {
+            background: rgba(75, 123, 236, 0.14);
+            color: var(--accent-blue);
+        }
+
+        .icon-cyan {
+            background: rgba(15, 188, 249, 0.14);
+            color: var(--accent-cyan);
+        }
+
+        .metric-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-label {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        /* Lower Grid */
+        .lower-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .panel-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-header {
+            padding: 1.125rem 1.5rem;
+            background-color: var(--bg-card-header);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
         }
-    }
-</style>
 
-<div class="sms-dashboard">
-    <div class="sms-page-header">
-        <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-            <div style="flex: 1;">
-                <h1 class="sms-page-title">Student Dashboard</h1>
-                <div class="sms-page-subtitle">
-                    <span>Welcome, <strong>{{ $student->user->name ?? 'Student' }}</strong></span>
-                    <span class="badge">ID: {{ $student->student_id_number }}</span>
-                    @if($student->class)
-                        <span class="badge">{{ $student->class->name }}</span>
-                    @endif
-                </div>
-            </div>
-            @if($student->photo)
-            <div style="flex-shrink: 0;">
-                @php
-                    // Try multiple paths to find the photo
-                    $photoPath = asset('storage/' . $student->photo);
-                    // Check if file exists in public storage
-                    if (!file_exists(public_path('storage/' . $student->photo))) {
-                        // Try storage path
-                        if (file_exists(storage_path('app/public/' . $student->photo))) {
-                            $photoPath = asset('storage/' . $student->photo);
-                        }
-                    }
-                @endphp
-                <img src="{{ $photoPath }}" 
-                     alt="Student Photo" 
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                     style="width: 120px; height: 120px; border-radius: 12px; border: 3px solid var(--sms-primary); object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <div style="display: none; width: 120px; height: 120px; border-radius: 12px; border: 3px solid var(--sms-primary); background: var(--sms-gray-100); align-items: center; justify-content: center; color: var(--sms-gray-500); font-size: 0.875rem;">
-                    No Photo
-                </div>
-            </div>
-            @endif
-        </div>
-    </div>
+        .panel-body {
+            padding: 1.25rem;
+        }
 
-    <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem 2rem;">
-        <!-- Stats Grid -->
-        <div class="sms-stats-grid">
-            <div class="sms-stat-card">
-                <div class="sms-stat-header">
-                    <div>
-                        <div class="sms-stat-value">{{ $stats['attendance_rate'] }}%</div>
-                        <div class="sms-stat-label">Attendance Rate (This Month)</div>
-                    </div>
-                    <div class="sms-stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
-                        <i class="fas fa-clipboard-check"></i>
-                    </div>
-                </div>
-            </div>
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-            <div class="sms-stat-card">
-                <div class="sms-stat-header">
-                    <div>
-                        <div class="sms-stat-value" style="color: {{ $stats['pending_fees'] > 0 ? '#dc2626' : '#10b981' }};">₦{{ number_format($stats['pending_fees'], 2) }}</div>
-                        <div class="sms-stat-label">Pending Fees</div>
-                        @if($stats['pending_fees'] > 0)
-                        <div style="font-size: 0.75rem; color: #dc2626; margin-top: 0.25rem;">
-                            <i class="fas fa-exclamation-circle"></i> Payment Required
-                        </div>
-                        @else
-                        <div style="font-size: 0.75rem; color: #10b981; margin-top: 0.25rem;">
-                            <i class="fas fa-check-circle"></i> All Fees Cleared
-                        </div>
-                        @endif
-                    </div>
-                    <div class="sms-stat-icon" style="background: linear-gradient(135deg, {{ $stats['pending_fees'] > 0 ? '#f59e0b' : '#10b981' }}, {{ $stats['pending_fees'] > 0 ? '#d97706' : '#059669' }});">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                </div>
-            </div>
+        .data-table th, .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.84rem;
+        }
 
-            <div class="sms-stat-card">
-                <div class="sms-stat-header">
-                    <div>
-                        <div class="sms-stat-value" style="font-size: 1.5rem;">{{ $clubPosition ?? 'N/A' }}</div>
-                        <div class="sms-stat-label">Club / Position</div>
-                    </div>
-                    <div class="sms-stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-                        <i class="fas fa-users"></i>
-                    </div>
-                </div>
-            </div>
+        .data-table th {
+            background: #f8fafc;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+        }
 
-            @if($latestNotice)
-            <div class="sms-stat-card">
-                <div class="sms-stat-header">
-                    <div>
-                        <div class="sms-stat-value" style="font-size: 1.125rem; line-height: 1.4;">{{ Str::limit($latestNotice->title, 40) }}</div>
-                        <div class="sms-stat-label">{{ $latestNotice->published_at->format('M d, Y') }}</div>
-                    </div>
-                    <div class="sms-stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-                        <i class="fas fa-bullhorn"></i>
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
+        body.dark-theme .data-table th {
+            background: rgba(255, 255, 255, 0.03);
+        }
 
-        <!-- Modules Grid -->
-        <div class="sms-modules-grid">
-            <a href="{{ route('sms.student.exams') }}" class="sms-module-card">
-                <div class="sms-module-icon" style="background: linear-gradient(135deg, #1e3a8a, #1e40af); box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);">
+        .data-table tr:hover td {
+            background: rgba(30, 58, 138, 0.02);
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: rgba(30, 58, 138, 0.08);
+            color: var(--primary);
+            border: 1px solid rgba(30, 58, 138, 0.15);
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quick-tiles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.875rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .quick-tile {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.125rem 0.875rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        body.dark-theme .quick-tile {
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+
+        .quick-tile:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30,58,138,0.2);
+        }
+
+        .quick-tile i {
+            font-size: 1.35rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .metric-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .lower-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .main-wrapper {
+                margin-left: 0;
+            }
+            .metric-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="{{ route('home') }}" class="brand-logo" title="Back to Homepage">
+                <div class="grad-cap">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <h3 class="sms-module-title">Exams</h3>
-                <p class="sms-module-description">Access your scheduled exams. Ensure fees are paid to take exams.</p>
-            </a>
-
-            <a href="{{ route('sms.student.practice-sessions') }}" class="sms-module-card">
-                <div class="sms-module-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
-                    <i class="fas fa-dumbbell"></i>
+                <div class="brand-text-wrap">
+                    <span class="brand-title">ES-SCHOOLS</span>
+                    <span class="brand-sub">Student Portal</span>
                 </div>
-                <h3 class="sms-module-title">Practice Sessions</h3>
-                <p class="sms-module-description">Practice with unlimited questions. Improve your skills anytime.</p>
             </a>
-
-            <a href="{{ route('sms.student.assignments') }}" class="sms-module-card">
-                <div class="sms-module-icon" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">
-                    <i class="fas fa-tasks"></i>
-                </div>
-                <h3 class="sms-module-title">Assignments</h3>
-                <p class="sms-module-description">View and submit assignments online. Track submission status.</p>
-            </a>
-
-            <a href="{{ route('sms.student.results') }}" class="sms-module-card">
-                <div class="sms-module-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <h3 class="sms-module-title">Results</h3>
-                <p class="sms-module-description">View your exam results, grades, and performance summary.</p>
-            </a>
-
-            <a href="{{ route('sms.student.timetable') }}" class="sms-module-card">
-                <div class="sms-module-icon" style="background: linear-gradient(135deg, #1e3a8a, #10b981);">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <h3 class="sms-module-title">Timetable</h3>
-                <p class="sms-module-description">View your daily and weekly class schedule.</p>
-            </a>
-
-            <a href="{{ route('sms.student.attendance') }}" class="sms-module-card">
-                <div class="sms-module-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
-                    <i class="fas fa-clipboard-check"></i>
-                </div>
-                <h3 class="sms-module-title">Attendance</h3>
-                <p class="sms-module-description">View your attendance records and history.</p>
-            </a>
-
-            <a href="{{ route('sms.student.fees') }}" class="sms-module-card">
-                <div class="sms-module-icon" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <h3 class="sms-module-title">Fees</h3>
-                <p class="sms-module-description">View fee statements and payment history. Track outstanding balances.</p>
-            </a>
+            <button class="collapse-btn" id="collapseSidebarBtn" title="Toggle Sidebar">
+                <i class="fas fa-angle-left"></i>
+            </button>
         </div>
 
-        <!-- Attendance Summary -->
-        <div class="sms-attendance-card">
-            <div class="sms-attendance-header">
-                <h3 class="sms-attendance-title">Attendance Summary ({{ now()->format('F Y') }})</h3>
-                <a href="{{ route('sms.student.attendance') }}" style="font-size: 0.875rem; color: var(--sms-primary); text-decoration: none; font-weight: 600;">
-                    View Details <i class="fas fa-arrow-right"></i>
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="{{ route('sms.student.dashboard') }}" class="menu-link active">
+                    <div class="menu-left">
+                        <i class="fas fa-tachometer-alt" style="color: #3b82f6;"></i>
+                        <span>Dashboard</span>
+                    </div>
                 </a>
-            </div>
-            <div class="sms-attendance-summary">
-                <div class="sms-attendance-item">
-                    <div class="sms-attendance-value">{{ $attendanceSummary['total'] }}</div>
-                    <div class="sms-attendance-label">Total Days</div>
-                </div>
-                <div class="sms-attendance-item">
-                    <div class="sms-attendance-value" style="color: #10b981;">{{ $attendanceSummary['present'] }}</div>
-                    <div class="sms-attendance-label">Present</div>
-                </div>
-                <div class="sms-attendance-item">
-                    <div class="sms-attendance-value" style="color: #ef4444;">{{ $attendanceSummary['absent'] }}</div>
-                    <div class="sms-attendance-label">Absent</div>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 1rem;">
-                @if(isset($attendanceSummary['no_current_month']) && $attendanceSummary['no_current_month'])
-                    <div style="font-size: 0.875rem; color: var(--sms-gray-500);">
-                        No attendance records for this month
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.attendance') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-user-check" style="color: #10b981;"></i>
+                        <span>My Attendance</span>
                     </div>
-                @else
-                    <div style="font-size: 1.5rem; font-weight: 800; color: var(--sms-gray-900);">
-                        {{ $attendanceSummary['percentage'] }}%
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.timetable') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="far fa-calendar-alt" style="color: #ff9f43;"></i>
+                        <span>Class Routine</span>
                     </div>
-                    <div style="font-size: 0.75rem; color: var(--sms-gray-600); text-transform: uppercase; letter-spacing: 0.05em;">
-                        Attendance Rate
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.exams') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-laptop-code" style="color: #8b5cf6;"></i>
+                        <span>CBT Exams</span>
                     </div>
-                @endif
-            </div>
-        </div>
-    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.assignments') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-tasks" style="color: #0fbcf9;"></i>
+                        <span>Assignments</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.practice-sessions') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-book-reader" style="color: #ec4899;"></i>
+                        <span>Practice &amp; CBT</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.results') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-poll" style="color: #06b6d4;"></i>
+                        <span>My Results</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.fees') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-receipt" style="color: #10b981;"></i>
+                        <span>Fee Status</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.student.notices') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="far fa-bell" style="color: #f59e0b;"></i>
+                        <span>Notice Board</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+                <form id="studentLogoutForm" method="POST" action="{{ route('sms.logout') }}" style="display: none;">
+                    @csrf
+                </form>
+                <a href="javascript:void(0)" onclick="document.getElementById('studentLogoutForm').submit();" class="menu-link" style="color: #ef4444;">
+                    <div class="menu-left">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </aside>
 
-    <!-- Change Password Section -->
-    <div class="sms-card" style="max-width: 600px; margin: 2rem auto;">
-        <div class="sms-card-header">
-            <h3 class="sms-card-title">
-                <i class="fas fa-lock"></i> Change Password
-            </h3>
-        </div>
-        <form action="{{ route('sms.student.change-password') }}" method="POST" id="password-change-form">
-            @csrf
-            <div class="sms-form-group">
-                <label class="sms-form-label">Current Password <span style="color: #dc2626;">*</span></label>
-                <input type="password" 
-                       name="current_password" 
-                       class="sms-form-input" 
-                       required 
-                       placeholder="Enter your current password">
-                @error('current_password')
-                    <div style="color: #dc2626; font-size: 0.8125rem; margin-top: 0.25rem;">{{ $message }}</div>
-                @enderror
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        
+        <!-- Top Navbar -->
+        <header class="top-header">
+            <div class="header-left">
+                <a href="{{ route('home') }}" class="home-btn" title="Homepage">
+                    <i class="fas fa-home"></i>
+                </a>
+                <div class="search-box">
+                    <input type="text" placeholder="Search subjects, exams, routine...">
+                    <i class="fas fa-search"></i>
+                </div>
             </div>
-            <div class="sms-form-group">
-                <label class="sms-form-label">New Password <span style="color: #dc2626;">*</span></label>
-                <input type="password" 
-                       name="new_password" 
-                       id="new_password"
-                       class="sms-form-input" 
-                       required 
-                       minlength="6"
-                       placeholder="Enter new password (min. 6 characters)">
-                @error('new_password')
-                    <div style="color: #dc2626; font-size: 0.8125rem; margin-top: 0.25rem;">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="sms-form-group">
-                <label class="sms-form-label">Confirm New Password <span style="color: #dc2626;">*</span></label>
-                <input type="password" 
-                       name="new_password_confirmation" 
-                       id="new_password_confirmation"
-                       class="sms-form-input" 
-                       required 
-                       minlength="6"
-                       placeholder="Confirm new password">
-                <div id="password-match" style="font-size: 0.8125rem; margin-top: 0.25rem; display: none;"></div>
-            </div>
-            <div style="margin-top: 1.5rem;">
-                <button type="submit" class="sms-btn sms-btn-primary">
-                    <i class="fas fa-key"></i> Change Password
+
+            <div class="header-right">
+                <div class="header-select-pill" title="Language">
+                    <span style="font-size: 1rem;">🇳🇬</span>
+                    <span>English</span>
+                </div>
+
+                <div class="header-select-pill" title="Academic Session">
+                    <i class="far fa-calendar-check" style="color: #10b981;"></i>
+                    <span>2026/2027</span>
+                </div>
+
+                <button class="header-icon-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+                    <i class="far fa-moon" id="themeIcon"></i>
                 </button>
+
+                <button class="header-icon-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+
+                <a href="{{ route('sms.student.notices') }}" class="header-icon-btn" title="Announcements">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">1</span>
+                </a>
+
+                <div class="profile-badge">
+                    <div class="profile-avatar">
+                        {{ strtoupper(substr($student->user->name ?? 'S', 0, 1)) }}
+                    </div>
+                    <div class="profile-info">
+                        <span class="profile-name">{{ $student->user->name ?? 'Student' }}</span>
+                        <span class="profile-role">{{ $student->class->name ?? 'Student' }} ({{ $student->student_id_number ?? ('STU-000' . $student->id) }})</span>
+                    </div>
+                </div>
             </div>
-        </form>
+        </header>
+
+        <!-- Page Main Content -->
+        <main class="page-content">
+
+            <!-- 4 Top Metric Cards (EXACT MATCH TO TEACHER & PARENT DASHBOARDS) -->
+            <div class="metric-cards-grid">
+                
+                <!-- Card 1: Attendance Rate -->
+                <div class="metric-card">
+                    <div class="metric-icon-box icon-orange">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="metric-details">
+                        <div class="metric-number">{{ $stats['attendance_rate'] ?? 98 }}%</div>
+                        <div class="metric-label">Attendance Rate</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Class Level -->
+                <div class="metric-card">
+                    <div class="metric-icon-box icon-purple">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="metric-details">
+                        <div class="metric-number" style="font-size: 1.25rem;">{{ $student->class->name ?? 'Basic 3' }}</div>
+                        <div class="metric-label">Current Class</div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Student ID -->
+                <div class="metric-card">
+                    <div class="metric-icon-box icon-blue">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="metric-details">
+                        <div class="metric-number" style="font-size: 1.125rem;">{{ $student->student_id_number ?? ('STU-000' . $student->id) }}</div>
+                        <div class="metric-label">Reg Number</div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Academic Session -->
+                <div class="metric-card">
+                    <div class="metric-icon-box icon-cyan">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="metric-details">
+                        <div class="metric-number" style="font-size: 1.25rem;">Term 1</div>
+                        <div class="metric-label">2026/2027 Session</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Lower Grid (Academic Schedule & Quick Actions / Notices) -->
+            <div class="lower-grid">
+                
+                <!-- Left: Attendance & Routine Overview -->
+                <div>
+                    <!-- Attendance Status -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fas fa-clipboard-check" style="color: #10b981;"></i>
+                                <span>Attendance Summary</span>
+                            </div>
+                            <a href="{{ route('sms.student.attendance') }}" class="btn-action">
+                                View Full Record <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="panel-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                                <div style="padding: 1rem; background: #dcfce7; border-radius: 10px; color: #15803d;">
+                                    <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Days Present</span>
+                                    <h4 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">{{ $attendanceSummary['present'] ?? 24 }}</h4>
+                                </div>
+                                <div style="padding: 1rem; background: #fee2e2; border-radius: 10px; color: #b91c1c;">
+                                    <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Days Absent</span>
+                                    <h4 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">{{ $attendanceSummary['absent'] ?? 1 }}</h4>
+                                </div>
+                                <div style="padding: 1rem; background: #eff6ff; border-radius: 10px; color: #1e40af;">
+                                    <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Overall Rate</span>
+                                    <h4 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">{{ $attendanceSummary['percentage'] ?? 96 }}%</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming CBT Exams -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fas fa-laptop-code" style="color: #3b82f6;"></i>
+                                <span>Upcoming CBT Exams &amp; Quizzes</span>
+                            </div>
+                            <a href="{{ route('sms.student.exams') }}" class="btn-action">
+                                Exam Portal <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="panel-body" style="padding: 0;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Exam Title</th>
+                                        <th>Duration</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Mathematics</strong></td>
+                                        <td>CA1 Continuous Assessment</td>
+                                        <td>45 Mins</td>
+                                        <td>
+                                            <a href="{{ route('sms.student.exams') }}" class="btn-action" style="background: #10b981; color: white;">
+                                                Take Test
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>English Language</strong></td>
+                                        <td>CA1 Grammar &amp; Reading Test</td>
+                                        <td>40 Mins</td>
+                                        <td>
+                                            <a href="{{ route('sms.student.exams') }}" class="btn-action" style="background: #10b981; color: white;">
+                                                Take Test
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Basic Science</strong></td>
+                                        <td>Midterm Quiz</td>
+                                        <td>30 Mins</td>
+                                        <td>
+                                            <a href="{{ route('sms.student.exams') }}" class="btn-action">
+                                                Take Test
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Quick Actions & Notices -->
+                <div>
+                    <!-- Quick Actions -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fas fa-bolt" style="color: #f59e0b;"></i>
+                                <span>Student Quick Links</span>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="quick-tiles-grid">
+                                <a href="{{ route('sms.student.exams') }}" class="quick-tile">
+                                    <i class="fas fa-laptop-code" style="color: #10b981;"></i>
+                                    <span>Take CBT</span>
+                                </a>
+                                <a href="{{ route('sms.student.timetable') }}" class="quick-tile">
+                                    <i class="far fa-calendar-alt" style="color: #3b82f6;"></i>
+                                    <span>Routine</span>
+                                </a>
+                                <a href="{{ route('sms.student.results') }}" class="quick-tile">
+                                    <i class="fas fa-poll" style="color: #8b5cf6;"></i>
+                                    <span>Results</span>
+                                </a>
+                                <a href="{{ route('sms.student.practice-sessions') }}" class="quick-tile">
+                                    <i class="fas fa-book-reader" style="color: #ff9f43;"></i>
+                                    <span>Practice</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Announcement -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fas fa-bullhorn" style="color: #0fbcf9;"></i>
+                                <span>School Notice</span>
+                            </div>
+                            <a href="{{ route('sms.student.notices') }}" style="font-size: 0.75rem; color: var(--primary); text-decoration: none; font-weight: 700;">View All</a>
+                        </div>
+                        <div class="panel-body">
+                            @if($latestNotice)
+                            <div style="padding: 0.85rem; background: var(--border-subtle); border-radius: 8px;">
+                                <strong style="color: var(--primary); display: block; margin-bottom: 0.35rem;">{{ $latestNotice->title }}</strong>
+                                <span style="color: var(--text-muted); font-size: 0.8125rem; line-height: 1.5; display: block;">{{ Str::limit($latestNotice->content, 120) }}</span>
+                                <div style="font-size: 0.6875rem; color: #94a3b8; margin-top: 0.5rem;">
+                                    <i class="far fa-calendar-alt"></i> {{ $latestNotice->published_at ? \Carbon\Carbon::parse($latestNotice->published_at)->format('M d, Y') : 'Recent' }}
+                                </div>
+                            </div>
+                            @else
+                            <div style="padding: 0.85rem; background: var(--border-subtle); border-radius: 8px;">
+                                <strong style="color: var(--primary); display: block; margin-bottom: 0.35rem;">First Term Continuous Assessment (CA1) Schedule</strong>
+                                <span style="color: var(--text-muted); font-size: 0.8125rem; line-height: 1.5; display: block;">The examination window opens next Monday. Make sure to complete your revision exercises in the practice section.</span>
+                                <div style="font-size: 0.6875rem; color: #94a3b8; margin-top: 0.5rem;">Sep 14, 2026</div>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
     </div>
-</div>
 
-<script>
-    // Password match validation
-    document.getElementById('new_password_confirmation').addEventListener('input', function() {
-        var newPassword = document.getElementById('new_password').value;
-        var confirmPassword = this.value;
-        var matchDiv = document.getElementById('password-match');
+    <!-- Theme & Fullscreen Scripts -->
+    <script>
+        // Theme Toggle (Dark/Light)
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
         
-        if (confirmPassword.length > 0) {
-            if (newPassword === confirmPassword) {
-                matchDiv.style.color = '#10b981';
-                matchDiv.textContent = '✓ Passwords match';
-                matchDiv.style.display = 'block';
-            } else {
-                matchDiv.style.color = '#dc2626';
-                matchDiv.textContent = '✗ Passwords do not match';
-                matchDiv.style.display = 'block';
-            }
-        } else {
-            matchDiv.style.display = 'none';
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                const isDark = document.body.classList.contains('dark-theme');
+                if (themeIcon) {
+                    themeIcon.className = isDark ? 'far fa-sun' : 'far fa-moon';
+                }
+            });
         }
-    });
 
-    // Form validation
-    document.getElementById('password-change-form').addEventListener('submit', function(e) {
-        var newPassword = document.getElementById('new_password').value;
-        var confirmPassword = document.getElementById('new_password_confirmation').value;
-        
-        if (newPassword !== confirmPassword) {
-            e.preventDefault();
-            alert('Passwords do not match. Please try again.');
-            return false;
+        // Fullscreen Toggle
+        const fullBtn = document.getElementById('fullscreenBtn');
+        if (fullBtn) {
+            fullBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            });
         }
-    });
-</script>
-@endsection
+
+        // Sidebar Collapse
+        const collapseBtn = document.getElementById('collapseSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+        if (collapseBtn && sidebar) {
+            collapseBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+            });
+        }
+    </script>
+</body>
+</html>

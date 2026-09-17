@@ -1606,21 +1606,17 @@
                 <a href="#features">Features</a>
                 <a href="#who">Who It's For</a>
                 <a href="#why">Why Choose Us</a>
-                <a href="{{ route('admission.create') }}" style="color: #10b981; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(16, 185, 129, 0.1); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                <a href="{{ route('admission.create') }}" style="color: #10b981; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(16, 185, 129, 0.08); padding: 0.45rem 0.95rem; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.25); text-decoration: none; font-size: 0.9rem;">
                     <i class="fas fa-user-plus"></i>
                     Online Admission <span style="background: #10b981; color: white; font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 10px; font-weight: 800;">OPEN</span>
                 </a>
-                <a href="{{ route('school-management.demo-login') }}" style="color: var(--green-dark); font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem;">
-                    <i class="fas fa-play-circle" style="color: var(--green);"></i>
+                <a href="{{ route('school-management.demo-login') }}" style="color: #1e3a8a; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; background: #eff6ff; padding: 0.45rem 0.95rem; border-radius: 20px; border: 1px solid #bfdbfe; text-decoration: none; font-size: 0.9rem;">
+                    <i class="fas fa-play-circle" style="color: #3b82f6;"></i>
                     Live Demo
                 </a>
-                <a href="{{ route('login') }}" class="nav-btn-login">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Login
-                </a>
-                <a href="{{ route('contact') }}" class="nav-btn-contact">
+                <a href="{{ route('contact') }}" class="nav-btn-contact" style="padding: 0.5rem 1.25rem; font-size: 0.9rem;">
                     <i class="fas fa-envelope"></i>
-                    Contact
+                    Contact Us
                 </a>
             </div>
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
@@ -1635,17 +1631,13 @@
                 <i class="fas fa-user-plus"></i>
                 Online Admission <span style="background: #10b981; color: white; font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 10px; margin-left: auto; font-weight: 800;">OPEN</span>
             </a>
-            <a href="{{ route('school-management.demo-login') }}" style="color: var(--green-dark); font-weight: 700; display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem;">
-                <i class="fas fa-play-circle" style="color: var(--green);"></i>
+            <a href="{{ route('school-management.demo-login') }}" style="color: #1e3a8a; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem;">
+                <i class="fas fa-play-circle" style="color: #3b82f6;"></i>
                 Explore Live Demo
-            </a>
-            <a href="{{ route('login') }}" class="nav-btn-login" style="margin-top: 0.5rem; width: 100%; justify-content: center;">
-                <i class="fas fa-sign-in-alt"></i>
-                Login
             </a>
             <a href="{{ route('contact') }}" class="nav-btn-contact" style="margin-top: 0.5rem; width: 100%; justify-content: center;">
                 <i class="fas fa-envelope"></i>
-                Contact
+                Contact Us
             </a>
         </div>
     </nav>

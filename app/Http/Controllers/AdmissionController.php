@@ -102,3 +102,4 @@ class AdmissionController extends Controller
             ->with('success', 'Application submitted successfully! Your Application ID is: ' . $applicationId);
     }
 }
+
