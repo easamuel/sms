@@ -201,6 +201,7 @@ Route::prefix('sms/admin')->name('sms.admin.')->middleware('sms.auth')->group(fu
 // ==========================================
 Route::prefix('school')->name('school.')->group(function () {
     Route::get('/dashboard', [SchoolDashboardController::class, 'index'])->name('dashboard');
+    Route::match(['get', 'post'], '/logout', [SmsLogoutController::class, 'logout'])->name('logout');
     
     // Student Management
     Route::get('/students', [StudentController::class, 'index'])->name('students.index');

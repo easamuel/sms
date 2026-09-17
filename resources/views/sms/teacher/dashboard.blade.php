@@ -897,7 +897,10 @@
                 </a>
             </li>
             <li class="menu-item" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
-                <a href="{{ route('school.logout') }}" class="menu-link" style="color: #ff6b6b;">
+                <form id="smsTeacherLogoutForm" method="POST" action="{{ route('sms.logout') }}" style="display: none;">
+                    @csrf
+                </form>
+                <a href="javascript:void(0)" onclick="document.getElementById('smsTeacherLogoutForm').submit();" class="menu-link" style="color: #ff6b6b;">
                     <div class="menu-left">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
