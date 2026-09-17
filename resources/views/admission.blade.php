@@ -866,7 +866,7 @@
         <div style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <p>&copy; {{ date('Y') }} ES-SCHOOLS by <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer" style="color: #10b981; font-weight: 600; text-decoration: none;">ExtremeSolutions Nigeria</a>. All rights reserved.</p>
             <div style="display: flex; gap: 1.25rem; font-size: 0.85rem;">
-                <span><i class="fas fa-phone-alt" style="color: #1e3a8a;"></i> 09052585622</span>
+                <a href="https://wa.me/2349052585622?text=Hello%20ES-SCHOOLS%20Admissions%20Desk%2C%20I%20have%20an%20inquiry." target="_blank" rel="noopener noreferrer" style="color: #059669; font-weight: 600; text-decoration: none;"><i class="fab fa-whatsapp"></i> WhatsApp: 09052585622</a>
                 <span><i class="fas fa-envelope" style="color: #10b981;"></i> sms@extremesolutions.com.ng</span>
                 <a href="{{ route('contact') }}" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Contact Support</a>
             </div>

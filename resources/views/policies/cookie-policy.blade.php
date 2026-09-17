@@ -136,7 +136,7 @@
         <p>
             <strong>Email:</strong> <a href="mailto:sms@extremesolutions.com.ng">sms@extremesolutions.com.ng</a><br>
             <strong>Parent Company:</strong> <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer">ExtremeSolutions Nigeria</a><br>
-            <strong>Phone / WhatsApp:</strong> <a href="tel:09052585622">09052585622</a>
+            <strong>WhatsApp Desk:</strong> <a href="https://wa.me/2349052585622" target="_blank" rel="noopener noreferrer">09052585622</a> (Strictly WhatsApp, No Calls)
         </p>
     </div>
 </body>

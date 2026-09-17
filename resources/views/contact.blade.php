@@ -519,7 +519,7 @@
 
     <!-- Top Announcement Bar -->
     <div class="top-bar">
-        <span><i class="fas fa-headset"></i> Dedicated Support for Nigerian Private Schools: <strong>09052585622</strong> | <strong>sms@extremesolutions.com.ng</strong></span>
+        <span><i class="fab fa-whatsapp"></i> Instant WhatsApp Consultation: <a href="https://wa.me/2349052585622?text=Hello%20ES-SCHOOLS%2C%20I%20want%20to%20inquire%20about%20your%20School%20Management%20Platform." target="_blank" rel="noopener noreferrer"><strong>09052585622</strong></a> (WhatsApp Only, No Calls) | Email: <strong>sms@extremesolutions.com.ng</strong></span>
     </div>
 
     <!-- Navigation (Unified, Straight, No Login Button) -->
@@ -591,23 +591,23 @@
                     
                     <div class="channel-list">
                         <div class="channel-item">
-                            <div class="channel-icon phone">
-                                <i class="fas fa-phone-alt"></i>
+                            <div class="channel-icon whatsapp">
+                                <i class="fab fa-whatsapp"></i>
                             </div>
                             <div class="channel-info">
-                                <h4>Direct Phone Line</h4>
-                                <a href="tel:09052585622">09052585622</a>
-                                <p>Mon - Fri: 8:00 AM - 6:00 PM</p>
+                                <h4>Official WhatsApp Desk</h4>
+                                <a href="https://wa.me/2349052585622?text=Hello%20ES-SCHOOLS%20Team%2C%20I%20would%20like%20to%20inquire%20about%20the%20School%20Management%20Platform%20and%20Demo." target="_blank" rel="noopener noreferrer">09052585622</a>
+                                <p>Strictly WhatsApp (No Phone Calls) &bull; Mon - Fri</p>
                             </div>
                         </div>
 
                         <div class="channel-item">
                             <div class="channel-icon whatsapp">
-                                <i class="fab fa-whatsapp"></i>
+                                <i class="fas fa-headset"></i>
                             </div>
                             <div class="channel-info">
-                                <h4>Instant WhatsApp Helpdesk</h4>
-                                <a href="https://wa.me/2349052585622?text=Hello%20ES-SCHOOLS%20Team%2C%20I%20would%20like%20to%20inquire%20about%20the%20School%20Management%20Platform%20and%20Demo." target="_blank" rel="noopener noreferrer">09052585622</a>
+                                <h4>Instant Digitization Inquiries</h4>
+                                <a href="https://wa.me/2349052585622?text=Hello%20ES-SCHOOLS%20Team%2C%20I%20would%20like%20to%20request%20a%20Free%20School%20Digitization%20Audit%20and%20Demo." target="_blank" rel="noopener noreferrer">09052585622</a>
                                 <p>Fastest response (Usually under 10 mins)</p>
                             </div>
                         </div>

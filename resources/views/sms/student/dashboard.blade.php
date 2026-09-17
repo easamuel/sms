@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student Portal - ES-SCHOOLS</title>
     
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
     <!-- Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -625,6 +631,71 @@
             font-size: 1.35rem;
         }
 
+        /* Mobile Toggle & Overlay */
+        .mobile-toggle-btn {
+            display: none;
+            width: 38px;
+            height: 38px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        body.dark-theme .mobile-toggle-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .mobile-close-btn {
+            display: none;
+            width: 32px;
+            height: 32px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        body.dark-theme .mobile-close-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-responsive > table {
+            min-width: 520px;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .metric-cards-grid {
@@ -637,16 +708,47 @@
 
         @media (max-width: 768px) {
             .sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 280px;
+                max-width: 82vw;
+                z-index: 1050;
                 transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 0 25px rgba(0,0,0,0.25);
             }
             .sidebar.mobile-open {
                 transform: translateX(0);
             }
             .main-wrapper {
-                margin-left: 0;
+                margin-left: 0 !important;
+                width: 100% !important;
+                min-width: 0 !important;
             }
-            .metric-cards-grid {
-                grid-template-columns: 1fr;
+            .mobile-toggle-btn {
+                display: flex !important;
+            }
+            .mobile-close-btn {
+                display: flex !important;
+            }
+            .collapse-btn {
+                display: none !important;
+            }
+            .search-box, .header-select-pill, #fullscreenBtn, .profile-info {
+                display: none !important;
+            }
+            .top-header {
+                padding: 0 1rem;
+                height: 60px;
+            }
+            .page-content {
+                padding: 1rem 0.85rem;
+            }
+            .metric-cards-grid, .lower-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem;
             }
         }
     </style>
@@ -667,6 +769,9 @@
             </a>
             <button class="collapse-btn" id="collapseSidebarBtn" title="Toggle Sidebar">
                 <i class="fas fa-angle-left"></i>
+            </button>
+            <button class="mobile-close-btn" id="closeSidebarMobile" title="Close Menu">
+                <i class="fas fa-times"></i>
             </button>
         </div>
 
@@ -756,6 +861,7 @@
             </li>
         </ul>
     </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Main Content Area -->
     <div class="main-wrapper">
@@ -763,6 +869,9 @@
         <!-- Top Navbar -->
         <header class="top-header">
             <div class="header-left">
+                <button class="mobile-toggle-btn" id="mobileSidebarToggle" title="Open Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <a href="{{ route('home') }}" class="home-btn" title="Homepage">
                     <i class="fas fa-home"></i>
                 </a>
@@ -877,7 +986,7 @@
                             </a>
                         </div>
                         <div class="panel-body">
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.85rem; text-align: center;">
                                 <div style="padding: 1rem; background: #dcfce7; border-radius: 10px; color: #15803d;">
                                     <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Days Present</span>
                                     <h4 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">{{ $attendanceSummary['present'] ?? 24 }}</h4>
@@ -906,48 +1015,50 @@
                             </a>
                         </div>
                         <div class="panel-body" style="padding: 0;">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Subject</th>
-                                        <th>Exam Title</th>
-                                        <th>Duration</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Mathematics</strong></td>
-                                        <td>CA1 Continuous Assessment</td>
-                                        <td>45 Mins</td>
-                                        <td>
-                                            <a href="{{ route('sms.student.exams') }}" class="btn-action" style="background: #10b981; color: white;">
-                                                Take Test
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>English Language</strong></td>
-                                        <td>CA1 Grammar &amp; Reading Test</td>
-                                        <td>40 Mins</td>
-                                        <td>
-                                            <a href="{{ route('sms.student.exams') }}" class="btn-action" style="background: #10b981; color: white;">
-                                                Take Test
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Basic Science</strong></td>
-                                        <td>Midterm Quiz</td>
-                                        <td>30 Mins</td>
-                                        <td>
-                                            <a href="{{ route('sms.student.exams') }}" class="btn-action">
-                                                Take Test
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Exam Title</th>
+                                            <th>Duration</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Mathematics</strong></td>
+                                            <td>CA1 Continuous Assessment</td>
+                                            <td>45 Mins</td>
+                                            <td>
+                                                <a href="{{ route('sms.student.exams') }}" class="btn-action" style="background: #10b981; color: white;">
+                                                    Take Test
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>English Language</strong></td>
+                                            <td>CA1 Grammar &amp; Reading Test</td>
+                                            <td>40 Mins</td>
+                                            <td>
+                                                <a href="{{ route('sms.student.exams') }}" class="btn-action" style="background: #10b981; color: white;">
+                                                    Take Test
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Basic Science</strong></td>
+                                            <td>Midterm Quiz</td>
+                                            <td>30 Mins</td>
+                                            <td>
+                                                <a href="{{ route('sms.student.exams') }}" class="btn-action">
+                                                    Take Test
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1046,7 +1157,7 @@
             });
         }
 
-        // Sidebar Collapse
+        // Sidebar Collapse (Desktop)
         const collapseBtn = document.getElementById('collapseSidebarBtn');
         const sidebar = document.getElementById('sidebar');
         if (collapseBtn && sidebar) {
@@ -1054,6 +1165,27 @@
                 sidebar.classList.toggle('collapsed');
             });
         }
+
+        // Mobile Sidebar Drawer
+        const mobileToggle = document.getElementById('mobileSidebarToggle');
+        const mobileClose = document.getElementById('closeSidebarMobile');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openMobileSidebar() {
+            if (sidebar) sidebar.classList.add('mobile-open');
+            if (sidebarOverlay) sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileSidebar() {
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (mobileToggle) mobileToggle.addEventListener('click', openMobileSidebar);
+        if (mobileClose) mobileClose.addEventListener('click', closeMobileSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileSidebar);
     </script>
 </body>
 </html>

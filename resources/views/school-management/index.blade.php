@@ -769,8 +769,8 @@
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
-                    <p>Email: support@schoolmanagement.com</p>
-                    <p>Phone: +234 XXX XXX XXXX</p>
+                    <p>Email: <a href="mailto:sms@extremesolutions.com.ng" style="color: #94a3b8;">sms@extremesolutions.com.ng</a></p>
+                    <p>WhatsApp: <a href="https://wa.me/2349052585622" style="color: #34d399;" target="_blank" rel="noopener noreferrer">09052585622</a> (Strictly WhatsApp, No Calls)</p>
                 </div>
             </div>
             <div class="footer-bottom">

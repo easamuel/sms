@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>School Admin Portal - ES-SCHOOLS</title>
     
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
     <!-- Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -690,6 +696,71 @@
             font-size: 1.35rem;
         }
 
+        /* Mobile Toggle & Overlay */
+        .mobile-toggle-btn {
+            display: none;
+            width: 38px;
+            height: 38px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        body.dark-theme .mobile-toggle-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .mobile-close-btn {
+            display: none;
+            width: 32px;
+            height: 32px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        body.dark-theme .mobile-close-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-responsive > table {
+            min-width: 520px;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .metric-cards-grid, .financial-cards-grid {
@@ -702,16 +773,47 @@
 
         @media (max-width: 768px) {
             .sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 280px;
+                max-width: 82vw;
+                z-index: 1050;
                 transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 0 25px rgba(0,0,0,0.25);
             }
             .sidebar.mobile-open {
                 transform: translateX(0);
             }
             .main-wrapper {
-                margin-left: 0;
+                margin-left: 0 !important;
+                width: 100% !important;
+                min-width: 0 !important;
             }
-            .metric-cards-grid, .financial-cards-grid {
-                grid-template-columns: 1fr;
+            .mobile-toggle-btn {
+                display: flex !important;
+            }
+            .mobile-close-btn {
+                display: flex !important;
+            }
+            .collapse-btn {
+                display: none !important;
+            }
+            .search-box, .header-select-pill, #fullscreenBtn, .profile-info {
+                display: none !important;
+            }
+            .top-header {
+                padding: 0 1rem;
+                height: 60px;
+            }
+            .page-content {
+                padding: 1rem 0.85rem;
+            }
+            .metric-cards-grid, .financial-cards-grid, .lower-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem;
             }
         }
     </style>
@@ -732,6 +834,9 @@
             </a>
             <button class="collapse-btn" id="collapseSidebarBtn" title="Toggle Sidebar">
                 <i class="fas fa-angle-left"></i>
+            </button>
+            <button class="mobile-close-btn" id="closeSidebarMobile" title="Close Menu">
+                <i class="fas fa-times"></i>
             </button>
         </div>
 
@@ -867,6 +972,7 @@
             </li>
         </ul>
     </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Main Content Area -->
     <div class="main-wrapper">
@@ -874,6 +980,9 @@
         <!-- Top Navbar -->
         <header class="top-header">
             <div class="header-left">
+                <button class="mobile-toggle-btn" id="mobileSidebarToggle" title="Open Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <a href="{{ route('home') }}" class="home-btn" title="Homepage">
                     <i class="fas fa-home"></i>
                 </a>
@@ -1013,54 +1122,56 @@
                         </a>
                     </div>
                     <div class="panel-body" style="padding: 0;">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>Student ID</th>
-                                    <th>Class</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($recentActivities as $student)
-                                <tr>
-                                    <td><strong>{{ $student->name }}</strong></td>
-                                    <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">{{ $student->student_id }}</span></td>
-                                    <td>{{ $student->class ?? 'Basic 1' }}</td>
-                                    <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                    <td>
-                                        <a href="{{ route('school.students.show', $student->id) }}" class="btn-action">
-                                            Profile
-                                        </a>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td><strong>Adebayo Oluwaseun</strong></td>
-                                    <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00001</span></td>
-                                    <td>SSS 2 Science</td>
-                                    <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                    <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Chukwu Obi</strong></td>
-                                    <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00033</span></td>
-                                    <td>Basic 3</td>
-                                    <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                    <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Fatima Mohammed</strong></td>
-                                    <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00055</span></td>
-                                    <td>JSS 1</td>
-                                    <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
-                                    <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Student ID</th>
+                                        <th>Class</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($recentActivities as $student)
+                                    <tr>
+                                        <td><strong>{{ $student->name }}</strong></td>
+                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">{{ $student->student_id }}</span></td>
+                                        <td>{{ $student->class ?? 'Basic 1' }}</td>
+                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
+                                        <td>
+                                            <a href="{{ route('school.students.show', $student->id) }}" class="btn-action">
+                                                Profile
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td><strong>Adebayo Oluwaseun</strong></td>
+                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00001</span></td>
+                                        <td>SSS 2 Science</td>
+                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
+                                        <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Chukwu Obi</strong></td>
+                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00033</span></td>
+                                        <td>Basic 3</td>
+                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
+                                        <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Fatima Mohammed</strong></td>
+                                        <td><span style="background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">STU-00055</span></td>
+                                        <td>JSS 1</td>
+                                        <td><span style="background: #dcfce7; color: #15803d; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Active</span></td>
+                                        <td><a href="{{ route('school.students.index') }}" class="btn-action">Profile</a></td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -1160,7 +1271,7 @@
             });
         }
 
-        // Sidebar Collapse
+        // Sidebar Collapse (Desktop)
         const collapseBtn = document.getElementById('collapseSidebarBtn');
         const sidebar = document.getElementById('sidebar');
         if (collapseBtn && sidebar) {
@@ -1168,6 +1279,27 @@
                 sidebar.classList.toggle('collapsed');
             });
         }
+
+        // Mobile Sidebar Drawer
+        const mobileToggle = document.getElementById('mobileSidebarToggle');
+        const mobileClose = document.getElementById('closeSidebarMobile');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openMobileSidebar() {
+            if (sidebar) sidebar.classList.add('mobile-open');
+            if (sidebarOverlay) sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileSidebar() {
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (mobileToggle) mobileToggle.addEventListener('click', openMobileSidebar);
+        if (mobileClose) mobileClose.addEventListener('click', closeMobileSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileSidebar);
     </script>
 </body>
 </html>

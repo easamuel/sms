@@ -40,6 +40,7 @@ class SmsAdminController extends Controller
             ->limit(10)
             ->get();
 
-        return view('sms.admin.dashboard', compact('stats', 'recentSchools', 'smsUser', 'smsRole'));
+        // Always redirect to modern unified School Admin dashboard
+        return redirect()->route('school.dashboard');
     }
 }

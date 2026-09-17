@@ -3,7 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Demo Access - ES-SCHOOLS</title>
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,6 +16,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
         }
         
         :root {
@@ -402,8 +412,8 @@
             </div>
             
             <div class="footer-links">
-                <a href="{{ route('login') }}">Go to Login</a>
-                <a href="{{ route('home') }}">Back to Home</a>
+                <a href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
+                <a href="https://wa.me/2349052585622?text=Hello%20ES-SCHOOLS%20Team%2C%20I%20need%20assistance%20with%20demo%20access." target="_blank" rel="noopener noreferrer" style="color: #059669; font-weight: 700;"><i class="fab fa-whatsapp"></i> WhatsApp Helpdesk: 09052585622</a>
             </div>
         </div>
     </div>

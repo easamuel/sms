@@ -7,7 +7,7 @@
     <!-- Primary SEO Meta Tags -->
     <title>ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform</title>
     <meta name="title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform">
-    <meta name="description" content="ES-SCHOOLS is Nigeria's premier school management and automated tuition fee recovery platform. Generate 1-click terminal report cards, track student attendance, and run your school on autopilot. Call: 09052585622 | sms@extremesolutions.com.ng">
+    <meta name="description" content="ES-SCHOOLS is Nigeria's premier school management and automated tuition fee recovery platform. Generate 1-click terminal report cards, track student attendance, and run your school on autopilot. WhatsApp: 09052585622 | sms@extremesolutions.com.ng">
     <meta name="keywords" content="School management system Nigeria, SMS software Nigeria, school fees payment tracker, student report card generator, Lagos private schools software, Abuja schools portal, CBT exam system, ExtremeSolutions SMS, school admission portal">
     <meta name="author" content="ExtremeSolutions Nigeria">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -845,7 +845,8 @@
             border-radius: 20px;
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow-md);
-            overflow: hidden;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .compare-table {
@@ -1288,13 +1289,26 @@
                 margin: 0;
             }
         }
+
+        /* Prevent Horizontal Scroll / Overflow on all Viewports */
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+            .compare-table {
+                min-width: 580px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <!-- Top Announcement Bar -->
     <div class="top-bar">
-        <span><i class="fas fa-headset"></i> Need support or demo assistance? Call/WhatsApp: <strong>09052585622</strong> | <strong>sms@extremesolutions.com.ng</strong></span>
+        <span><i class="fab fa-whatsapp" style="color: #34d399; font-size: 1rem;"></i> Inquiries &amp; Setup Support: <strong>WhatsApp Only: 09052585622</strong> | <strong>sms@extremesolutions.com.ng</strong></span>
         <a href="{{ route('admission.create') }}">Online Admission Portal [OPEN] &rarr;</a>
     </div>
 
@@ -1760,9 +1774,9 @@
                         <i class="fas fa-envelope"></i>
                         <span>Send Official Inquiry</span>
                     </a>
-                    <a href="tel:09052585622" style="color: var(--primary); text-align: center; text-decoration: none; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
-                        <i class="fas fa-phone-alt"></i> Call: 09052585622
-                    </a>
+                    <div style="color: var(--text-muted); text-align: center; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.35rem 0;">
+                        <i class="fab fa-whatsapp" style="color: #25d366; font-size: 1.1rem;"></i> Strictly WhatsApp Messages &bull; No Phone Calls
+                    </div>
                 </div>
             </div>
         </div>
@@ -1892,9 +1906,8 @@
                 <div class="footer-links-list">
                     <a href="#audit" style="color: #6ee7b7; font-weight: 600;"><i class="fas fa-calendar-check"></i> Book Free Audit</a>
                     <a href="{{ route('contact') }}">Contact Us</a>
-                    <a href="mailto:sms@extremesolutions.com.ng">sms@extremesolutions.com.ng</a>
-                    <a href="tel:09052585622">09052585622</a>
-                    <a href="https://wa.me/2349052585622" target="_blank" rel="noopener noreferrer">WhatsApp: 09052585622</a>
+                    <a href="mailto:sms@extremesolutions.com.ng"><i class="fas fa-envelope"></i> sms@extremesolutions.com.ng</a>
+                    <a href="https://wa.me/2349052585622" target="_blank" rel="noopener noreferrer" style="color: #34d399; font-weight: 700;"><i class="fab fa-whatsapp"></i> WhatsApp Only: 09052585622</a>
                     <a href="https://extremesolutions.com.ng" target="_blank" rel="noopener noreferrer" style="color: #60a5fa;">Parent Company Website &rarr;</a>
                 </div>
             </div>
