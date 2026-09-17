@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Notice Board - Parent Portal - ES-SCHOOLS</title>
+    <title>Child Attendance - {{ $student->user->name ?? 'Student' }} - Parent Portal</title>
     
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,13 +55,21 @@
         .main-wrapper { margin-left: 255px; flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 100vh; }
         .top-header { height: 64px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 1.75rem; position: sticky; top: 0; z-index: 90; }
         .page-content { padding: 1.75rem; flex: 1; min-width: 0; max-width: 1200px; width: 100%; }
-        .notice-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); transition: transform 0.2s ease; border-left: 4px solid var(--primary); }
-        .notice-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        .notice-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
-        .notice-title { font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
-        .notice-badge { background: #eff6ff; color: #1e40af; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
-        .notice-body { font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 1rem; white-space: pre-line; word-break: break-word; }
-        .notice-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+        .page-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+        .metric-cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        .metric-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.25rem; box-shadow: var(--shadow-sm); }
+        .metric-number { font-size: 1.5rem; font-weight: 800; }
+        .metric-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-top: 0.25rem; }
+        .panel-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); }
+        .panel-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .table-responsive { width: 100% !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; min-width: 480px; }
+        th { padding: 0.875rem 1.25rem; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; background: var(--border-subtle); text-align: left; }
+        td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); font-size: 0.875rem; }
+        .status-badge { padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .status-present { background: #dcfce7; color: #15803d; }
+        .status-absent { background: #fee2e2; color: #b91c1c; }
+        .status-late { background: #fef3c7; color: #b45309; }
         .mobile-toggle-btn { display: none; width: 38px; height: 38px; background: var(--border-subtle); border: 1px solid var(--border-color); border-radius: 10px; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; }
         .mobile-close-btn { display: none; width: 32px; height: 32px; background: var(--border-subtle); border: 1px solid var(--border-color); border-radius: 8px; align-items: center; justify-content: center; cursor: pointer; }
         .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 999; }
@@ -72,6 +80,7 @@
             .mobile-close-btn, .mobile-toggle-btn { display: flex; }
             .main-wrapper { margin-left: 0; width: 100% !important; max-width: 100vw !important; }
             .page-content { padding: 1rem 0.85rem; }
+            .metric-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
             .top-header { padding: 0 1rem; }
         }
     </style>
@@ -87,11 +96,9 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-item"><a href="{{ route('sms.parent.dashboard') }}" class="menu-link"><div class="menu-left"><i class="fas fa-tachometer-alt" style="color: #a55eea;"></i><span>Parent Dashboard</span></div></a></li>
-            <li class="menu-item"><a href="{{ route('sms.parent.children') }}" class="menu-link"><div class="menu-left"><i class="fas fa-child" style="color: #3b82f6;"></i><span>My Children</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('sms.parent.children') }}" class="menu-link active"><div class="menu-left"><i class="fas fa-child" style="color: #3b82f6;"></i><span>My Children</span></div></a></li>
             <li class="menu-item"><a href="{{ route('sms.parent.fees') }}" class="menu-link"><div class="menu-left"><i class="fas fa-receipt" style="color: #10b981;"></i><span>School Fees &amp; Pay</span></div></a></li>
-            <li class="menu-item"><a href="{{ route('sms.parent.messages') }}" class="menu-link"><div class="menu-left"><i class="far fa-comments" style="color: #0fbcf9;"></i><span>Messages to School</span></div></a></li>
-            <li class="menu-item"><a href="{{ route('sms.parent.notices') }}" class="menu-link active"><div class="menu-left"><i class="far fa-bell" style="color: #f59e0b;"></i><span>Notice Board</span></div></a></li>
-            <li class="menu-item"><a href="{{ route('admission.create') }}" class="menu-link"><div class="menu-left"><i class="fas fa-user-plus" style="color: #10b981;"></i><span>Online Admission</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('sms.parent.notices') }}" class="menu-link"><div class="menu-left"><i class="far fa-bell" style="color: #f59e0b;"></i><span>Notice Board</span></div></a></li>
         </ul>
     </aside>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -99,47 +106,60 @@
     <div class="main-wrapper">
         <header class="top-header">
             <button class="mobile-toggle-btn" id="mobileSidebarToggle"><i class="fas fa-bars"></i></button>
-            <a href="{{ route('home') }}" style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--border-subtle); color: var(--text-muted); text-decoration: none;"><i class="fas fa-home"></i></a>
-            <button id="themeToggleBtn" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.1rem;"><i class="far fa-moon"></i></button>
+            <a href="{{ route('sms.parent.children') }}" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.875rem;">
+                <i class="fas fa-arrow-left"></i> Back to My Children
+            </a>
+            <button id="themeToggleBtn" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.1rem;"><i class="far fa-moon" id="themeIcon"></i></button>
         </header>
 
         <main class="page-content">
-            <div style="margin-bottom: 1.5rem;">
-                <h1 style="font-size: 1.625rem; font-weight: 800; display: flex; align-items: center; gap: 0.65rem;">
-                    <i class="far fa-bell" style="color: #f59e0b;"></i> Notice Board
-                </h1>
-                <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.25rem;">
-                    Official announcements, academic schedules, and reminders from the school administration.
-                </p>
+            <div class="page-header-row">
+                <div>
+                    <h1 style="font-size: 1.5rem; font-weight: 800;">{{ $student->user->name ?? 'Student' }} - Attendance Log</h1>
+                    <p style="font-size: 0.875rem; color: var(--text-muted);">Class: {{ $student->class->name ?? 'N/A' }} | Student ID: {{ $student->student_id_number }}</p>
+                </div>
+                <a href="{{ route('sms.parent.view-child', $student->id) }}" style="background: var(--primary); color: white; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-size: 0.8125rem; font-weight: 700;">
+                    <i class="fas fa-external-link-alt"></i> View Child Portal
+                </a>
             </div>
 
-            @forelse($notices as $notice)
-            <div class="notice-card">
-                <div class="notice-header">
-                    <h3 class="notice-title">{{ $notice->title }}</h3>
-                    <span class="notice-badge">
-                        <i class="fas fa-users"></i> {{ ucfirst($notice->target_audience ?? 'Parents') }}
-                    </span>
-                </div>
-                <div class="notice-body">{{ $notice->content }}</div>
-                <div class="notice-footer">
-                    <span><i class="far fa-calendar-alt"></i> Published: {{ $notice->published_at ? \Carbon\Carbon::parse($notice->published_at)->format('M d, Y h:i A') : 'Recent' }}</span>
-                    @if($notice->expires_at)
-                    <span style="color: #f59e0b;"><i class="far fa-clock"></i> Valid until: {{ \Carbon\Carbon::parse($notice->expires_at)->format('M d, Y') }}</span>
-                    @endif
-                </div>
+            <div class="metric-cards-grid">
+                <div class="metric-card"><div class="metric-number" style="color: #10b981;">{{ $rate }}%</div><div class="metric-label">Attendance Rate</div></div>
+                <div class="metric-card"><div class="metric-number">{{ $totalDays }}</div><div class="metric-label">Total School Days</div></div>
+                <div class="metric-card"><div class="metric-number" style="color: #15803d;">{{ $presentDays }}</div><div class="metric-label">Days Present</div></div>
+                <div class="metric-card"><div class="metric-number" style="color: #b91c1c;">{{ $absentDays }}</div><div class="metric-label">Days Absent</div></div>
             </div>
-            @empty
-            <div style="text-align: center; padding: 4rem 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-color);">
-                <i class="far fa-bell-slash" style="font-size: 3rem; color: var(--text-muted); opacity: 0.4; margin-bottom: 1rem;"></i>
-                <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">No Active Notices</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">There are currently no active announcements published for parents.</p>
-            </div>
-            @endforelse
 
-            @if($notices->hasPages())
-            <div style="margin-top: 1.5rem;">{{ $notices->links() }}</div>
-            @endif
+            <div class="panel-card">
+                <div class="panel-header"><h3 style="font-size: 1rem; font-weight: 700;">Daily Attendance Records</h3></div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($attendances as $att)
+                            <tr>
+                                <td><strong>{{ \Carbon\Carbon::parse($att->date)->format('M d, Y') }}</strong></td>
+                                <td>
+                                    <span class="status-badge status-{{ strtolower($att->status) }}">{{ ucfirst($att->status) }}</span>
+                                </td>
+                                <td style="color: var(--text-muted);">{{ $att->remarks ?? 'Normal Session' }}</td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="3" style="text-align: center; padding: 2rem; color: var(--text-muted);">No attendance records recorded yet.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                @if($attendances->hasPages())
+                <div style="padding: 1rem 1.5rem;">{{ $attendances->links() }}</div>
+                @endif
+            </div>
         </main>
     </div>
 

@@ -43,6 +43,12 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+            width: 100% !important;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-page);
@@ -60,6 +66,7 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            max-width: 100vw;
         }
 
         .header-container {
@@ -138,14 +145,15 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            max-width: 100vw;
         }
 
         .admission-hero::after {
             content: '';
             position: absolute;
             bottom: -30px;
-            left: -5%;
-            width: 110%;
+            left: 0;
+            width: 100%;
             height: 60px;
             background: var(--bg-page);
             border-radius: 50% 50% 0 0;
@@ -495,19 +503,99 @@
 
         /* Responsive Breakpoints */
         @media (max-width: 768px) {
-            .form-grid-2, .form-grid-3 {
-                grid-template-columns: 1fr;
+            .header-container {
+                padding: 0 0.85rem;
+            }
+            .brand-link span {
+                font-size: 1.05rem;
+            }
+            .header-actions {
+                gap: 0.35rem;
+            }
+            .btn-header {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
+            }
+            .btn-home:not(:first-child) {
+                display: none;
+            }
+            .admission-hero {
+                padding: 2.25rem 1rem 3.5rem;
             }
             .hero-title {
-                font-size: 1.875rem;
+                font-size: 1.625rem;
+            }
+            .hero-subtitle {
+                font-size: 0.9375rem;
+            }
+            .form-container {
+                padding: 0 0.75rem;
+                margin: -1.75rem auto 2.5rem;
+                width: 100% !important;
+                max-width: 100vw !important;
+            }
+            .form-card {
+                border-radius: 12px;
             }
             .form-section {
-                padding: 1.5rem;
+                padding: 1.25rem 0.85rem;
+            }
+            .section-title {
+                font-size: 1.1rem;
+            }
+            .form-grid-2, .form-grid-3 {
+                grid-template-columns: 1fr;
+                gap: 0.85rem;
             }
             .form-footer {
-                padding: 1.5rem;
+                padding: 1.25rem 0.85rem;
+                flex-direction: column;
+                align-items: stretch;
             }
             .btn-submit {
+                width: 100%;
+                justify-content: center;
+            }
+            .slip-box {
+                padding: 1.75rem 0.85rem;
+            }
+            .slip-title {
+                font-size: 1.35rem;
+            }
+            .slip-subtitle {
+                font-size: 0.875rem;
+                margin-bottom: 1.25rem;
+            }
+            .slip-ref-pill {
+                padding: 0.75rem 1rem;
+                width: 100%;
+            }
+            .slip-ref-pill strong {
+                font-size: 1.25rem;
+                word-break: break-all;
+            }
+            .slip-details-table {
+                display: block;
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .slip-details-table tbody {
+                display: table;
+                width: 100%;
+                min-width: 320px;
+            }
+            .slip-details-table th, .slip-details-table td {
+                padding: 0.65rem 0.75rem !important;
+                font-size: 0.8125rem !important;
+                word-break: break-word !important;
+            }
+            .slip-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-action {
                 width: 100%;
                 justify-content: center;
             }
@@ -635,7 +723,7 @@
                     @csrf
 
                     @if ($errors->any())
-                        <div style="margin: 1.5rem 2.5rem 0; padding: 1rem 1.25rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #b91c1c; font-size: 0.875rem;">
+                        <div style="margin: 1.25rem 1rem 0; padding: 1rem 1.25rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #b91c1c; font-size: 0.875rem;">
                             <strong>Please fix the errors below:</strong>
                             <ul style="margin-left: 1.25rem; margin-top: 0.25rem;">
                                 @foreach ($errors->all() as $error)

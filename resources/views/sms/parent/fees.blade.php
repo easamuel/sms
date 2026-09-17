@@ -1,1536 +1,1442 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School Fees &amp; Billing - Parent Portal - ES-SCHOOLS</title>
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-@section('title', 'Fee Payments - School Management System')
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-@section('content')
-@include('sms.partials.design-system')
-<style>
-    .sms-dashboard {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
-        min-height: calc(100vh - 80px);
-        padding: 0;
-    }
-    
-    /* Beautiful Header */
-    .fees-page-header {
-        background: linear-gradient(135deg, var(--sms-primary) 0%, var(--sms-primary-dark) 100%);
-        padding: 3rem 2rem;
-        margin-bottom: 2rem;
-        color: white;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-    }
-    
-    .fees-page-header::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 400px;
-        height: 400px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-    }
-    
-    .fees-page-header::after {
-        content: '';
-        position: absolute;
-        bottom: -30%;
-        left: -5%;
-        width: 300px;
-        height: 300px;
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 50%;
-    }
-    
-    .fees-header-content {
-        position: relative;
-        z-index: 1;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-    
-    .fees-page-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 0.75rem;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        letter-spacing: -0.02em;
-    }
-    
-    .fees-page-subtitle {
-        font-size: 1.125rem;
-        opacity: 0.95;
-        font-weight: 400;
-    }
-    
-    .fees-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 2rem 3rem;
-    }
-    
-    /* Modern Stats Cards */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-    }
-    
-    .stat-card {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: linear-gradient(90deg, var(--sms-primary), var(--sms-accent));
-    }
-    
-    .stat-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    }
-    
-    .stat-card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1.25rem;
-    }
-    
-    .stat-icon {
-        width: 64px;
-        height: 64px;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.75rem;
-        color: white;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    
-    .stat-icon.total {
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    }
-    
-    .stat-icon.paid {
-        background: linear-gradient(135deg, #10b981, #059669);
-    }
-    
-    .stat-icon.balance {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-    }
-    
-    .stat-label {
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--sms-gray-500);
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-    }
-    
-    .stat-value {
-        font-size: 2.25rem;
-        font-weight: 800;
-        color: var(--sms-gray-900);
-        line-height: 1.2;
-    }
-    
-    .stat-value.paid {
-        color: #059669;
-    }
-    
-    .stat-value.balance {
-        color: #dc2626;
-    }
-    
-    /* Alert Messages */
-    .alert {
-        padding: 1.25rem 1.5rem;
-        border-radius: 12px;
-        margin-bottom: 2rem;
-        font-size: 0.9375rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        animation: slideIn 0.3s ease-out;
-    }
-    
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
+        :root {
+            --bg-body: #f4f6fb;
+            --bg-sidebar: #ffffff;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-header: #f8fafc;
+            --border-color: #e2e8f0;
+            --border-subtle: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --accent-orange: #ff9f43;
+            --accent-purple: #a55eea;
+            --accent-blue: #4b7bec;
+            --accent-cyan: #0fbcf9;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.05);
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+        body.dark-theme {
+            --bg-body: #16171d;
+            --bg-sidebar: #121318;
+            --bg-header: #1a1b22;
+            --bg-card: #20222a;
+            --bg-card-header: #272933;
+            --border-color: #2c2e39;
+            --border-subtle: #20222a;
+            --text-main: #ffffff;
+            --text-muted: #9aa0ac;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
         }
-    }
-    
-    .alert-success {
-        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-        color: #065f46;
-        border: 2px solid #6ee7b7;
-    }
-    
-    .alert-danger {
-        background: linear-gradient(135deg, #fee2e2, #fecaca);
-        color: #991b1b;
-        border: 2px solid #fca5a5;
-    }
-    
-    /* Main Card */
-    .sms-card {
-        background: white;
-        border-radius: 24px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        overflow: hidden;
-        margin-bottom: 2rem;
-        transition: all 0.3s ease;
-    }
-    
-    .sms-card:hover {
-        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.12);
-    }
-    
-    .sms-card-header {
-        padding: 2rem;
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
-        border-bottom: 2px solid var(--sms-gray-100);
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .sms-card-title-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, var(--sms-primary), var(--sms-primary-dark));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.25rem;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-    
-    .sms-card-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--sms-gray-900);
-        margin: 0;
-    }
-    
-    .sms-card-body {
-        padding: 2rem;
-    }
-    
-    /* Fee Item Cards */
-    .fee-item {
-        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-        border: 2px solid var(--sms-gray-200);
-        border-radius: 20px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .fee-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 6px;
-        height: 100%;
-        background: linear-gradient(180deg, var(--sms-primary), var(--sms-accent));
-    }
-    
-    .fee-item:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-        border-color: var(--sms-primary);
-    }
-    
-    .fee-item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 2px solid var(--sms-gray-100);
-    }
-    
-    .fee-student-info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .fee-student-avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, var(--sms-primary), var(--sms-accent));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.5rem;
-        font-weight: 700;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-    
-    .fee-student-name {
-        font-weight: 700;
-        font-size: 1.375rem;
-        color: var(--sms-gray-900);
-        margin-bottom: 0.25rem;
-    }
-    
-    .fee-class {
-        color: var(--sms-gray-600);
-        font-size: 0.9375rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    
-    /* Fee Amounts Grid */
-    .fee-amounts {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 1.25rem;
-        margin-bottom: 2rem;
-        padding: 1.5rem;
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
-        border-radius: 16px;
-        border: 1px solid rgba(99, 102, 241, 0.1);
-    }
-    
-    .fee-amount-item {
-        text-align: center;
-        padding: 1rem;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-    }
-    
-    .fee-amount-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    .fee-amount-label {
-        font-size: 0.8125rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--sms-gray-500);
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-    
-    .fee-amount-value {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--sms-gray-900);
-    }
-    
-    .fee-amount-value.paid {
-        color: #059669;
-    }
-    
-    .fee-amount-value.balance {
-        color: #dc2626;
-    }
-    
-    /* Fee Breakdown */
-    .fee-breakdown {
-        margin-bottom: 2rem;
-    }
-    
-    .fee-breakdown-title {
-        font-size: 1.125rem;
-        font-weight: 700;
-        color: var(--sms-gray-900);
-        margin-bottom: 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-    
-    .fee-breakdown-title::before {
-        content: '';
-        width: 4px;
-        height: 24px;
-        background: linear-gradient(180deg, var(--sms-primary), var(--sms-accent));
-        border-radius: 2px;
-    }
-    
-    .fee-breakdown-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.25rem;
-        background: white;
-        border: 2px solid var(--sms-gray-100);
-        border-radius: 12px;
-        margin-bottom: 0.875rem;
-        transition: all 0.3s ease;
-    }
-    
-    .fee-breakdown-item:hover {
-        border-color: var(--sms-primary);
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
-        transform: translateX(4px);
-    }
-    
-    .fee-breakdown-info {
-        flex: 1;
-    }
-    
-    .fee-breakdown-name {
-        font-weight: 600;
-        font-size: 1rem;
-        color: var(--sms-gray-900);
-        margin-bottom: 0.5rem;
-    }
-    
-    .fee-breakdown-details {
-        font-size: 0.875rem;
-        color: var(--sms-gray-600);
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .fee-breakdown-detail-item {
-        display: flex;
-        align-items: center;
-        gap: 0.375rem;
-    }
-    
-    /* Payment Button */
-    .payment-buttons {
-        margin-top: 2rem;
-    }
-    
-    .btn {
-        padding: 1rem 2rem;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 1rem;
-        cursor: pointer;
-        border: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        position: relative;
-        overflow: hidden;
-        min-height: 52px;
-    }
-    
-    .btn::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
-    
-    .btn:hover::before {
-        width: 400px;
-        height: 400px;
-    }
-    
-    .btn-primary {
-        background: linear-gradient(135deg, var(--sms-primary) 0%, var(--sms-primary-dark) 100%);
-        color: white;
-    }
-    
-    .btn-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
-    }
-    
-    .btn-primary:active {
-        transform: translateY(-1px);
-    }
-    
-    .btn-success {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-    }
-    
-    .btn-success:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 24px rgba(16, 185, 129, 0.4);
-    }
-    
-    .btn-outline {
-        background: white;
-        color: var(--sms-primary);
-        border: 2px solid var(--sms-primary);
-    }
-    
-    .btn-outline:hover {
-        background: var(--sms-primary);
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
-    }
-    
-    /* Badges */
-    .sms-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.5rem 1rem;
-        border-radius: 9999px;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .sms-badge-success {
-        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-        color: #065f46;
-        border: 1px solid #6ee7b7;
-    }
-    
-    .sms-badge-warning {
-        background: linear-gradient(135deg, #fef3c7, #fde68a);
-        color: #92400e;
-        border: 1px solid #fcd34d;
-    }
-    
-    .sms-badge-danger {
-        background: linear-gradient(135deg, #fee2e2, #fecaca);
-        color: #991b1b;
-        border: 1px solid #fca5a5;
-    }
-    
-    /* Empty State */
-    .empty-state {
-        text-align: center;
-        padding: 4rem 2rem;
-        color: var(--sms-gray-500);
-    }
-    
-    .empty-state-icon {
-        font-size: 5rem;
-        color: var(--sms-gray-300);
-        margin-bottom: 1.5rem;
-        opacity: 0.5;
-    }
-    
-    .empty-state-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--sms-gray-700);
-        margin-bottom: 0.75rem;
-    }
-    
-    .empty-state-text {
-        font-size: 1rem;
-        color: var(--sms-gray-500);
-    }
-    
-    /* Paid Status Card */
-    .paid-status-card {
-        padding: 1.5rem;
-        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-        color: #065f46;
-        border-radius: 12px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        border: 2px solid #6ee7b7;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-    }
-    
-    /* Modals */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-    }
-    
-    .modal.active {
-        display: flex;
-        animation: fadeIn 0.2s ease-out;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    
-    .modal-content {
-        background: white;
-        border-radius: 24px;
-        padding: 2.5rem;
-        max-width: 600px;
-        width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-        animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-    }
-    
-    @keyframes modalSlideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-30px) scale(0.95);
+
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100% !important;
         }
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
-    }
-    
-    .modal-content h3 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--sms-gray-900);
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-    
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-    
-    .form-label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-        color: var(--sms-gray-700);
-        font-size: 0.9375rem;
-    }
-    
-    .form-control {
-        width: 100%;
-        padding: 1rem 1.25rem;
-        border: 2px solid var(--sms-gray-300);
-        border-radius: 12px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background: white;
-    }
-    
-    .form-control:focus {
-        outline: none;
-        border-color: var(--sms-primary);
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        transform: translateY(-1px);
-    }
-    
-    .bank-details {
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        border: 2px solid var(--sms-blue-300);
-        padding: 2rem;
-        border-radius: 16px;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
-    }
-    
-    .bank-details h4 {
-        margin-bottom: 1.5rem;
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--sms-gray-900);
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-    
-    .bank-details-item {
-        padding: 1.25rem 0;
-        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .bank-details-item:last-child {
-        border-bottom: none;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-        .fees-page-header {
-            padding: 2rem 1.5rem;
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 255px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
-        
-        .fees-page-title {
-            font-size: 1.75rem;
+
+        .sidebar-header {
+            padding: 1.25rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
         }
-        
-        .fees-container {
-            padding: 0 1rem 2rem;
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
         }
-        
-        .stats-grid {
-            grid-template-columns: 1fr;
+
+        .brand-logo .grad-cap {
+            background: linear-gradient(135deg, #a55eea, #4b7bec);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 10px rgba(165,94,234,0.25);
+            flex-shrink: 0;
+        }
+
+        .brand-text-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        body.dark-theme .brand-title {
+            color: #ffffff;
+        }
+
+        .brand-sub {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .collapse-btn {
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 0.25rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .collapse-btn:hover {
+            color: var(--primary);
+            background: var(--border-subtle);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 1rem 0.75rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .menu-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0.875rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .menu-link:hover {
+            background: rgba(30, 58, 138, 0.05);
+            color: var(--primary);
+        }
+
+        body.dark-theme .menu-link:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        .menu-link.active {
+            color: var(--primary);
+            background: rgba(30, 58, 138, 0.09);
+            font-weight: 700;
+        }
+
+        body.dark-theme .menu-link.active {
+            color: #a55eea;
+            background: rgba(165, 94, 234, 0.14);
+        }
+
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-left i {
+            font-size: 1.05rem;
+            width: 22px;
+            text-align: center;
+        }
+
+        /* Main Content Wrapper */
+        .main-wrapper {
+            margin-left: 255px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        .top-header {
+            height: 64px;
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .home-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--border-subtle);
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .home-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        .header-icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .header-icon-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.35rem 0.65rem 0.35rem 0.35rem;
+            border-radius: 40px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a55eea, #4b7bec);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        .profile-role {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 1.75rem;
+            flex: 1;
+            min-width: 0;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .page-header-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .page-header-title {
+            font-size: 1.625rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .page-header-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Metric Cards */
+        .metric-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .metric-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.25rem 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            flex-shrink: 0;
+        }
+
+        .icon-blue { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+        .icon-green { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+        .icon-red { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+
+        .metric-number {
+            font-size: 1.45rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .metric-label {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            font-weight: 600;
+        }
+
+        /* School Bank Details Card */
+        .bank-info-card {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.04) 0%, rgba(59, 130, 246, 0.08) 100%);
+            border: 2px solid rgba(59, 130, 246, 0.25);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        body.dark-theme .bank-info-card {
+            background: rgba(30, 58, 138, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .bank-info-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .bank-info-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        body.dark-theme .bank-info-title {
+            color: #93c5fd;
+        }
+
+        .bank-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+        }
+
+        .bank-item-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .bank-item-val {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-top: 0.2rem;
+            word-break: break-word;
+        }
+
+        .account-num-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-copy {
+            background: var(--border-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Children Fee Cards */
+        .child-fee-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .child-fee-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
             gap: 1rem;
         }
-        
-        .stat-card {
-            padding: 1.5rem;
+
+        .child-fee-student {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
         }
-        
-        .fee-item {
-            padding: 1.5rem;
+
+        .child-mini-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.15rem;
+            flex-shrink: 0;
         }
-        
-        .fee-amounts {
-            grid-template-columns: 1fr;
+
+        .child-fee-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .child-fee-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .child-totals-bar {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .child-total-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .child-total-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .child-total-val {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        /* Fee Table */
+        .table-responsive {
+            width: 100% !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.fee-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 580px;
+            margin-bottom: 1.25rem;
+        }
+
+        table.fee-table th {
+            padding: 0.75rem 1rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: var(--border-subtle);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table.fee-table td {
+            padding: 0.85rem 1rem;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .status-paid { background: #dcfce7; color: #15803d; }
+        .status-partial { background: #fef3c7; color: #b45309; }
+        .status-pending { background: #fee2e2; color: #b91c1c; }
+
+        .btn-pay-now {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            transition: all 0.2s;
+        }
+
+        .btn-pay-now:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+        }
+
+        .paid-card-banner {
+            background: #dcfce7;
+            border: 1px solid #86efac;
+            color: #15803d;
+            padding: 0.85rem 1.25rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Transaction History */
+        .history-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .history-card-header {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
             padding: 1rem;
         }
-        
-        .sms-card-body {
-            padding: 1.5rem;
+
+        .modal-overlay.active {
+            display: flex;
         }
-        
-        .modal-content {
-            padding: 1.5rem;
+
+        .modal-card {
+            background: var(--bg-card);
             border-radius: 16px;
+            padding: 1.75rem;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            max-height: 90vh;
+            overflow-y: auto;
         }
-    }
-</style>
 
-<div class="sms-dashboard">
-    <!-- Beautiful Header -->
-    <div class="fees-page-header">
-        <div class="fees-header-content">
-            <h1 class="fees-page-title">
-                <i class="fas fa-money-bill-wave" style="margin-right: 0.75rem;"></i>
-                Fee Payments
-            </h1>
-            <p class="fees-page-subtitle">View and manage fee payments for your children</p>
-        </div>
-    </div>
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-    <div class="fees-container">
-        @if(session('success'))
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle" style="font-size: 1.25rem;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-        @endif
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-        @if(session('error'))
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle" style="font-size: 1.25rem;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-        @endif
+        .modal-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
 
-        <!-- Summary Statistics -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-card-header">
-                    <div>
-                        <div class="stat-label">Total Fees</div>
-                        <div class="stat-value">₦{{ number_format($totalFees, 2) }}</div>
-                    </div>
-                    <div class="stat-icon total">
-                        <i class="fas fa-receipt"></i>
-                    </div>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--border-subtle);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.875rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-card);
+        }
+
+        .btn-modal-submit {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .btn-modal-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Mobile Toggle & Drawer */
+        .mobile-toggle-btn {
+            display: none;
+            width: 38px;
+            height: 38px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.05rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .mobile-close-btn {
+            display: none;
+            width: 32px;
+            height: 32px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bank-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 280px;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .mobile-close-btn, .mobile-toggle-btn {
+                display: flex;
+            }
+            .collapse-btn {
+                display: none;
+            }
+            .main-wrapper {
+                margin-left: 0;
+                width: 100% !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+            }
+            .page-content {
+                padding: 1rem 0.85rem;
+            }
+            .metric-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            .top-header {
+                padding: 0 1rem;
+            }
+            .child-fee-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .child-totals-bar {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .btn-pay-now {
+                width: 100%;
+                justify-content: center;
+            }
+            .profile-role {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="{{ route('home') }}" class="brand-logo" title="Back to Homepage">
+                <div class="grad-cap">
+                    <i class="fas fa-users"></i>
                 </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card-header">
-                    <div>
-                        <div class="stat-label">Total Paid</div>
-                        <div class="stat-value paid">₦{{ number_format($totalPaid, 2) }}</div>
-                    </div>
-                    <div class="stat-icon paid">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
+                <div class="brand-text-wrap">
+                    <span class="brand-title">ES-SCHOOLS</span>
+                    <span class="brand-sub">Parent Portal</span>
                 </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card-header">
-                    <div>
-                        <div class="stat-label">Outstanding Balance</div>
-                        <div class="stat-value balance">₦{{ number_format($totalBalance, 2) }}</div>
-                    </div>
-                    <div class="stat-icon balance">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Fees List - Grouped by Child -->
-        <div class="sms-card">
-            <div class="sms-card-header">
-                <div class="sms-card-title-icon">
-                    <i class="fas fa-user-graduate"></i>
-                </div>
-                <h3 class="sms-card-title">Fee Payments by Child</h3>
-            </div>
-
-            <div class="sms-card-body">
-                @forelse($feesByChild as $childData)
-                    @php
-                        $student = $childData['student'];
-                        $childFees = $childData['fees'];
-                        $childTotalAmount = $childData['total_amount'];
-                        $childTotalPaid = $childData['total_paid'];
-                        $childTotalBalance = $childData['total_balance'];
-                    @endphp
-                    
-                    <div class="fee-item">
-                        <!-- Child Header -->
-                        <div class="fee-item-header">
-                            <div class="fee-student-info">
-                                <div class="fee-student-avatar">
-                                    {{ strtoupper(substr($student->user->name ?? 'S', 0, 1)) }}
-                                </div>
-                                <div>
-                                    <div class="fee-student-name">{{ $student->user->name ?? 'N/A' }}</div>
-                                    <div class="fee-class">
-                                        <i class="fas fa-graduation-cap"></i>
-                                        <span>{{ $student->class->name ?? 'N/A' }} | Student ID: {{ $student->student_id_number }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Child Summary -->
-                        <div class="fee-amounts">
-                            <div class="fee-amount-item">
-                                <div class="fee-amount-label">Total Fees</div>
-                                <div class="fee-amount-value">₦{{ number_format($childTotalAmount, 2) }}</div>
-                            </div>
-                            <div class="fee-amount-item">
-                                <div class="fee-amount-label">Total Paid</div>
-                                <div class="fee-amount-value paid">₦{{ number_format($childTotalPaid, 2) }}</div>
-                            </div>
-                            <div class="fee-amount-item">
-                                <div class="fee-amount-label">Outstanding</div>
-                                <div class="fee-amount-value balance">₦{{ number_format($childTotalBalance, 2) }}</div>
-                            </div>
-                        </div>
-
-                        <!-- Individual Fee Breakdown -->
-                        <div class="fee-breakdown">
-                            <h4 class="fee-breakdown-title">Fee Breakdown</h4>
-                            @foreach($childFees as $studentFee)
-                                <div class="fee-breakdown-item" data-fee-id="{{ $studentFee->fee_id }}">
-                                    <div class="fee-breakdown-info">
-                                        <div class="fee-breakdown-name">{{ $studentFee->fee->name ?? 'Fee #' . $studentFee->fee_id }}</div>
-                                        <div class="fee-breakdown-details">
-                                            <div class="fee-breakdown-detail-item">
-                                                <i class="fas fa-money-bill" style="color: var(--sms-gray-400);"></i>
-                                                <span>Amount: <strong>₦{{ number_format($studentFee->amount, 2) }}</strong></span>
-                                            </div>
-                                            <div class="fee-breakdown-detail-item">
-                                                <i class="fas fa-check-circle" style="color: #059669;"></i>
-                                                <span>Paid: <strong>₦{{ number_format($studentFee->paid_amount, 2) }}</strong></span>
-                                            </div>
-                                            <div class="fee-breakdown-detail-item">
-                                                <i class="fas fa-exclamation-circle" style="color: #dc2626;"></i>
-                                                <span>Balance: <strong>₦{{ number_format($studentFee->balance, 2) }}</strong></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        @if($studentFee->status === 'paid')
-                                            <span class="sms-badge sms-badge-success">
-                                                <i class="fas fa-check" style="margin-right: 0.25rem;"></i> Paid
-                                            </span>
-                                        @elseif($studentFee->status === 'partial')
-                                            <span class="sms-badge sms-badge-warning">
-                                                <i class="fas fa-clock" style="margin-right: 0.25rem;"></i> Partial
-                                            </span>
-                                        @else
-                                            <span class="sms-badge sms-badge-danger">
-                                                <i class="fas fa-exclamation" style="margin-right: 0.25rem;"></i> Pending
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <!-- Payment Button for Child -->
-                        @if($childTotalBalance > 0)
-                            @php
-                                $hasPendingTransfer = $childData['has_pending_transfer'] ?? false;
-                                $pendingTransfers = $childData['pending_transfers'] ?? collect();
-                            @endphp
-                            
-                            @if($hasPendingTransfer)
-                                <!-- Pending Payment Message -->
-                                <div class="payment-buttons">
-                                    <div class="pending-payment-alert" style="
-                                        background: linear-gradient(135deg, #fef3c7, #fde68a);
-                                        border: 2px solid #fcd34d;
-                                        border-radius: 12px;
-                                        padding: 1.25rem;
-                                        display: flex;
-                                        align-items: center;
-                                        gap: 1rem;
-                                        margin-bottom: 1rem;
-                                    ">
-                                        <div style="
-                                            width: 48px;
-                                            height: 48px;
-                                            border-radius: 50%;
-                                            background: #f59e0b;
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                            color: white;
-                                            font-size: 1.5rem;
-                                            flex-shrink: 0;
-                                        ">
-                                            <i class="fas fa-clock"></i>
-                                        </div>
-                                        <div style="flex: 1;">
-                                            <div style="
-                                                font-weight: 700;
-                                                color: #92400e;
-                                                margin-bottom: 0.5rem;
-                                                font-size: 1.125rem;
-                                            ">
-                                                Payment Pending Approval
-                                            </div>
-                                            <div style="
-                                                color: #78350f;
-                                                font-size: 0.9375rem;
-                                                line-height: 1.5;
-                                            ">
-                                                @if($pendingTransfers->count() > 0)
-                                                    @php
-                                                        $totalPending = $pendingTransfers->sum('amount');
-                                                        $latestTransfer = $pendingTransfers->sortByDesc('created_at')->first();
-                                                    @endphp
-                                                    You have a pending payment of <strong>₦{{ number_format($totalPending, 2) }}</strong> awaiting admin approval.
-                                                    @if($latestTransfer)
-                                                        <br><small style="opacity: 0.8;">Submitted on {{ $latestTransfer->created_at->format('M d, Y h:i A') }}</small>
-                                                    @endif
-                                                @else
-                                                    You have a pending payment awaiting admin approval. Please wait for the admin to review your payment proof before making another payment.
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                @php
-                                    // Extract real fee IDs (numeric IDs from StudentFee table)
-                                    $realFeeIds = $childFees->filter(function($f) { 
-                                        $id = $f->id ?? null;
-                                        if (!$id) return false;
-                                        return is_numeric($id) || (is_string($id) && !str_starts_with($id, 'virtual_') && is_numeric($id));
-                                    })->map(function($f) {
-                                        $id = $f->id ?? null;
-                                        return is_numeric($id) ? (int)$id : (is_string($id) && is_numeric($id) ? (int)$id : null);
-                                    })->filter()->values();
-                                    
-                                    // Extract virtual fee IDs (from SmsFee table, stored in fee_id property)
-                                    $virtualFeeIds = $childFees->filter(function($f) { 
-                                        $id = $f->id ?? null;
-                                        return $id && is_string($id) && str_starts_with($id, 'virtual_');
-                                    })->map(function($f) { 
-                                        if (isset($f->fee_id) && $f->fee_id) {
-                                            return (int)$f->fee_id;
-                                        }
-                                        if ($f->fee && isset($f->fee->id)) {
-                                            return (int)$f->fee->id;
-                                        }
-                                        if (is_string($f->id) && str_starts_with($f->id, 'virtual_')) {
-                                            $parts = explode('_', $f->id);
-                                            if (count($parts) >= 3 && is_numeric($parts[2])) {
-                                                return (int)$parts[2];
-                                            }
-                                        }
-                                        return null;
-                                    })->filter()->values();
-                                @endphp
-                                <div class="payment-buttons">
-                                    <button type="button" class="btn btn-primary make-payment-btn" 
-                                            data-student-id="{{ $student->id }}"
-                                            data-balance="{{ $childTotalBalance }}"
-                                            data-total-amount="{{ $childTotalAmount }}"
-                                            data-fee-ids="{{ $realFeeIds->implode(',') }}"
-                                            data-fee-ids-virtual="{{ $virtualFeeIds->implode(',') }}"
-                                            data-has-virtual-fees="{{ $virtualFeeIds->count() > 0 ? 'true' : 'false' }}">
-                                        <i class="fas fa-money-bill-wave"></i>
-                                        <span>Make Payment - ₦{{ number_format($childTotalBalance, 2) }}</span>
-                                    </button>
-                                </div>
-                            @endif
-                        @else
-                            <div class="payment-buttons">
-                                <div class="paid-status-card">
-                                    <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
-                                    <span>All fees paid for this child</span>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                @empty
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <div class="empty-state-title">No Fees Found</div>
-                        <div class="empty-state-text">No fees have been assigned to your children yet.</div>
-                    </div>
-                @endforelse
-            </div>
+            </a>
+            <button class="collapse-btn" id="collapseSidebarBtn" title="Toggle Sidebar">
+                <i class="fas fa-angle-left"></i>
+            </button>
+            <button class="mobile-close-btn" id="closeSidebarMobile" title="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
 
-        <!-- Transaction History -->
-        @if(isset($transactionHistory) && $transactionHistory->count() > 0)
-        <div class="sms-card">
-            <div class="sms-card-header">
-                <div class="sms-card-title-icon">
-                    <i class="fas fa-history"></i>
-                </div>
-                <h3 class="sms-card-title">Transaction History</h3>
-            </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="{{ route('sms.parent.dashboard') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-tachometer-alt" style="color: #a55eea;"></i>
+                        <span>Parent Dashboard</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.parent.children') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-child" style="color: #3b82f6;"></i>
+                        <span>My Children</span>
+                    </div>
+                    <div class="menu-right">
+                        <span class="count-badge">{{ $children->count() }}</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.parent.fees') }}" class="menu-link active">
+                    <div class="menu-left">
+                        <i class="fas fa-receipt" style="color: #10b981;"></i>
+                        <span>School Fees &amp; Pay</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.parent.messages') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="far fa-comments" style="color: #0fbcf9;"></i>
+                        <span>Messages to School</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('sms.parent.notices') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="far fa-bell" style="color: #f59e0b;"></i>
+                        <span>Notice Board</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('admission.create') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-user-plus" style="color: #10b981;"></i>
+                        <span>Online Admission</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+                <form id="parentLogoutForm" method="POST" action="{{ route('sms.logout') }}" style="display: none;">
+                    @csrf
+                </form>
+                <a href="javascript:void(0)" onclick="document.getElementById('parentLogoutForm').submit();" class="menu-link" style="color: #ef4444;">
+                    <div class="menu-left">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-            <div class="sms-card-body">
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    @foreach($transactionHistory as $transaction)
-                        @php
-                            $item = $transaction['data'];
-                            $student = $item->student ?? null;
-                            $fee = $item->fee ?? ($item->studentFee->fee ?? null);
-                        @endphp
-                        <div class="transaction-item" style="
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            padding: 1.25rem;
-                            background: {{ $transaction['status'] === 'completed' ? 'linear-gradient(135deg, #d1fae5, #a7f3d0)' : ($transaction['status'] === 'pending' ? 'linear-gradient(135deg, #fef3c7, #fde68a)' : 'linear-gradient(135deg, #fee2e2, #fecaca)') }};
-                            border-radius: 12px;
-                            border: 2px solid {{ $transaction['status'] === 'completed' ? '#6ee7b7' : ($transaction['status'] === 'pending' ? '#fcd34d' : '#fca5a5') }};
-                            transition: all 0.3s ease;
-                        " onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none';">
-                            <div style="flex: 1;">
-                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                                    <div style="
-                                        width: 48px;
-                                        height: 48px;
-                                        border-radius: 12px;
-                                        background: {{ $transaction['status'] === 'completed' ? '#10b981' : ($transaction['status'] === 'pending' ? '#f59e0b' : '#ef4444') }};
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        color: white;
-                                        font-size: 1.25rem;
-                                        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-                                    ">
-                                        @if($transaction['type'] === 'payment')
-                                            <i class="fas fa-check-circle"></i>
-                                        @else
-                                            <i class="fas fa-{{ $transaction['status'] === 'pending' ? 'clock' : ($transaction['status'] === 'approved' ? 'check' : 'times') }}"></i>
-                                        @endif
-                                    </div>
-                                    <div style="flex: 1;">
-                                        <div style="font-weight: 700; font-size: 1rem; color: var(--sms-gray-900); margin-bottom: 0.25rem;">
-                                            {{ $student && $student->user ? $student->user->name : 'N/A' }} - {{ $fee ? $fee->name : 'Fee Payment' }}
-                                        </div>
-                                        <div style="font-size: 0.875rem; color: var(--sms-gray-600); display: flex; flex-wrap: wrap; gap: 1rem;">
-                                            <span><i class="fas fa-calendar"></i> {{ $transaction['date']->format('M d, Y h:i A') }}</span>
-                                            <span><i class="fas fa-{{ $transaction['method'] === 'bank_transfer' ? 'university' : 'credit-card' }}"></i> {{ ucfirst(str_replace('_', ' ', $transaction['method'])) }}</span>
-                                            @if($transaction['type'] === 'manual_transfer' && $transaction['status'] === 'pending')
-                                                <span><i class="fas fa-hourglass-half"></i> Awaiting Approval</span>
-                                            @elseif($transaction['type'] === 'manual_transfer' && $transaction['status'] === 'approved')
-                                                <span><i class="fas fa-check"></i> Approved</span>
-                                            @elseif($transaction['type'] === 'manual_transfer' && $transaction['status'] === 'rejected')
-                                                <span><i class="fas fa-times"></i> Rejected</span>
-                                            @endif
-                                            @if($transaction['type'] === 'payment' && isset($item->transaction_id))
-                                                <span><i class="fas fa-hashtag"></i> Ref: {{ $item->transaction_id }}</span>
-                                            @elseif($transaction['type'] === 'manual_transfer' && isset($item->transaction_reference))
-                                                <span><i class="fas fa-hashtag"></i> Ref: {{ $item->transaction_reference }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 1.5rem; font-weight: 800; color: var(--sms-gray-900); margin-bottom: 0.25rem;">
-                                    ₦{{ number_format($transaction['amount'], 2) }}
-                                </div>
-                                <span class="sms-badge {{ $transaction['status'] === 'completed' ? 'sms-badge-success' : ($transaction['status'] === 'pending' ? 'sms-badge-warning' : 'sms-badge-danger') }}">
-                                    {{ ucfirst($transaction['status']) }}
-                                </span>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-        @endif
-    </div>
-</div>
-
-<!-- Payment Method Selection Modal -->
-<div id="paymentMethodModal" class="modal">
-    <div class="modal-content">
-        <h3>
-            <i class="fas fa-credit-card" style="color: var(--sms-primary);"></i>
-            Select Payment Method
-        </h3>
-        <input type="hidden" id="method_student_fee_id">
-        <input type="hidden" id="method_balance">
-        <input type="hidden" id="method_amount">
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
         
-        <div class="form-group">
-            <label class="form-label">Choose Payment Method</label>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                @if($paymentSettings && $paymentSettings->getActiveGateway())
-                    <button type="button" class="btn btn-primary" style="width: 100%; padding: 1.25rem; text-align: left; justify-content: flex-start;" onclick="selectPaymentMethod('online')">
-                        <i class="fas fa-credit-card" style="font-size: 1.25rem;"></i>
-                        <div style="flex: 1;">
-                            <strong style="display: block; margin-bottom: 0.25rem;">Pay Online</strong>
-                            <div style="font-size: 0.875rem; opacity: 0.9;">Secure online payment via {{ ucfirst($paymentSettings->getActiveGateway()) }}</div>
-                        </div>
-                    </button>
-                @endif
-                
-                @php
-                    $hasBankDetails = $paymentSettings && 
-                                      !empty($paymentSettings->account_number) && 
-                                      !empty($paymentSettings->bank_name) && 
-                                      !empty($paymentSettings->account_name);
-                @endphp
-                @if($hasBankDetails)
-                    <button type="button" class="btn btn-outline" style="width: 100%; padding: 1.25rem; text-align: left; justify-content: flex-start;" onclick="selectPaymentMethod('manual')">
-                        <i class="fas fa-university" style="font-size: 1.25rem;"></i>
-                        <div style="flex: 1;">
-                            <strong style="display: block; margin-bottom: 0.25rem;">Bank Transfer (Manual)</strong>
-                            <div style="font-size: 0.875rem; opacity: 0.9;">Transfer to school account and upload proof</div>
-                        </div>
-                    </button>
-                @else
-                    <button type="button" class="btn btn-outline" style="width: 100%; padding: 1.25rem; text-align: left; justify-content: flex-start;" onclick="selectPaymentMethod('manual')">
-                        <i class="fas fa-university" style="font-size: 1.25rem;"></i>
-                        <div style="flex: 1;">
-                            <strong style="display: block; margin-bottom: 0.25rem;">Bank Transfer (Manual)</strong>
-                            <div style="font-size: 0.875rem; opacity: 0.9;">Contact school for bank details</div>
-                        </div>
-                    </button>
-                @endif
-            </div>
-        </div>
-
-        <div class="payment-buttons" style="margin-top: 1.5rem;">
-            <button type="button" class="btn btn-outline" onclick="closePaymentMethodModal()" style="width: 100%;">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<!-- Online Payment Modal -->
-<div id="onlinePaymentModal" class="modal">
-    <div class="modal-content">
-        <h3>
-            <i class="fas fa-credit-card" style="color: var(--sms-primary);"></i>
-            Pay Online
-        </h3>
-        <form id="onlinePaymentForm" method="POST" action="{{ route('sms.parent.fees.initiate') }}">
-            @csrf
-            <input type="hidden" name="student_fee_id" id="online_student_fee_id">
-            <input type="hidden" name="payment_type" id="online_payment_type" value="full">
-            
-            <div class="form-group">
-                <label class="form-label">Payment Type</label>
-                <select name="payment_type" id="online_payment_type_select" class="form-control" onchange="updateOnlineAmount()">
-                    <option value="full">Full Payment</option>
-                    <option value="partial">Partial Payment</option>
-                </select>
+        <!-- Top Navbar -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-toggle-btn" id="mobileSidebarToggle" title="Open Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="{{ route('home') }}" class="home-btn" title="Homepage">
+                    <i class="fas fa-home"></i>
+                </a>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Amount (₦)</label>
-                <input type="number" name="amount" id="online_amount" class="form-control" step="0.01" min="0.01" required>
-                <small style="color: var(--sms-gray-500); margin-top: 0.5rem; display: block;">Balance: ₦<span id="online_balance">0.00</span></small>
-            </div>
+            <div class="header-right">
+                <button class="header-icon-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+                    <i class="far fa-moon" id="themeIcon"></i>
+                </button>
 
-            <div class="payment-buttons" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <button type="submit" class="btn btn-primary" style="flex: 1;">Proceed to Payment</button>
-                <button type="button" class="btn btn-outline" onclick="closeOnlinePaymentModal()" style="flex: 1;">Cancel</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Manual Transfer Modal -->
-<div id="manualTransferModal" class="modal">
-    <div class="modal-content">
-        <h3>
-            <i class="fas fa-university" style="color: var(--sms-primary);"></i>
-            Bank Transfer Payment
-        </h3>
-        
-        <!-- Always show bank details prominently when manual payment is selected -->
-        @php
-            $hasBankDetails = $paymentSettings && 
-                              !empty($paymentSettings->account_number) && 
-                              !empty($paymentSettings->bank_name) && 
-                              !empty($paymentSettings->account_name);
-        @endphp
-        @if($hasBankDetails)
-            <div class="bank-details">
-                <h4>
-                    <i class="fas fa-university" style="color: var(--sms-blue-600);"></i>
-                    School Bank Account Details
-                </h4>
-                <div class="bank-details-item">
-                    <span style="font-weight: 600; color: var(--sms-gray-700);">Bank Name:</span>
-                    <span style="font-weight: 700; color: var(--sms-gray-900); font-size: 1.0625rem;">{{ $paymentSettings->bank_name ?? 'N/A' }}</span>
-                </div>
-                <div class="bank-details-item">
-                    <span style="font-weight: 600; color: var(--sms-gray-700);">Account Name:</span>
-                    <span style="font-weight: 700; color: var(--sms-gray-900); font-size: 1.0625rem;">{{ $paymentSettings->account_name ?: 'N/A' }}</span>
-                </div>
-                <div class="bank-details-item">
-                    <span style="font-weight: 600; color: var(--sms-gray-700);">Account Number:</span>
-                    <span style="font-weight: 700; color: var(--sms-blue-600); font-size: 1.5rem; letter-spacing: 0.1em; background: white; padding: 0.75rem 1.25rem; border-radius: 12px; border: 2px solid var(--sms-blue-300); box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);">{{ $paymentSettings->account_number }}</span>
-                </div>
-                @if($paymentSettings->transfer_instructions)
-                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid rgba(59, 130, 246, 0.2);">
-                        <strong style="color: var(--sms-gray-900); display: block; margin-bottom: 0.875rem; font-size: 1rem;">Payment Instructions:</strong>
-                        <p style="margin: 0; font-size: 0.9375rem; line-height: 1.7; color: var(--sms-gray-700); background: white; padding: 1.25rem; border-radius: 12px; border-left: 4px solid var(--sms-blue-500);">{{ $paymentSettings->transfer_instructions }}</p>
+                <div class="profile-badge">
+                    <div class="profile-avatar">
+                        {{ strtoupper(substr(optional(session('sms_user'))->name ?? 'P', 0, 1)) }}
                     </div>
-                @endif
-                <div style="margin-top: 1.5rem; padding: 1.25rem; background: #fef3c7; border-radius: 12px; border-left: 4px solid #f59e0b;">
-                    <p style="margin: 0; font-size: 0.9375rem; color: #92400e; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-info-circle" style="font-size: 1.125rem;"></i>
-                        After making the transfer, please upload the proof of payment below and submit for admin approval.
-                    </p>
+                    <div class="profile-info">
+                        <span class="profile-name">{{ optional(session('sms_user'))->name ?? 'Parent' }}</span>
+                        <span class="profile-role">Parent Portal</span>
+                    </div>
                 </div>
             </div>
-        @else
-            <div style="padding: 1.75rem; background: #fef3c7; border-radius: 12px; margin-bottom: 1.75rem; border-left: 4px solid #f59e0b;">
-                <p style="margin: 0; color: #92400e; font-weight: 600; display: flex; align-items: center; gap: 0.75rem; font-size: 0.9375rem;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 1.25rem;"></i>
-                    Bank details not configured. Please contact the school administrator for bank account information before making payment.
+        </header>
+
+        <!-- Page Main Content -->
+        <main class="page-content">
+
+            <div class="page-header-row">
+                <h1 class="page-header-title">
+                    <i class="fas fa-receipt" style="color: #10b981;"></i>
+                    <span>School Fees &amp; Billing</span>
+                </h1>
+                <p class="page-header-subtitle">
+                    Review assigned fees, make secure card/online payments, or submit bank transfer payment proofs.
                 </p>
             </div>
-        @endif
 
-        <form id="manualTransferForm" method="POST" action="{{ route('sms.parent.fees.manual-transfer') }}" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="student_fee_id" id="manual_student_fee_id">
-            
-            <div class="form-group">
-                <label class="form-label">Amount (₦)</label>
-                <input type="number" name="amount" id="manual_amount" class="form-control" step="0.01" min="0.01" required readonly>
-                <small style="color: var(--sms-gray-500); margin-top: 0.5rem; display: block;">Balance: ₦<span id="manual_balance">0.00</span></small>
+            @if(session('success'))
+            <div style="background: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 0.85rem 1.25rem; border-radius: 10px; margin-bottom: 1.25rem; font-size: 0.875rem;">
+                <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i> {{ session('success') }}
+            </div>
+            @endif
+
+            @if(session('error'))
+            <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 0.85rem 1.25rem; border-radius: 10px; margin-bottom: 1.25rem; font-size: 0.875rem;">
+                <i class="fas fa-exclamation-circle" style="margin-right: 0.5rem;"></i> {{ session('error') }}
+            </div>
+            @endif
+
+            <!-- 3 Summary Metric Cards -->
+            <div class="metric-cards-grid">
+                <div class="metric-card">
+                    <div class="metric-icon-box icon-blue">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div>
+                        <div class="metric-number">₦{{ number_format($totalFees, 2) }}</div>
+                        <div class="metric-label">Total Fees Billed</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon-box icon-green">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <div class="metric-number" style="color: #10b981;">₦{{ number_format($totalPaid, 2) }}</div>
+                        <div class="metric-label">Total Amount Paid</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon-box icon-red">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <div class="metric-number" style="color: {{ $totalBalance > 0 ? '#ef4444' : '#10b981' }};">₦{{ number_format($totalBalance, 2) }}</div>
+                        <div class="metric-label">Outstanding Balance</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Transaction Reference</label>
-                <input type="text" name="transaction_reference" class="form-control" placeholder="Enter transaction reference from bank">
+            <!-- School Bank Account Details Card -->
+            @php
+                $bankName = $paymentSettings->bank_name ?? 'First Bank of Nigeria';
+                $accountName = $paymentSettings->account_name ?? 'ES-SCHOOLS ACADEMY';
+                $accountNumber = $paymentSettings->account_number ?? '3012984512';
+            @endphp
+            <div class="bank-info-card">
+                <div class="bank-info-header">
+                    <div class="bank-info-title">
+                        <i class="fas fa-university"></i>
+                        <span>Official School Bank Transfer Account</span>
+                    </div>
+                    <span style="font-size: 0.78rem; color: var(--text-muted);">After transferring, click "Submit Bank Proof" below</span>
+                </div>
+                <div class="bank-grid">
+                    <div>
+                        <div class="bank-item-label">Bank Name</div>
+                        <div class="bank-item-val">{{ $bankName }}</div>
+                    </div>
+                    <div>
+                        <div class="bank-item-label">Account Name</div>
+                        <div class="bank-item-val">{{ $accountName }}</div>
+                    </div>
+                    <div>
+                        <div class="bank-item-label">Account Number</div>
+                        <div class="account-num-pill">
+                            <span class="bank-item-val" id="bankAccNo" style="letter-spacing: 0.05em; color: var(--primary);">{{ $accountNumber }}</span>
+                            <button type="button" class="btn-copy" onclick="copyAccountNo()" title="Copy Account Number">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Your Bank Name (Optional)</label>
-                <input type="text" name="bank_name" class="form-control" placeholder="e.g., Access Bank">
-            </div>
+            <!-- Fee Breakdown per Child -->
+            @forelse($feesByChild as $childData)
+                @php
+                    $student = $childData['student'];
+                    $childFees = $childData['fees'];
+                    $childTotalAmount = $childData['total_amount'];
+                    $childTotalPaid = $childData['total_paid'];
+                    $childTotalBalance = $childData['total_balance'];
+                    $hasPending = $childData['has_pending_transfer'] ?? false;
+                @endphp
+                <div class="child-fee-card">
+                    <div class="child-fee-header">
+                        <div class="child-fee-student">
+                            <div class="child-mini-avatar">
+                                {{ strtoupper(substr($student->user->name ?? 'S', 0, 1)) }}
+                            </div>
+                            <div>
+                                <div class="child-fee-name">{{ $student->user->name ?? 'Student' }}</div>
+                                <div class="child-fee-sub">Class: {{ $student->class->name ?? 'N/A' }} | ID: {{ $student->student_id_number }}</div>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label class="form-label">Payment Proof (Image/PDF)</label>
-                <input type="file" name="proof_document" class="form-control" accept="image/*,.pdf" required>
-                <small style="color: var(--sms-gray-500); margin-top: 0.5rem; display: block;">Upload screenshot or PDF of transfer confirmation (Max 5MB)</small>
-            </div>
+                        <div class="child-totals-bar">
+                            <div class="child-total-item">
+                                <span class="child-total-label">Billed</span>
+                                <span class="child-total-val">₦{{ number_format($childTotalAmount, 2) }}</span>
+                            </div>
+                            <div class="child-total-item">
+                                <span class="child-total-label">Paid</span>
+                                <span class="child-total-val" style="color: #10b981;">₦{{ number_format($childTotalPaid, 2) }}</span>
+                            </div>
+                            <div class="child-total-item">
+                                <span class="child-total-label">Balance</span>
+                                <span class="child-total-val" style="color: {{ $childTotalBalance > 0 ? '#ef4444' : '#10b981' }};">₦{{ number_format($childTotalBalance, 2) }}</span>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="form-label">Notes (Optional)</label>
-                <textarea name="notes" class="form-control" rows="3" placeholder="Any additional information..."></textarea>
-            </div>
+                    <!-- Individual Fees Table -->
+                    <div class="table-responsive">
+                        <table class="fee-table">
+                            <thead>
+                                <tr>
+                                    <th>Fee Item</th>
+                                    <th>Total Amount</th>
+                                    <th>Amount Paid</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($childFees as $item)
+                                    @php
+                                        $fBalance = max(0, $item->amount - $item->paid_amount);
+                                        $feeId = $item->id ?? ('virtual_' . $student->id . '_' . ($item->fee_id ?? 1));
+                                    @endphp
+                                    <tr>
+                                        <td><strong>{{ $item->fee->name ?? 'Tuition Fee' }}</strong></td>
+                                        <td>₦{{ number_format($item->amount, 2) }}</td>
+                                        <td style="color: #10b981;">₦{{ number_format($item->paid_amount, 2) }}</td>
+                                        <td style="color: {{ $fBalance > 0 ? '#ef4444' : '#10b981' }}; font-weight: 700;">₦{{ number_format($fBalance, 2) }}</td>
+                                        <td>
+                                            @if($fBalance <= 0)
+                                                <span class="status-badge status-paid"><i class="fas fa-check"></i> Paid</span>
+                                            @elseif($item->paid_amount > 0)
+                                                <span class="status-badge status-partial"><i class="fas fa-clock"></i> Partial</span>
+                                            @else
+                                                <span class="status-badge status-pending"><i class="fas fa-exclamation"></i> Pending</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($fBalance > 0)
+                                                <button type="button" class="btn-pay-now" style="padding: 0.4rem 0.85rem; font-size: 0.75rem;" onclick="openPaymentModal('{{ $feeId }}', '{{ $fBalance }}', '{{ $student->user->name ?? 'Student' }} - {{ $item->fee->name ?? 'Fee' }}')">
+                                                    <i class="fas fa-credit-card"></i> Pay Fee
+                                                </button>
+                                            @else
+                                                <span style="color: #10b981; font-size: 0.8rem; font-weight: 700;"><i class="fas fa-check-circle"></i> Cleared</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-            <div class="payment-buttons" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Transfer Proof</button>
-                <button type="button" class="btn btn-outline" onclick="closeManualTransferModal()" style="flex: 1;">Cancel</button>
+                    @if($childTotalBalance > 0)
+                        <div style="display: flex; gap: 1rem; align-items: center; justify-content: flex-end; flex-wrap: wrap;">
+                            @if($hasPending)
+                                <span style="background: #fef3c7; color: #92400e; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8125rem; font-weight: 700;">
+                                    <i class="fas fa-clock"></i> Payment Proof Submitted — Awaiting Approval
+                                </span>
+                            @endif
+                            @php
+                                $firstFee = $childFees->first();
+                                $firstFeeId = $firstFee ? ($firstFee->id ?? ('virtual_' . $student->id . '_' . ($firstFee->fee_id ?? 1))) : '';
+                            @endphp
+                            <button type="button" class="btn-pay-now" onclick="openPaymentModal('{{ $firstFeeId }}', '{{ $childTotalBalance }}', '{{ $student->user->name ?? 'Student' }} - Total Outstanding')">
+                                <i class="fas fa-money-bill-wave"></i> Pay Total Outstanding (₦{{ number_format($childTotalBalance, 2) }})
+                            </button>
+                        </div>
+                    @else
+                        <div class="paid-card-banner">
+                            <i class="fas fa-check-circle" style="font-size: 1.25rem;"></i>
+                            <span>All registered school fees are fully settled for {{ $student->user->name ?? 'this child' }}.</span>
+                        </div>
+                    @endif
+                </div>
+            @empty
+                <div style="text-align: center; padding: 3rem 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-color);">
+                    <i class="fas fa-receipt" style="font-size: 3rem; color: var(--text-muted); opacity: 0.5; margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">No Fees Assigned</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">There are currently no active fee records assigned to your children.</p>
+                </div>
+            @endforelse
+
+            <!-- Transaction & Payment History -->
+            @if(isset($transactionHistory) && $transactionHistory->count() > 0)
+            <div class="history-card">
+                <div class="history-card-header">
+                    <i class="fas fa-history" style="color: var(--primary);"></i>
+                    <span>Payment History &amp; Receipts</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Student / Description</th>
+                                <th>Method</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($transactionHistory as $tx)
+                                @php
+                                    $item = $tx['data'];
+                                    $student = $item->student ?? null;
+                                    $fee = $item->fee ?? ($item->studentFee->fee ?? null);
+                                    $status = $tx['status'] ?? 'completed';
+                                @endphp
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($tx['date'])->format('M d, Y h:i A') }}</td>
+                                    <td>
+                                        <strong>{{ $student && $student->user ? $student->user->name : 'Child' }}</strong>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">{{ $fee ? $fee->name : 'Tuition Payment' }}</div>
+                                    </td>
+                                    <td><span style="text-transform: capitalize;">{{ str_replace('_', ' ', $tx['method'] ?? 'online') }}</span></td>
+                                    <td><strong>₦{{ number_format($tx['amount'], 2) }}</strong></td>
+                                    <td>
+                                        @if($status === 'completed' || $status === 'approved')
+                                            <span class="status-badge status-paid"><i class="fas fa-check"></i> Approved</span>
+                                        @elseif($status === 'pending')
+                                            <span class="status-badge status-partial"><i class="fas fa-clock"></i> In Review</span>
+                                        @else
+                                            <span class="status-badge status-pending"><i class="fas fa-times"></i> {{ ucfirst($status) }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($tx['type'] === 'payment' && isset($item->id))
+                                            <a href="{{ route('sms.parent.fees.receipt', $item->id) }}" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.8125rem;">
+                                                <i class="fas fa-download"></i> Receipt
+                                            </a>
+                                        @else
+                                            <span style="color: var(--text-muted); font-size: 0.75rem;">Offline Transfer</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </form>
+            @endif
+
+        </main>
     </div>
-</div>
 
-<script>
-// Store child fee IDs for payment processing
-let currentChildFeeIds = [];
+    <!-- Payment Choice Modal -->
+    <div class="modal-overlay" id="paymentMethodModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-credit-card" style="color: var(--primary);"></i>
+                    <span>Select Payment Option</span>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeModal('paymentMethodModal')">&times;</button>
+            </div>
+            <div style="margin-bottom: 1.25rem;">
+                <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;" id="modalTargetDesc">Fee Payment</p>
+                <div style="font-size: 1.35rem; font-weight: 800; color: var(--primary);" id="modalTargetAmount">₦0.00</div>
+            </div>
 
-function openPaymentMethodModalForChild(studentId, balance, totalAmount, feeIds) {
-    try {
-        // Handle feeIds - could be array, string, or single number
-        if (typeof feeIds === 'string') {
-            try {
-                currentChildFeeIds = JSON.parse(feeIds);
-            } catch (e) {
-                const matches = feeIds.match(/\d+/g);
-                currentChildFeeIds = matches ? matches.map(Number) : [parseInt(feeIds)];
-            }
-        } else if (Array.isArray(feeIds)) {
-            currentChildFeeIds = feeIds;
-        } else {
-            currentChildFeeIds = [feeIds];
-        }
-        
-        let firstFeeId = feeIds;
-        if (Array.isArray(feeIds) && feeIds.length > 0) {
-            firstFeeId = feeIds[0];
-        } else if (currentChildFeeIds.length > 0) {
-            firstFeeId = currentChildFeeIds[0];
-        }
-        
-        if (typeof firstFeeId === 'string' && firstFeeId.startsWith('virtual_')) {
-            openPaymentMethodModal(firstFeeId, balance, totalAmount);
-        } else {
-            const numericId = parseInt(firstFeeId);
-            if (!isNaN(numericId)) {
-                openPaymentMethodModal(numericId, balance, totalAmount);
-            } else {
-                console.error('Invalid fee ID:', firstFeeId);
-                alert('Invalid fee information. Please refresh the page.');
-            }
-        }
-    } catch (error) {
-        console.error('Error opening payment modal:', error);
-        alert('Error opening payment modal. Please refresh the page and try again.');
-    }
-}
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <button type="button" class="btn-pay-now" style="width: 100%; justify-content: flex-start; padding: 1rem; border-radius: 12px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);" onclick="openOnlineForm()">
+                    <i class="fas fa-credit-card" style="font-size: 1.25rem;"></i>
+                    <div style="text-align: left;">
+                        <div style="font-weight: 800;">Pay Online (Debit Card / USSD)</div>
+                        <div style="font-size: 0.75rem; opacity: 0.9;">Instant automated credit &amp; receipt generation</div>
+                    </div>
+                </button>
 
-function openPaymentMethodModal(studentFeeId, balance, totalAmount) {
-    try {
-        console.log('Opening payment method modal:', studentFeeId, balance, totalAmount);
-        const modal = document.getElementById('paymentMethodModal');
-        const feeIdInput = document.getElementById('method_student_fee_id');
-        const balanceInput = document.getElementById('method_balance');
-        const amountInput = document.getElementById('method_amount');
-        
-        if (!modal) {
-            console.error('Modal element not found!');
-            alert('Payment modal not found. Please refresh the page.');
-            return;
-        }
-        
-        if (feeIdInput) feeIdInput.value = studentFeeId || '';
-        if (balanceInput) balanceInput.value = balance || 0;
-        if (amountInput) amountInput.value = totalAmount || 0;
-        
-        modal.classList.add('active');
-        console.log('Modal opened successfully');
-    } catch (error) {
-        console.error('Error in openPaymentMethodModal:', error);
-        alert('Error opening payment options. Please try again.');
-    }
-}
+                <button type="button" class="btn-pay-now" style="width: 100%; justify-content: flex-start; padding: 1rem; border-radius: 12px; background: linear-gradient(135deg, #059669, #10b981);" onclick="openManualForm()">
+                    <i class="fas fa-university" style="font-size: 1.25rem;"></i>
+                    <div style="text-align: left;">
+                        <div style="font-weight: 800;">Direct Bank Transfer (Manual)</div>
+                        <div style="font-size: 0.75rem; opacity: 0.9;">Transfer to school bank account and upload receipt</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
 
-function closePaymentMethodModal() {
-    const modal = document.getElementById('paymentMethodModal');
-    if (modal) {
-        modal.classList.remove('active');
-    }
-}
+    <!-- Online Payment Modal -->
+    <div class="modal-overlay" id="onlineModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-credit-card" style="color: var(--primary);"></i>
+                    <span>Pay Online via Gateway</span>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeModal('onlineModal')">&times;</button>
+            </div>
+            <form action="{{ route('sms.parent.fees.initiate') }}" method="POST">
+                @csrf
+                <input type="hidden" name="student_fee_id" id="online_fee_id">
+                <div class="form-group">
+                    <label class="form-label">Payment Mode</label>
+                    <select name="payment_type" class="form-control">
+                        <option value="full">Full Settlement</option>
+                        <option value="partial">Partial Payment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Amount to Pay (₦)</label>
+                    <input type="number" name="amount" id="online_amount" class="form-control" step="0.01" min="1" required>
+                </div>
+                <button type="submit" class="btn-modal-submit">Proceed to Secure Gateway</button>
+            </form>
+        </div>
+    </div>
 
-function selectPaymentMethod(method) {
-    const studentFeeId = document.getElementById('method_student_fee_id').value;
-    const balance = parseFloat(document.getElementById('method_balance').value);
-    const totalAmount = parseFloat(document.getElementById('method_amount').value);
-    
-    closePaymentMethodModal();
-    
-    if (method === 'online') {
-        openOnlinePaymentModal(studentFeeId, balance, totalAmount);
-    } else if (method === 'manual') {
-        openManualTransferModal(studentFeeId, balance);
-    }
-}
+    <!-- Manual Transfer Proof Upload Modal -->
+    <div class="modal-overlay" id="manualModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-university" style="color: #10b981;"></i>
+                    <span>Submit Bank Transfer Proof</span>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeModal('manualModal')">&times;</button>
+            </div>
+            <form action="{{ route('sms.parent.fees.manual-transfer') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="student_fee_id" id="manual_fee_id">
+                <div class="form-group">
+                    <label class="form-label">Amount Transferred (₦) *</label>
+                    <input type="number" name="amount" id="manual_amount" class="form-control" step="0.01" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Depositor / Sender Account Name</label>
+                    <input type="text" name="account_name" class="form-control" placeholder="e.g. John Doe">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Bank Name Used</label>
+                    <input type="text" name="bank_name" class="form-control" placeholder="e.g. GTBank, Kuda, Zenith">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Transaction Reference / Session ID</label>
+                    <input type="text" name="transaction_reference" class="form-control" placeholder="Optional transfer ref">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Payment Receipt / Screenshot (JPG, PNG, PDF) *</label>
+                    <input type="file" name="proof_document" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
+                </div>
+                <button type="submit" class="btn-modal-submit" style="background: #10b981;">Submit Payment for Verification</button>
+            </form>
+        </div>
+    </div>
 
-function openOnlinePaymentModal(studentFeeId, balance, totalAmount) {
-    document.getElementById('online_student_fee_id').value = studentFeeId;
-    document.getElementById('online_amount').value = balance;
-    document.getElementById('online_balance').textContent = balance.toLocaleString('en-NG', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    document.getElementById('onlinePaymentModal').classList.add('active');
-}
+    <!-- Toast message for copy -->
+    <div id="copyToast" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #10b981; color: white; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 700; font-size: 0.875rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1100;">
+        Account Number Copied!
+    </div>
 
-function closeOnlinePaymentModal() {
-    document.getElementById('onlinePaymentModal').classList.remove('active');
-    const studentFeeId = document.getElementById('online_student_fee_id').value;
-    const balance = parseFloat(document.getElementById('online_balance').textContent.replace(/,/g, ''));
-    const totalAmount = parseFloat(document.getElementById('method_amount').value);
-    if (studentFeeId && balance) {
-        openPaymentMethodModal(studentFeeId, balance, totalAmount);
-    }
-}
+    <!-- Theme & Modal Scripts -->
+    <script>
+        // Theme Toggle
+        document.getElementById('themeToggleBtn')?.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            const icon = document.getElementById('themeIcon');
+            if (icon) icon.className = isDark ? 'far fa-sun' : 'far fa-moon';
+        });
 
-function updateOnlineAmount() {
-    const type = document.getElementById('online_payment_type_select').value;
-    const balance = parseFloat(document.getElementById('online_balance').textContent.replace(/,/g, ''));
-    const amountInput = document.getElementById('online_amount');
-    
-    if (type === 'full') {
-        amountInput.value = balance;
-        amountInput.readOnly = true;
-    } else {
-        amountInput.value = '';
-        amountInput.readOnly = false;
-        amountInput.min = 0.01;
-        amountInput.max = balance;
-    }
-}
+        // Sidebar Desktop & Mobile
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        document.getElementById('collapseSidebarBtn')?.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+        document.getElementById('mobileSidebarToggle')?.addEventListener('click', () => {
+            sidebar.classList.add('mobile-open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('closeSidebarMobile')?.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        overlay?.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
 
-function openManualTransferModal(studentFeeId, balance) {
-    document.getElementById('manual_student_fee_id').value = studentFeeId;
-    document.getElementById('manual_amount').value = balance;
-    document.getElementById('manual_balance').textContent = balance.toLocaleString('en-NG', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    document.getElementById('manualTransferModal').classList.add('active');
-}
-
-function closeManualTransferModal() {
-    document.getElementById('manualTransferModal').classList.remove('active');
-    const studentFeeId = document.getElementById('manual_student_fee_id').value;
-    const balance = parseFloat(document.getElementById('manual_balance').textContent.replace(/,/g, ''));
-    const totalAmount = parseFloat(document.getElementById('method_amount').value);
-    if (studentFeeId && balance) {
-        openPaymentMethodModal(studentFeeId, balance, totalAmount);
-    }
-}
-
-// Close modals on outside click
-document.getElementById('paymentMethodModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closePaymentMethodModal();
-    }
-});
-document.getElementById('onlinePaymentModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeOnlinePaymentModal();
-    }
-});
-document.getElementById('manualTransferModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeManualTransferModal();
-    }
-});
-
-// Handle Make Payment button clicks using event delegation
-document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.make-payment-btn')) {
-            const button = e.target.closest('.make-payment-btn');
-            const studentId = button.getAttribute('data-student-id');
-            const balance = parseFloat(button.getAttribute('data-balance'));
-            const totalAmount = parseFloat(button.getAttribute('data-total-amount'));
-            const feeIdsStr = button.getAttribute('data-fee-ids');
-            const virtualFeeIdsStr = button.getAttribute('data-fee-ids-virtual');
-            const hasVirtualFees = button.getAttribute('data-has-virtual-fees') === 'true';
-            
-            // Parse fee IDs from comma-separated string (real StudentFee IDs)
-            let feeIds = [];
-            if (feeIdsStr && feeIdsStr.trim()) {
-                feeIds = feeIdsStr.split(',').map(id => {
-                    const trimmed = id.trim();
-                    if (trimmed.startsWith('virtual_')) {
-                        return trimmed;
-                    }
-                    const parsed = parseInt(trimmed);
-                    return !isNaN(parsed) ? parsed : null;
-                }).filter(id => id !== null);
-            }
-            
-            // If no real fee IDs, check for virtual fees (from SmsFee table)
-            if (feeIds.length === 0 && virtualFeeIdsStr && virtualFeeIdsStr.trim()) {
-                const virtualFeeIds = virtualFeeIdsStr.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
-                if (virtualFeeIds.length > 0) {
-                    feeIds = ['virtual_' + studentId + '_' + virtualFeeIds[0]];
+        // Copy Account No
+        function copyAccountNo() {
+            const acc = document.getElementById('bankAccNo')?.innerText?.trim() || '';
+            navigator.clipboard.writeText(acc).then(() => {
+                const toast = document.getElementById('copyToast');
+                if (toast) {
+                    toast.style.display = 'block';
+                    setTimeout(() => { toast.style.display = 'none'; }, 2500);
                 }
-            }
-            
-            // Additional check: if we have a balance but no fee IDs, try to find fees from child fees list
-            if (feeIds.length === 0 && balance > 0) {
-                console.warn('No fee IDs found but balance > 0, attempting to find fees from page data', {
-                    studentId: studentId,
-                    balance: balance,
-                    feeIdsStr: feeIdsStr,
-                    virtualFeeIdsStr: virtualFeeIdsStr
-                });
-                
-                const studentSection = button.closest('.fee-item');
-                if (studentSection) {
-                    const feeItems = studentSection.querySelectorAll('[data-fee-id]');
-                    if (feeItems.length > 0) {
-                        const firstFeeId = feeItems[0].getAttribute('data-fee-id');
-                        if (firstFeeId) {
-                            feeIds = ['virtual_' + studentId + '_' + firstFeeId];
-                            console.log('Found fee ID from DOM:', feeIds);
-                        }
-                    }
-                }
-            }
-            
-            if (feeIds.length > 0) {
-                openPaymentMethodModalForChild(studentId, balance, totalAmount, feeIds);
-            } else {
-                console.error('Payment button clicked but no fee IDs found', {
-                    studentId: studentId,
-                    balance: balance,
-                    totalAmount: totalAmount,
-                    feeIdsStr: feeIdsStr,
-                    virtualFeeIdsStr: virtualFeeIdsStr,
-                    hasVirtualFees: hasVirtualFees,
-                    buttonHTML: button.outerHTML.substring(0, 200)
-                });
-                alert('No fees found for payment. Please contact the school administrator if you believe this is an error.');
-            }
+            }).catch(() => {});
         }
-    });
-});
-</script>
-@endsection
+
+        // Modal Controls
+        let activeFeeId = '';
+        let activeAmount = 0;
+
+        function openPaymentModal(feeId, amount, description) {
+            activeFeeId = feeId;
+            activeAmount = parseFloat(amount) || 0;
+            document.getElementById('modalTargetDesc').innerText = description;
+            document.getElementById('modalTargetAmount').innerText = '₦' + activeAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('paymentMethodModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id)?.classList.remove('active');
+        }
+
+        function openOnlineForm() {
+            closeModal('paymentMethodModal');
+            document.getElementById('online_fee_id').value = activeFeeId;
+            document.getElementById('online_amount').value = activeAmount.toFixed(2);
+            document.getElementById('onlineModal').classList.add('active');
+        }
+
+        function openManualForm() {
+            closeModal('paymentMethodModal');
+            document.getElementById('manual_fee_id').value = activeFeeId;
+            document.getElementById('manual_amount').value = activeAmount.toFixed(2);
+            document.getElementById('manualModal').classList.add('active');
+        }
+    </script>
+</body>
+</html>

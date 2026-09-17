@@ -721,5 +721,155 @@ class SmsParentController extends Controller
 
         return view('sms.parent.notices', compact('parent', 'notices'));
     }
+
+    /**
+     * Show all children for authenticated parent
+     */
+    public function children()
+    {
+        $smsUserId = session('sms_user_id');
+        if (!$smsUserId) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the School Management System.');
+        }
+
+        $user = \App\Models\Sms\SmsUser::find($smsUserId);
+        if (!$user || $user->role !== 'parent') {
+            return redirect()->route('school-management.demo-login')->with('error', 'Access denied.');
+        }
+
+        $parent = SmsParent::where('user_id', $user->id)->first();
+        if (!$parent) {
+            $parent = $this->createDemoParent($user);
+        }
+
+        // Get children via parent_id and pivot relationship
+        $childrenOld = SmsStudent::where('parent_id', $parent->id)
+            ->where('school_id', $parent->school_id)
+            ->with(['user', 'class.classTeacher.user'])
+            ->get();
+
+        $childrenLinked = $parent->linkedStudents()
+            ->where('sms_students.school_id', $parent->school_id)
+            ->with(['user', 'class.classTeacher.user'])
+            ->get();
+
+        $children = $childrenOld->merge($childrenLinked)->unique('id');
+
+        if ($children->isEmpty()) {
+            $demoChild = $this->createDemoChild($parent);
+            $children = collect([$demoChild]);
+        }
+
+        $childrenDetails = $children->map(function ($child) {
+            $attendanceRate = $this->getChildrenAttendanceRate([$child->id]);
+            $feeSummary = $this->getChildrenFeeSummary([$child->id]);
+            $recentResults = SmsExamResult::where('student_id', $child->id)
+                ->with(['exam.subject'])
+                ->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get();
+
+            return [
+                'student' => $child,
+                'attendance_rate' => $attendanceRate,
+                'fee_summary' => $feeSummary,
+                'recent_results' => $recentResults,
+            ];
+        });
+
+        return view('sms.parent.children', compact('parent', 'children', 'childrenDetails'));
+    }
+
+    /**
+     * Show child attendance logs
+     */
+    public function childAttendance(SmsStudent $student)
+    {
+        $smsUserId = session('sms_user_id');
+        if (!$smsUserId) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the School Management System.');
+        }
+
+        $user = \App\Models\Sms\SmsUser::find($smsUserId);
+        if (!$user || $user->role !== 'parent') {
+            return redirect()->route('school-management.demo-login')->with('error', 'Access denied.');
+        }
+
+        $parent = SmsParent::where('user_id', $user->id)->first();
+        if (!$parent) {
+            return redirect()->route('sms.parent.dashboard')->with('error', 'Parent profile not found.');
+        }
+
+        $isLinkedViaParentId = ($student->parent_id == $parent->id);
+        $isLinkedViaPivot = DB::table('parent_student')
+            ->where('parent_id', $parent->id)
+            ->where('student_id', $student->id)
+            ->exists();
+
+        if (!$isLinkedViaParentId && !$isLinkedViaPivot) {
+            return redirect()->route('sms.parent.children')->with('error', 'Access denied for this student.');
+        }
+
+        $attendances = SmsAttendance::where('student_id', $student->id)
+            ->orderBy('date', 'desc')
+            ->paginate(20);
+
+        $totalDays = SmsAttendance::where('student_id', $student->id)->count();
+        $presentDays = SmsAttendance::where('student_id', $student->id)->where('status', 'present')->count();
+        $absentDays = SmsAttendance::where('student_id', $student->id)->where('status', 'absent')->count();
+        $lateDays = SmsAttendance::where('student_id', $student->id)->where('status', 'late')->count();
+        $rate = $totalDays > 0 ? round(($presentDays / $totalDays) * 100, 1) : 100;
+
+        return view('sms.parent.attendance', compact('parent', 'student', 'attendances', 'totalDays', 'presentDays', 'absentDays', 'lateDays', 'rate'));
+    }
+
+    /**
+     * Show child exam results
+     */
+    public function childResults(SmsStudent $student)
+    {
+        $smsUserId = session('sms_user_id');
+        if (!$smsUserId) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the School Management System.');
+        }
+
+        $user = \App\Models\Sms\SmsUser::find($smsUserId);
+        if (!$user || $user->role !== 'parent') {
+            return redirect()->route('school-management.demo-login')->with('error', 'Access denied.');
+        }
+
+        $parent = SmsParent::where('user_id', $user->id)->first();
+        if (!$parent) {
+            return redirect()->route('sms.parent.dashboard')->with('error', 'Parent profile not found.');
+        }
+
+        $isLinkedViaParentId = ($student->parent_id == $parent->id);
+        $isLinkedViaPivot = DB::table('parent_student')
+            ->where('parent_id', $parent->id)
+            ->where('student_id', $student->id)
+            ->exists();
+
+        if (!$isLinkedViaParentId && !$isLinkedViaPivot) {
+            return redirect()->route('sms.parent.children')->with('error', 'Access denied for this student.');
+        }
+
+        $results = SmsExamResult::where('student_id', $student->id)
+            ->with(['exam.subject', 'exam.class'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('sms.parent.results', compact('parent', 'student', 'results'));
+    }
+
+    /**
+     * Handle fee payment trigger
+     */
+    public function payFee(Request $request)
+    {
+        return redirect()->route('sms.parent.fees');
+    }
 }
 

@@ -1,265 +1,304 @@
-@extends('layouts.app')
-
-@section('title', 'Exams - School Management System')
-
-@section('content')
-@include('sms.partials.design-system')
-<style>
-    .sms-page {
-        background: var(--sms-gray-50);
-        min-height: calc(100vh - 80px);
-    }
-    .sms-page-header {
-        background: white;
-        padding: 1.25rem 1rem;
-        border-bottom: 1px solid var(--sms-gray-200);
-        margin: -1rem -1rem 1.5rem -1rem;
-        border-radius: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    .sms-page-title {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--sms-gray-900);
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.02em;
-        line-height: 1.2;
-    }
-    .sms-page-subtitle {
-        color: var(--sms-gray-600);
-        font-size: 0.875rem;
-        line-height: 1.5;
-    }
-    .sms-btn {
-        min-height: 44px;
-        touch-action: manipulation;
-        width: 100%;
-    }
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exam Management - School Admin - ES-SCHOOLS</title>
     
-    @media (min-width: 640px) {
-        .sms-page-header {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            margin: -1.5rem -1.5rem 1.5rem -1.5rem;
-        }
-        
-        .sms-page-title {
-            font-size: 1.75rem;
-        }
-        
-        .sms-page-subtitle {
-            font-size: 1rem;
-        }
-        
-        .sms-btn {
-            width: auto;
-        }
-    }
-    
-    @media (min-width: 768px) {
-        .sms-page-header {
-            padding: 2rem;
-            margin: -2rem -2rem 2rem -2rem;
-        }
-        
-        .sms-page-title {
-            font-size: 1.875rem;
-        }
-    }
-    .sms-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 0.625rem 1.25rem;
-        font-size: 0.9375rem;
-        font-weight: 600;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-decoration: none;
-    }
-    .sms-btn-primary {
-        background: linear-gradient(135deg, var(--sms-primary), var(--sms-primary-dark));
-        color: white;
-        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-    }
-    .sms-btn-primary:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    }
-    .sms-table {
-        background: white;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--sms-gray-200);
-    }
-    .sms-table table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .sms-table thead {
-        background: var(--sms-gray-50);
-    }
-    .sms-table th {
-        padding: 1rem 1.5rem;
-        text-align: left;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--sms-gray-600);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-bottom: 2px solid var(--sms-gray-200);
-    }
-    .sms-table td {
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid var(--sms-gray-200);
-        color: var(--sms-gray-800);
-    }
-    .sms-table tbody tr:hover {
-        background: var(--sms-gray-50);
-    }
-    .sms-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-    .sms-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 600;
-    }
-    .sms-badge-success {
-        background: #d1fae5;
-        color: #065f46;
-    }
-    .sms-badge-warning {
-        background: #fef3c7;
-        color: #92400e;
-    }
-    .sms-badge-danger {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-    .sms-badge-info {
-        background: #dbeafe;
-        color: #1e40af;
-    }
-    .sms-actions {
-        display: flex;
-        gap: 0.5rem;
-    }
-    .sms-btn-sm {
-        padding: 0.5rem 1rem;
-        font-size: 0.8125rem;
-    }
-    .sms-empty-state {
-        text-align: center;
-        padding: 3rem 2rem;
-        color: var(--sms-gray-500);
-    }
-</style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<div class="sms-page">
-    <div class="sms-page-header">
-        <div>
-            <h1 class="sms-page-title">Exams Management</h1>
-            <p class="sms-page-subtitle">Manage all school examinations</p>
-        </div>
-        <a href="{{ route('school.exams.create') }}" class="sms-btn sms-btn-primary">
-            <i class="fas fa-plus"></i> Create New Exam
-        </a>
-    </div>
-
-    <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem 2rem;">
-        @if($exams->count() > 0)
-        <div class="sms-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Exam Title</th>
-                        <th>Subject</th>
-                        <th>Class</th>
-                        <th>Type</th>
-                        <th>Scheduled Date</th>
-                        <th>Duration</th>
-                        <th>Questions</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($exams as $exam)
-                    <tr>
-                        <td>
-                            <strong>{{ $exam->title ?? $exam->name }}</strong>
-                            @if($exam->description)
-                            <br><small style="color: var(--sms-gray-500);">{{ Str::limit($exam->description, 50) }}</small>
-                            @endif
-                        </td>
-                        <td>{{ $exam->subject->name ?? 'N/A' }}</td>
-                        <td>{{ $exam->class->name ?? 'N/A' }}</td>
-                        <td>
-                            <span class="sms-badge sms-badge-info">{{ $exam->exam_type ?? 'N/A' }}</span>
-                        </td>
-                        <td>
-                            @if($exam->scheduled_date)
-                                {{ \Carbon\Carbon::parse($exam->scheduled_date)->format('M j, Y') }}
-                                @if($exam->scheduled_time)
-                                    <br><small>{{ $exam->scheduled_time }}</small>
-                                @endif
-                            @else
-                                <span style="color: var(--sms-gray-400);">Not scheduled</span>
-                            @endif
-                        </td>
-                        <td>{{ $exam->duration_minutes ?? 0 }} min</td>
-                        <td>{{ $exam->total_questions ?? 0 }}</td>
-                        <td>
-                            @if($exam->is_active)
-                                <span class="sms-badge sms-badge-success">Active</span>
-                            @else
-                                <span class="sms-badge sms-badge-danger">Inactive</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="sms-actions">
-                                <a href="{{ route('school.exams.show', $exam->id) }}" class="sms-btn sms-btn-secondary sms-btn-sm">
-                                    <i class="fas fa-eye"></i> View
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <div style="margin-top: 2rem;">
-            {{ $exams->links() }}
-        </div>
-        @else
-        <div class="sms-empty-state">
-            <div style="font-size: 3rem; color: var(--sms-gray-300); margin-bottom: 1rem;">
-                <i class="fas fa-clipboard-list"></i>
-            </div>
-            <div style="font-size: 1.125rem; font-weight: 600; color: var(--sms-gray-700); margin-bottom: 0.5rem;">
-                No Exams Found
-            </div>
-            <div style="font-size: 0.9375rem; color: var(--sms-gray-500); margin-bottom: 1.5rem;">
-                Get started by creating your first exam.
-            </div>
-            <a href="{{ route('school.exams.create') }}" class="sms-btn sms-btn-primary">
-                <i class="fas fa-plus"></i> Create First Exam
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-body: #f4f6fb;
+            --bg-sidebar: #ffffff;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --border-subtle: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --accent-orange: #ff9f43;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.06);
+        }
+        body.dark-theme {
+            --bg-body: #16171d;
+            --bg-sidebar: #121318;
+            --bg-header: #1a1b22;
+            --bg-card: #20222a;
+            --border-color: #2c2e39;
+            --border-subtle: #20222a;
+            --text-main: #ffffff;
+            --text-muted: #9aa0ac;
+        }
+        html, body { overflow-x: hidden !important; max-width: 100vw !important; width: 100% !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; }
+        .sidebar { width: 255px; background: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; transition: all 0.3s ease; }
+        .sidebar-header { padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); }
+        .brand-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .brand-logo .grad-cap { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.125rem; }
+        .brand-title { font-size: 1.125rem; font-weight: 800; color: var(--primary); }
+        body.dark-theme .brand-title { color: #ffffff; }
+        .brand-sub { font-size: 0.6875rem; font-weight: 700; color: #10b981; text-transform: uppercase; }
+        .sidebar-menu { list-style: none; padding: 1rem 0.75rem; overflow-y: auto; flex: 1; }
+        .menu-item { margin-bottom: 0.25rem; }
+        .menu-link { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0.875rem; color: var(--text-muted); text-decoration: none; border-radius: 10px; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; }
+        .menu-link:hover, .menu-link.active { color: var(--primary); background: rgba(30, 58, 138, 0.08); font-weight: 700; }
+        .menu-left { display: flex; align-items: center; gap: 0.75rem; }
+        .main-wrapper { margin-left: 255px; flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 100vh; }
+        .top-header { height: 64px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 1.75rem; position: sticky; top: 0; z-index: 90; }
+        .page-content { padding: 1.75rem; flex: 1; min-width: 0; max-width: 1400px; width: 100%; }
+        .panel-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); }
+        .panel-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .table-responsive { width: 100% !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; min-width: 680px; }
+        th { padding: 0.875rem 1.25rem; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; background: var(--border-subtle); text-align: left; }
+        td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); font-size: 0.875rem; }
+        .badge-status { padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+        .badge-active { background: #dcfce7; color: #15803d; }
+        .badge-pending { background: #fef3c7; color: #b45309; }
+        .badge-completed { background: #eff6ff; color: #1e40af; }
+        .mobile-toggle-btn { display: none; width: 38px; height: 38px; background: var(--border-subtle); border: 1px solid var(--border-color); border-radius: 10px; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; }
+        .mobile-close-btn { display: none; width: 32px; height: 32px; background: var(--border-subtle); border: 1px solid var(--border-color); border-radius: 8px; align-items: center; justify-content: center; cursor: pointer; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 999; }
+        .sidebar-overlay.active { display: block; }
+        .btn-create { background: var(--primary); color: white; padding: 0.65rem 1.25rem; border-radius: 8px; font-weight: 700; font-size: 0.875rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; }
+        .btn-create:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        
+        /* Mobile Cards Fallback */
+        .exams-mobile-cards { display: none; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); z-index: 1000; width: 280px; }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .mobile-close-btn, .mobile-toggle-btn { display: flex; }
+            .main-wrapper { margin-left: 0; width: 100% !important; max-width: 100vw !important; }
+            .page-content { padding: 1rem 0.85rem; }
+            .top-header { padding: 0 1rem; }
+            .btn-create { width: 100%; justify-content: center; }
+            .desktop-table-wrap { display: none !important; }
+            .exams-mobile-cards { display: flex; flex-direction: column; gap: 1rem; padding: 1rem; }
+            .exam-mobile-card {
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 1.15rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .exam-card-title {
+                font-size: 1.05rem;
+                font-weight: 800;
+                color: var(--text-main);
+            }
+            .exam-card-meta {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+                font-size: 0.8125rem;
+                background: var(--border-subtle);
+                padding: 0.75rem;
+                border-radius: 8px;
+            }
+            .exam-card-actions {
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0.25rem;
+            }
+            .exam-card-actions a {
+                flex: 1;
+                text-align: center;
+                padding: 0.5rem 0.75rem;
+                border-radius: 6px;
+                font-size: 0.78rem;
+                font-weight: 700;
+                text-decoration: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="{{ route('home') }}" class="brand-logo">
+                <div class="grad-cap"><i class="fas fa-university"></i></div>
+                <div><span class="brand-title">ES-SCHOOLS</span><span class="brand-sub">School Admin</span></div>
             </a>
+            <button class="mobile-close-btn" id="closeSidebarMobile"><i class="fas fa-times"></i></button>
         </div>
-        @endif
+        <ul class="sidebar-menu">
+            <li class="menu-item"><a href="{{ route('school.dashboard') }}" class="menu-link"><div class="menu-left"><i class="fas fa-tachometer-alt" style="color: #1e3a8a;"></i><span>Admin Dashboard</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('school.students.index') }}" class="menu-link"><div class="menu-left"><i class="fas fa-user-graduate" style="color: #ff9f43;"></i><span>Students</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('school.teachers.index') }}" class="menu-link"><div class="menu-left"><i class="fas fa-chalkboard-teacher" style="color: #a55eea;"></i><span>Teachers</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('school.classes.index') }}" class="menu-link"><div class="menu-left"><i class="fas fa-school" style="color: #4b7bec;"></i><span>Classes</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('school.exams.index') }}" class="menu-link active"><div class="menu-left"><i class="fas fa-laptop-code" style="color: #8b5cf6;"></i><span>Exams &amp; CBT</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('school.results.index') }}" class="menu-link"><div class="menu-left"><i class="fas fa-poll" style="color: #06b6d4;"></i><span>Results &amp; Grading</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('school.fees.index') }}" class="menu-link"><div class="menu-left"><i class="fas fa-money-bill-wave" style="color: #10b981;"></i><span>Fees &amp; Billing</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('school.notices.index') }}" class="menu-link"><div class="menu-left"><i class="far fa-bell" style="color: #f59e0b;"></i><span>Notice Board</span></div></a></li>
+            <li class="menu-item" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+                <form id="adminLogoutForm" method="POST" action="{{ route('sms.logout') }}" style="display: none;">@csrf</form>
+                <a href="javascript:void(0)" onclick="document.getElementById('adminLogoutForm').submit();" class="menu-link" style="color: #ef4444;"><div class="menu-left"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div></a>
+            </li>
+        </ul>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="main-wrapper">
+        <header class="top-header">
+            <button class="mobile-toggle-btn" id="mobileSidebarToggle"><i class="fas fa-bars"></i></button>
+            <a href="{{ route('home') }}" style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--border-subtle); color: var(--text-muted); text-decoration: none;"><i class="fas fa-home"></i></a>
+            <button id="themeToggleBtn" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.1rem;"><i class="far fa-moon"></i></button>
+        </header>
+
+        <main class="page-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h1 style="font-size: 1.625rem; font-weight: 800; display: flex; align-items: center; gap: 0.65rem;">
+                        <i class="fas fa-laptop-code" style="color: #8b5cf6;"></i> Examination &amp; CBT Management
+                    </h1>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.25rem;">
+                        Schedule continuous assessments (CA1, CA2), terminal exams, and manage CBT questions.
+                    </p>
+                </div>
+                <a href="{{ route('school.exams.create') }}" class="btn-create">
+                    <i class="fas fa-plus"></i> Create New Exam
+                </a>
+            </div>
+
+            @if(session('success'))
+            <div style="background: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 0.85rem 1.25rem; border-radius: 10px; margin-bottom: 1.25rem; font-size: 0.875rem;">
+                <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i> {{ session('success') }}
+            </div>
+            @endif
+
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h3 style="font-size: 1rem; font-weight: 700;">All Scheduled Examinations</h3>
+                </div>
+
+                <!-- Desktop Table View -->
+                <div class="desktop-table-wrap table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Exam Title</th>
+                                <th>Subject</th>
+                                <th>Class</th>
+                                <th>Type</th>
+                                <th>Date / Schedule</th>
+                                <th>Questions</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($exams as $exam)
+                            <tr>
+                                <td><strong>{{ $exam->title }}</strong></td>
+                                <td>{{ $exam->subject->name ?? 'N/A' }}</td>
+                                <td><span style="background: var(--border-subtle); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">{{ $exam->class->name ?? 'All' }}</span></td>
+                                <td><span style="background: #eff6ff; color: #1e40af; padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">{{ $exam->exam_type ?? 'Exam' }}</span></td>
+                                <td>
+                                    @if($exam->exam_date)
+                                        {{ \Carbon\Carbon::parse($exam->exam_date)->format('M d, Y') }}
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">{{ $exam->start_time ? \Carbon\Carbon::parse($exam->start_time)->format('h:i A') : '' }} ({{ $exam->duration_minutes ?? 60 }} mins)</div>
+                                    @else
+                                        Schedule Pending
+                                    @endif
+                                </td>
+                                <td><strong>{{ $exam->questions_count ?? ($exam->questions ? $exam->questions->count() : 0) }}</strong> Qs</td>
+                                <td>
+                                    @if($exam->is_active)
+                                        <span class="badge-status badge-active">Active</span>
+                                    @else
+                                        <span class="badge-status badge-pending">Draft</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: 0.45rem;">
+                                        <a href="{{ route('school.exams.questions.create', $exam->id) }}" style="background: #eff6ff; color: #1e40af; padding: 0.35rem 0.65rem; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.78rem;">
+                                            <i class="fas fa-question-circle"></i> Questions
+                                        </a>
+                                        <a href="{{ route('school.exams.show', $exam->id) }}" style="background: var(--border-subtle); color: var(--text-main); padding: 0.35rem 0.65rem; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.78rem;">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="8" style="text-align: center; padding: 3rem; color: var(--text-muted);">No examinations scheduled yet. Click "Create New Exam" to get started.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Cards View (Zero Horizontal Overflow, Touch Friendly) -->
+                <div class="exams-mobile-cards">
+                    @forelse($exams as $exam)
+                    <div class="exam-mobile-card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+                            <div class="exam-card-title">{{ $exam->title }}</div>
+                            @if($exam->is_active)
+                                <span class="badge-status badge-active">Active</span>
+                            @else
+                                <span class="badge-status badge-pending">Draft</span>
+                            @endif
+                        </div>
+                        <div class="exam-card-meta">
+                            <div><span style="color: var(--text-muted);">Subject:</span> <strong>{{ $exam->subject->name ?? 'N/A' }}</strong></div>
+                            <div><span style="color: var(--text-muted);">Class:</span> <strong>{{ $exam->class->name ?? 'All' }}</strong></div>
+                            <div><span style="color: var(--text-muted);">Type:</span> <strong>{{ $exam->exam_type ?? 'Exam' }}</strong></div>
+                            <div><span style="color: var(--text-muted);">Duration:</span> <strong>{{ $exam->duration_minutes ?? 60 }} mins</strong></div>
+                            <div style="grid-column: 1 / -1;"><span style="color: var(--text-muted);">Date:</span> <strong>{{ $exam->exam_date ? \Carbon\Carbon::parse($exam->exam_date)->format('M d, Y') : 'Schedule Pending' }}</strong></div>
+                        </div>
+                        <div class="exam-card-actions">
+                            <a href="{{ route('school.exams.questions.create', $exam->id) }}" style="background: #eff6ff; color: #1e40af;">
+                                <i class="fas fa-question-circle"></i> Questions
+                            </a>
+                            <a href="{{ route('school.exams.show', $exam->id) }}" style="background: var(--primary); color: white;">
+                                <i class="fas fa-eye"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                    @empty
+                    <div style="text-align: center; padding: 2.5rem 1rem; color: var(--text-muted);">
+                        No examinations scheduled yet. Click "Create New Exam" above.
+                    </div>
+                    @endforelse
+                </div>
+
+                @if($exams->hasPages())
+                <div style="padding: 1rem 1.5rem;">{{ $exams->links() }}</div>
+                @endif
+            </div>
+        </main>
     </div>
-</div>
-@endsection
+
+    <script>
+        document.getElementById('themeToggleBtn')?.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+        });
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        document.getElementById('mobileSidebarToggle')?.addEventListener('click', () => {
+            sidebar.classList.add('mobile-open');
+            overlay.classList.add('active');
+        });
+        document.getElementById('closeSidebarMobile')?.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        });
+        overlay?.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
