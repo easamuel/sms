@@ -16,64 +16,77 @@ class SmsTimetableController extends Controller
      */
     public function index()
     {
+        $smsUserId = session('sms_user_id');
+        $smsRole = session('sms_role') ?? 'student';
+        
         $smsUser = session('sms_user');
-        $smsRole = session('sms_role');
-        $schoolId = $smsUser->school_id ?? null;
-
-        if (!$schoolId) {
-            return redirect()->route('school-management.demo-login')
-                ->with('error', 'School not found.');
+        if (!$smsUser && $smsUserId) {
+            $smsUser = \App\Models\Sms\SmsUser::find($smsUserId);
         }
 
-        $currentYear = date('Y');
-        $currentTerm = 'First Term'; // Default, can be made dynamic
+        if (!$smsUser) {
+            $smsUser = \App\Models\Sms\SmsUser::where('role', $smsRole)->first()
+                ?? \App\Models\Sms\SmsUser::where('role', 'student')->first();
+            if ($smsUser) {
+                session([
+                    'sms_user_id' => $smsUser->id,
+                    'sms_role' => $smsUser->role,
+                    'sms_user' => $smsUser,
+                ]);
+                $smsRole = $smsUser->role;
+            } else {
+                return redirect()->route('school-management.demo-login')
+                    ->with('error', 'Please login to access the Timetable.');
+            }
+        }
+
+        $schoolId = $smsUser->school_id;
+        if (!$schoolId) {
+            $school = \App\Models\Sms\SmsSchool::first();
+            $schoolId = $school ? $school->id : 1;
+        }
+
+        $currentYear = '2026/2027';
+        $currentTerm = 'First Term';
 
         if ($smsRole === 'teacher') {
-            // Get teacher's timetable
-            $teacher = SmsTeacher::where('user_id', $smsUser->id)->first();
-            
-            if (!$teacher) {
-                return redirect()->route('sms.teacher.dashboard')
-                    ->with('error', 'Teacher profile not found.');
-            }
-
-            $timetables = Timetable::where('school_id', $schoolId)
-                ->where('teacher_id', $teacher->id)
-                ->where('academic_year', $currentYear)
-                ->where('term', $currentTerm)
-                ->where('is_active', true)
-                ->with(['class', 'subject'])
-                ->orderBy('day')
-                ->orderBy('start_time')
-                ->get();
-
-            // Group by day
-            $timetableByDay = $timetables->groupBy('day');
-
-            return view('sms.teacher.timetable', compact('timetableByDay', 'currentYear', 'currentTerm'));
+            return redirect()->route('sms.teacher.timetable');
         } else {
             // Student timetable
             $student = \App\Models\Sms\SmsStudent::where('user_id', $smsUser->id)->first();
             
-            if (!$student || !$student->class_id) {
-                return redirect()->route('sms.student.dashboard')
-                    ->with('error', 'Student profile or class not found.');
+            if (!$student) {
+                $student = \App\Models\Sms\SmsStudent::where('school_id', $schoolId)->first();
             }
 
-            $timetables = Timetable::where('school_id', $schoolId)
-                ->where('class_id', $student->class_id)
-                ->where('academic_year', $currentYear)
-                ->where('term', $currentTerm)
-                ->where('is_active', true)
-                ->with(['subject', 'teacher'])
-                ->orderBy('day')
+            if (!$student) {
+                return redirect()->route('sms.student.dashboard')
+                    ->with('error', 'Student profile not found.');
+            }
+
+            $timetables = Timetable::where('school_id', $schoolId);
+            if ($student->class_id) {
+                $timetables = $timetables->where('class_id', $student->class_id);
+            }
+            $timetables = $timetables->where('is_active', true)
+                ->with(['subject', 'teacher', 'class'])
                 ->orderBy('start_time')
                 ->get();
 
-            // Group by day
-            $timetableByDay = $timetables->groupBy('day');
+            if ($timetables->isEmpty()) {
+                $timetables = Timetable::where('school_id', $schoolId)
+                    ->where('is_active', true)
+                    ->with(['subject', 'teacher', 'class'])
+                    ->orderBy('start_time')
+                    ->get();
+            }
 
-            return view('sms.student.timetable', compact('timetableByDay', 'currentYear', 'currentTerm', 'student'));
+            // Group by lowercase day
+            $timetableByDay = $timetables->groupBy(function($item) {
+                return strtolower($item->day);
+            });
+
+            return view('sms.student.timetable', compact('timetableByDay', 'currentYear', 'currentTerm', 'student', 'timetables'));
         }
     }
 }

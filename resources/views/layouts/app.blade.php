@@ -71,8 +71,14 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
     <!-- Styles -->
     <style>
@@ -82,29 +88,34 @@
             box-sizing: border-box;
         }
         
+        html, body {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            line-height: 1.7;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f4f6fb;
+            color: #0f172a;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
         
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 700;
             letter-spacing: -0.02em;
         }
         
         /* Navigation */
         .sms-navbar {
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.875rem 1rem;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.75rem 1.25rem;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
         
         .sms-navbar-content {
@@ -119,45 +130,120 @@
         .sms-navbar-brand {
             display: flex;
             align-items: center;
-            gap: 0.625rem;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #111827;
+            gap: 0.75rem;
             text-decoration: none;
+            color: #0f172a;
             flex-shrink: 0;
         }
         
         .sms-navbar-brand-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 1.1rem;
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
         }
         
-        .sms-navbar-brand span {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .sms-navbar-brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sms-navbar-brand-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.1;
+        }
+
+        .sms-navbar-brand-sub {
+            font-size: 0.65rem;
+            color: #ff9f43;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
         }
         
         .sms-navbar-actions {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.65rem;
             flex-shrink: 0;
+        }
+
+        .sms-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: rgba(30, 58, 138, 0.06);
+            color: #1e3a8a;
+            border: 1px solid rgba(30, 58, 138, 0.12);
+            transition: all 0.2s;
+        }
+
+        .sms-nav-btn:hover {
+            background: #1e3a8a;
+            color: white;
         }
         
         .sms-user-menu {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.375rem 0.75rem;
-            background: #f3f4f6;
+            padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            color: #0f172a;
+            font-weight: 600;
+        }
+        
+        .sms-user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .sms-logout-btn {
+            padding: 0.45rem 0.85rem;
+            background: rgba(239, 68, 68, 0.08);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .sms-logout-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
             border-radius: 8px;
             font-size: 0.8125rem;
             color: #374151;
@@ -346,55 +432,39 @@
                     'parent' => 'sms.parent.dashboard',
                     default => 'home',
                 };
+                $roleLabel = match($role) {
+                    'student' => 'Student Portal',
+                    'teacher' => 'Teacher Portal',
+                    'parent' => 'Parent Portal',
+                    default => 'School Portal',
+                };
             @endphp
-            <a href="{{ route($dashboardRoute) }}" class="sms-navbar-brand" title="Go to {{ $role ? ucfirst($role) . ' Dashboard' : 'Homepage' }}">
-                <svg class="sms-navbar-brand-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="32" cy="32" r="30" fill="url(#logoGradient)"/>
-                    <path d="M32 18L20 24L32 30L44 24L32 18Z" fill="white" opacity="0.95"/>
-                    <path d="M20 24V36C20 36 24 40 32 40C40 40 44 36 44 36V24" stroke="white" stroke-width="2" fill="none"/>
-                    <rect x="24" y="38" width="16" height="12" rx="2" fill="white" opacity="0.9"/>
-                    <line x1="28" y1="42" x2="36" y2="42" stroke="#10b981" stroke-width="1.5"/>
-                    <line x1="28" y1="45" x2="36" y2="45" stroke="#10b981" stroke-width="1.5"/>
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <span class="sms-navbar-brand-text">ES-SCHOOLS</span>
+            <a href="{{ route($dashboardRoute) }}" class="sms-navbar-brand" title="Go to Dashboard">
+                <div class="sms-navbar-brand-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="sms-navbar-brand-text">
+                    <span class="sms-navbar-brand-title">ES-SCHOOLS</span>
+                    <span class="sms-navbar-brand-sub">{{ $roleLabel }}</span>
+                </div>
             </a>
             
             <div class="sms-navbar-actions">
+                <a href="{{ route($dashboardRoute) }}" class="sms-nav-btn" title="Back to Main Dashboard">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Dashboard</span>
+                </a>
+
                 @if(session('sms_user'))
-                    @if(session('sms_role') === 'parent')
-                        <a href="{{ route('sms.parent.messages') }}" class="sms-navbar-link" style="position: relative; text-decoration: none; color: var(--sms-gray-700); padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s;">
-                            <i class="fas fa-comments"></i>
-                            <span style="margin-left: 0.5rem;">Messages</span>
-                            @php
-                                $parent = \App\Models\Sms\SmsParent::where('user_id', session('sms_user')->id)->first();
-                                $unreadCount = 0;
-                                if ($parent) {
-                                    $thread = \App\Models\MessageThread::where('parent_id', $parent->id)->first();
-                                    if ($thread) {
-                                        $unreadCount = $thread->unreadCount(session('sms_user')->id, 'parent');
-                                    }
-                                }
-                            @endphp
-                            @if($unreadCount > 0)
-                                <span style="position: absolute; top: -2px; right: -2px; background: #dc2626; color: white; border-radius: 9999px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600;">{{ $unreadCount }}</span>
-                            @endif
-                        </a>
-                    @endif
                 <div class="sms-user-menu">
                     <div class="sms-user-avatar">
                         {{ strtoupper(substr(session('sms_user')->name ?? 'U', 0, 1)) }}
                     </div>
-                    <span>{{ session('sms_user')->name ?? 'User' }}</span>
+                    <span style="font-weight: 700;">{{ session('sms_user')->name ?? 'User' }}</span>
                 </div>
                 <form method="POST" action="{{ route('sms.logout') }}" style="display: inline;">
                     @csrf
-                    <button type="submit" class="sms-logout-btn" aria-label="Logout">
+                    <button type="submit" class="sms-logout-btn" aria-label="Logout" title="Logout of Portal">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </button>

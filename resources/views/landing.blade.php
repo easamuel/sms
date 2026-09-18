@@ -73,6 +73,54 @@
             "areaServed": "NG",
             "availableLanguage": "English"
           }
+        },
+        {
+          "@type": "WebSite",
+          "name": "ES-SCHOOLS",
+          "url": "https://sms.extremesolutions.com.ng/",
+          "description": "Nigeria's #1 School Management & Automated Tuition Fee Recovery Platform",
+          "publisher": {
+            "@type": "Organization",
+            "name": "ExtremeSolutions Nigeria",
+            "url": "https://extremesolutions.com.ng"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is ES-SCHOOLS and how does it help Nigerian schools?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ES-SCHOOLS is an all-in-one school management and automated tuition recovery software designed for primary, junior, and senior secondary schools across Nigeria. It eliminates school fees defaults, generates 1-click terminal report cards, automates online CBT exams, and connects parents with teachers in real time."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can parents track school fees and make payments through the portal?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, parents can view itemized fee breakdowns, outstanding balances, payment receipts, and make secure transactions online with automated bursar reconciliation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does ES-SCHOOLS support Computer-Based Testing (CBT) and exam grading?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, ES-SCHOOLS includes a comprehensive CBT engine with instant grading, question banks, practice sessions, and automated analytics for WAEC, NECO, and internal termly examinations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How can our school get started or book a live demo?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Contact our technical team on WhatsApp at 09052585622 or email sms@extremesolutions.com.ng to schedule a free proprietary digitization consultation and live interactive portal walkthrough."
+              }
+            }
+          ]
         }
       ]
     }

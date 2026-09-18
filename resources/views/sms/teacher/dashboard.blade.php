@@ -643,14 +643,15 @@
             vertical-align: top;
             transition: background-color 0.2s;
             position: relative;
+            cursor: pointer;
         }
 
         .calendar-grid td:hover {
-            background-color: rgba(30, 58, 138, 0.02);
+            background-color: rgba(30, 58, 138, 0.04);
         }
 
         body.dark-theme .calendar-grid td:hover {
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         .cal-date-num {
@@ -1574,6 +1575,31 @@
         </div>
     </div>
 
+    <!-- Calendar Event & Holiday Details Modal -->
+    <div class="modal-backdrop" id="calendarEventModal">
+        <div class="modal-box" style="max-width: 540px;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <div id="calModalIconWrap" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(16, 185, 129, 0.12); color: #10b981; font-size: 1.15rem;">
+                        <i class="fas fa-calendar-star" id="calModalIcon"></i>
+                    </div>
+                    <div>
+                        <h3 class="modal-title" id="calModalDateTitle" style="font-size: 1rem; margin-bottom: 2px;">Event Details</h3>
+                        <span id="calModalCategoryBadge" class="status-badge badge-paid" style="font-size: 0.72rem;">Holiday</span>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('calendarEventModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="calModalBody" style="padding: 1.25rem;">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-school" style="margin-right: 4px;"></i> ES-SCHOOLS Academic Calendar</span>
+                <button type="button" class="btn-action" onclick="closeModal('calendarEventModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Calendar & Dashboard Scripts -->
     <script>
         // Modal Controls
@@ -1647,23 +1673,125 @@
         if (mobileClose) mobileClose.addEventListener('click', closeMobileSidebar);
         if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileSidebar);
 
-        // Calendar Generator for September 2026
+        // Calendar Generator with Full Holiday & Event Details
         const calData = {
             year: 2026,
             month: 8, // September (0-indexed)
             monthName: 'September 2026',
             events: {
-                2: [{ name: 'SS2 Math (08:00 AM)', type: 'blue' }],
-                3: [{ name: 'Staff Meeting (02:00 PM)', type: 'purple' }],
-                7: [{ name: 'JSS1 Tech (10:00 AM)', type: 'orange' }],
-                9: [{ name: 'SS1 Physics Pract.', type: 'green' }],
-                14: [{ name: 'Continuous Assess. 1', type: 'orange' }],
-                16: [{ name: 'SS3 Mock CBT Exam', type: 'blue' }],
-                21: [{ name: 'PTA General Meeting', type: 'purple' }],
-                24: [{ name: 'Inter-House Sports', type: 'green' }],
-                28: [{ name: 'Midterm CBT Exam', type: 'orange' }],
-                30: [{ name: 'Results Entry Closes', type: 'blue' }]
+                2: [{ name: 'SS2 Math (08:00 AM)', type: 'blue', category: 'Class Session', time: '08:00 AM - 09:20 AM', location: 'Hall 2A, Senior Secondary Wing', description: 'Advanced calculus, logarithms and trigonometric expressions review.' }],
+                3: [{ name: 'Staff Meeting (02:00 PM)', type: 'purple', category: 'Staff Assembly', time: '02:00 PM - 03:30 PM', location: 'Staff Lounge & Zoom Sync', description: 'Monthly teachers review meeting with the Principal on curriculum delivery and CBT preparations.' }],
+                4: [{ name: 'Eid-ul-Mawlid (Public Holiday)', type: 'green', isHoliday: true, category: 'Public Holiday', time: 'All Day', location: 'Nationwide / School Closed', description: 'Federal public holiday observed nationwide commemorating the birth of Prophet Muhammad. All lectures, tests, and administrative operations are suspended for the day.' }],
+                7: [{ name: 'JSS1 Tech (10:00 AM)', type: 'orange', category: 'Class Session', time: '10:00 AM - 11:20 AM', location: 'Intro Tech Workshop', description: 'Practical introduction to isometric projections and woodwork tools.' }],
+                9: [{ name: 'SS1 Physics Pract.', type: 'green', category: 'Laboratory Practical', time: '09:00 AM - 11:00 AM', location: 'Science Laboratory 1', description: 'Hands-on experiment on light optics, focal lengths, and convex lens refraction.' }],
+                14: [{ name: 'Continuous Assess. 1', type: 'orange', category: 'Continuous Assessment', time: '08:30 AM - 01:30 PM', location: 'All Classrooms', description: 'First term continuous assessment test across all junior and senior divisions.' }],
+                16: [{ name: 'SS3 Mock CBT Exam', type: 'blue', category: 'Examination', time: '08:00 AM - 12:00 PM', location: 'ICT CBT Centre', description: 'Mock computer-based examination preparing SS3 candidates for upcoming external certifications.' }],
+                21: [{ name: 'PTA General Meeting', type: 'purple', category: 'Parent & Staff Event', time: '02:00 PM - 04:30 PM', location: 'Main Auditorium', description: 'General assembly of parents, guardians, and academic staff to review student welfare, fees, and campus facility upgrades.' }],
+                24: [{ name: 'Inter-House Sports Heat', type: 'green', category: 'Extracurricular', time: '09:00 AM - 01:00 PM', location: 'School Sports Complex', description: 'Preliminary athletic heats and track events among Blue, Red, Yellow, and Green houses.' }],
+                25: [{ name: 'Midterm Break (School Holiday)', type: 'green', isHoliday: true, category: 'School Holiday', time: 'All Day', location: 'School Wide', description: 'Official first term mid-term holiday for all students and academic staff. Normal academic activities resume on Monday, September 28.' }],
+                28: [{ name: 'Midterm CBT Exam', type: 'orange', category: 'Examination', time: '08:30 AM - 01:00 PM', location: 'CBT Hall A & B', description: 'Mid-term computerized evaluation test for secondary school classes.' }],
+                30: [{ name: 'Results Entry Closes', type: 'blue', category: 'Academic Deadline', time: '11:59 PM Deadline', location: 'Teacher Portal', description: 'Strict deadline for all subject teachers to submit midterm score sheets and behavioral remarks.' }]
             }
+        };
+
+        window.showCalendarDateDetails = function(day) {
+            const events = calData.events[day] || [];
+            const dateObj = new Date(calData.year, calData.month, day);
+            const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+            const fullDateStr = `${dayName}, September ${day}, ${calData.year}`;
+            
+            const dateTitleElem = document.getElementById('calModalDateTitle');
+            if (dateTitleElem) dateTitleElem.innerText = fullDateStr;
+            const body = document.getElementById('calModalBody');
+            const catBadge = document.getElementById('calModalCategoryBadge');
+            const iconWrap = document.getElementById('calModalIconWrap');
+            const icon = document.getElementById('calModalIcon');
+
+            if (!body) return;
+
+            if (events.length === 0) {
+                if (catBadge) {
+                    catBadge.innerText = 'Academic Day';
+                    catBadge.className = 'status-badge';
+                    catBadge.style.background = 'rgba(100, 116, 139, 0.1)';
+                    catBadge.style.color = 'var(--text-muted)';
+                }
+                if (iconWrap) {
+                    iconWrap.style.background = 'rgba(100, 116, 139, 0.1)';
+                    iconWrap.style.color = '#64748b';
+                }
+                if (icon) icon.className = 'far fa-calendar-check';
+
+                body.innerHTML = `
+                    <div style="text-align: center; padding: 1.5rem 0.5rem;">
+                        <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--bg-body); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: var(--text-muted); font-size: 1.4rem;">
+                            <i class="far fa-calendar-check"></i>
+                        </div>
+                        <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">Standard Academic Routine</h4>
+                        <p style="font-size: 0.84rem; color: var(--text-muted); max-width: 360px; margin: 0 auto; line-height: 1.5;">
+                            No public holidays, special events, or school closures scheduled for this date. Normal classroom lectures and routines apply.
+                        </p>
+                    </div>
+                `;
+            } else {
+                const hasHoliday = events.some(e => e.isHoliday || (e.category && e.category.toLowerCase().includes('holiday')));
+                if (hasHoliday) {
+                    if (catBadge) {
+                        catBadge.innerText = 'Official Holiday';
+                        catBadge.className = 'status-badge badge-paid';
+                    }
+                    if (iconWrap) {
+                        iconWrap.style.background = 'rgba(16, 185, 129, 0.15)';
+                        iconWrap.style.color = '#10b981';
+                    }
+                    if (icon) icon.className = 'fas fa-umbrella-beach';
+                } else {
+                    if (catBadge) {
+                        catBadge.innerText = events[0].category || 'Scheduled Event';
+                        catBadge.className = 'status-badge badge-live';
+                    }
+                    if (iconWrap) {
+                        iconWrap.style.background = 'rgba(59, 130, 246, 0.15)';
+                        iconWrap.style.color = '#3b82f6';
+                    }
+                    if (icon) icon.className = 'fas fa-calendar-alt';
+                }
+
+                let html = '<div style="display: flex; flex-direction: column; gap: 1rem;">';
+                events.forEach(ev => {
+                    const isHol = ev.isHoliday || (ev.category && ev.category.toLowerCase().includes('holiday'));
+                    const borderCol = isHol ? '#10b981' : (ev.type === 'purple' ? '#a855f7' : (ev.type === 'orange' ? '#f97316' : '#3b82f6'));
+                    const bgLight = isHol ? 'rgba(16, 185, 129, 0.06)' : 'rgba(59, 130, 246, 0.04)';
+                    
+                    html += `
+                        <div style="border-left: 4px solid ${borderCol}; background: ${bgLight}; border-radius: 0 10px 10px 0; padding: 1rem; border: 1px solid var(--border-color); border-left-width: 4px;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.5rem; flex-wrap: wrap;">
+                                <h4 style="font-size: 1rem; font-weight: 800; color: var(--text-main); line-height: 1.3;">${ev.name}</h4>
+                                <span class="status-badge" style="background: white; border: 1px solid var(--border-color); font-size: 0.72rem; color: ${borderCol}; font-weight: 700;">
+                                    ${ev.category || 'Event'}
+                                </span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="far fa-clock" style="width: 16px; color: #f59e0b;"></i>
+                                    <span><strong>Time:</strong> ${ev.time || 'All Day'}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-map-marker-alt" style="width: 16px; color: #ef4444;"></i>
+                                    <span><strong>Location:</strong> ${ev.location || 'Campus Wide'}</span>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.84rem; color: var(--text-main); line-height: 1.5; background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); margin: 0;">
+                                ${ev.description || 'Official event scheduled on the academic calendar.'}
+                            </p>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                body.innerHTML = html;
+            }
+
+            openModal('calendarEventModal');
         };
 
         function renderCalendar() {
@@ -1694,11 +1822,14 @@
                         // Current Month Days
                         const isToday = (currentDay === 17); // demo day
                         const todayClass = isToday ? 'today' : '';
+                        const thisDayNum = currentDay;
+                        td.setAttribute('onclick', `showCalendarDateDetails(${thisDayNum})`);
+                        
                         let cellHtml = `<span class="cal-date-num ${todayClass}">${currentDay}</span>`;
 
                         if (calData.events[currentDay]) {
                             calData.events[currentDay].forEach(ev => {
-                                cellHtml += `<span class="cal-event-pill cal-event-${ev.type}" title="${ev.name}">${ev.name}</span>`;
+                                cellHtml += `<span class="cal-event-pill cal-event-${ev.type}" title="${ev.name}" onclick="event.stopPropagation(); showCalendarDateDetails(${thisDayNum});">${ev.name}</span>`;
                             });
                         }
                         td.innerHTML = cellHtml;
