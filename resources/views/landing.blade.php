@@ -12,6 +12,9 @@
     <meta name="author" content="ExtremeSolutions Nigeria">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://sms.extremesolutions.com.ng/">
+    @if(env('GOOGLE_SITE_VERIFICATION'))
+    <meta name="google-site-verification" content="{{ env('GOOGLE_SITE_VERIFICATION') }}">
+    @endif
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">

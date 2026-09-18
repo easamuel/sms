@@ -33,6 +33,9 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url()->current() }}">
+    @if(env('GOOGLE_SITE_VERIFICATION'))
+    <meta name="google-site-verification" content="{{ env('GOOGLE_SITE_VERIFICATION') }}">
+    @endif
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
