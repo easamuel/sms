@@ -841,13 +841,10 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a href="{{ route('school.dashboard') }}" class="menu-link">
+                <a href="{{ route('sms.teacher.question-bank') }}" class="menu-link">
                     <div class="menu-left">
-                        <i class="fas fa-school" style="color: #64748b;"></i>
-                        <span>School Admin</span>
-                    </div>
-                    <div class="menu-right">
-                        <i class="fas fa-external-link-alt" style="font-size: 0.7rem;"></i>
+                        <i class="fas fa-database" style="color: #0ea5e9;"></i>
+                        <span>Question Bank</span>
                     </div>
                 </a>
             </li>

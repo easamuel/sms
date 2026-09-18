@@ -39,13 +39,4 @@ class SmsAssignmentQuestion extends Model
         }
         return $value ?? [];
     }
-
-    public function getOptionsAttribute($value)
-    {
-        if (is_string($value)) {
-            $decoded = json_decode($value, true);
-            return $decoded !== null ? $decoded : [];
-        }
-        return $value ?? [];
-    }
 }

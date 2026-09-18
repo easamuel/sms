@@ -281,13 +281,15 @@
                     <div class="options-grid">
                         @foreach($options as $idx => $opt)
                             @php
-                                $isCorrect = !empty($q->correct_answer) && (
-                                    strtolower(trim($opt)) === strtolower(trim($q->correct_answer)) ||
-                                    strtoupper(trim($q->correct_answer)) === chr(65 + $idx)
+                                $optStr = is_array($opt) ? ($opt['text'] ?? json_encode($opt)) : (string)$opt;
+                                $correctStr = is_string($q->correct_answer ?? null) ? $q->correct_answer : '';
+                                $isCorrect = !empty($correctStr) && (
+                                    strtolower(trim($optStr)) === strtolower(trim($correctStr)) ||
+                                    strtoupper(trim($correctStr)) === chr(65 + $idx)
                                 );
                             @endphp
                             <div class="option-pill {{ $isCorrect ? 'is-correct' : '' }}">
-                                <strong>{{ chr(65 + $idx) }}.</strong> {{ $opt }}
+                                <strong>{{ chr(65 + $idx) }}.</strong> {{ $optStr }}
                                 @if($isCorrect) <i class="fas fa-check-circle" style="float: right;"></i> @endif
                             </div>
                         @endforeach
@@ -307,3 +309,4 @@
     @endif
 </div>
 @endsection
+

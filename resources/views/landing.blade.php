@@ -16,9 +16,14 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sms.extremesolutions.com.ng/">
-    <meta property="og:title" content="ES-SCHOOLS - Automate Tuition Recovery &amp; School Operations">
-    <meta property="og:description" content="Stop chasing school fees and fighting manual paperwork. ES-SCHOOLS automates tuition recovery, 1-click terminal report cards, and parent communication for Nigerian schools.">
-    <meta property="og:image" content="https://sms.extremesolutions.com.ng/apple-touch-icon.png">
+    <meta property="og:title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform">
+    <meta property="og:description" content="Automate tuition fee recovery, 1-click terminal report cards, and parent communications for Nigerian schools. Test drive live interactive demos today.">
+    <meta property="og:image" content="https://sms.extremesolutions.com.ng/og-preview.png">
+    <meta property="og:image:secure_url" content="https://sms.extremesolutions.com.ng/og-preview.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ES-SCHOOLS - Nigeria's Premier School Management and Tuition Recovery Platform">
     <meta property="og:site_name" content="ES-SCHOOLS">
     <meta property="og:locale" content="en_NG">
 
@@ -27,7 +32,8 @@
     <meta property="twitter:url" content="https://sms.extremesolutions.com.ng/">
     <meta property="twitter:title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork">
     <meta property="twitter:description" content="Nigeria's premier school management system. Automate tuition recovery, 1-click report cards, and parent communications.">
-    <meta property="twitter:image" content="https://sms.extremesolutions.com.ng/apple-touch-icon.png">
+    <meta property="twitter:image" content="https://sms.extremesolutions.com.ng/og-preview.png">
+    <meta property="twitter:image:alt" content="ES-SCHOOLS Platform Solution Showcase">
 
     <!-- Browser Favicon & App Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -706,6 +712,283 @@
             background: var(--primary);
             color: #ffffff;
             border-color: var(--primary);
+        }
+
+        /* High-Fidelity Product Showcase & Solution Previews */
+        .showcase-section {
+            padding: 5.5rem 0;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .showcase-tabs-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .showcase-tab {
+            background: #ffffff;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem 1.4rem;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm);
+            font-family: inherit;
+        }
+
+        .showcase-tab:hover {
+            color: var(--primary);
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        .showcase-tab.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 6px 20px -4px rgba(30, 58, 138, 0.35);
+        }
+
+        .showcase-panels-wrap {
+            position: relative;
+            min-height: 480px;
+        }
+
+        .showcase-panel {
+            display: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .showcase-panel.active {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .browser-frame {
+            background: #0f172a;
+            border-radius: 16px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .browser-header {
+            background: #1e293b;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #334155;
+            gap: 1rem;
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: 7px;
+            align-items: center;
+        }
+
+        .browser-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .browser-dot.red { background: #ef4444; }
+        .browser-dot.yellow { background: #f59e0b; }
+        .browser-dot.green { background: #10b981; }
+
+        .browser-address {
+            background: #0f172a;
+            color: #94a3b8;
+            font-size: 0.78rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            padding: 0.35rem 0.95rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 60%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .browser-address i {
+            color: #10b981;
+            font-size: 0.75rem;
+        }
+
+        .browser-badge {
+            color: #34d399;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            white-space: nowrap;
+        }
+
+        .browser-badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #34d399;
+            display: inline-block;
+            box-shadow: 0 0 8px #34d399;
+        }
+
+        .browser-content {
+            position: relative;
+            background: #020617;
+            overflow: hidden;
+        }
+
+        .browser-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .browser-frame:hover .browser-content img {
+            transform: scale(1.015);
+        }
+
+        .showcase-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .showcase-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--primary);
+            background: #e0e7ff;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            width: fit-content;
+        }
+
+        .showcase-content h3 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+        }
+
+        .showcase-content p.showcase-lead {
+            font-size: 1rem;
+            color: #475569;
+            line-height: 1.65;
+        }
+
+        .showcase-kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+            margin: 0.25rem 0;
+        }
+
+        .showcase-kpi-item {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .showcase-kpi-num {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.2;
+        }
+
+        .showcase-kpi-lbl {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+
+        .showcase-perks {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .showcase-perks li {
+            font-size: 0.92rem;
+            color: #334155;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            line-height: 1.45;
+        }
+
+        .showcase-perks li i {
+            color: var(--accent-green);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .showcase-cta-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff !important;
+            padding: 0.95rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            width: 100%;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
+            font-family: inherit;
+        }
+
+        .showcase-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.35);
         }
 
         /* The Stakes Section (The Problem) */
@@ -1507,6 +1790,70 @@
                 box-sizing: border-box !important;
             }
 
+            /* Showcase Responsive Polish */
+            .showcase-section {
+                padding: 3.5rem 0;
+            }
+            .showcase-tabs-nav {
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                justify-content: flex-start !important;
+                padding-bottom: 0.75rem !important;
+                margin-bottom: 1.75rem !important;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .showcase-tabs-nav::-webkit-scrollbar {
+                display: none;
+            }
+            .showcase-tab {
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+                font-size: 0.85rem !important;
+                padding: 0.6rem 1rem !important;
+            }
+            .showcase-panel.active {
+                grid-template-columns: 1fr !important;
+                gap: 1.75rem !important;
+            }
+            .browser-header {
+                padding: 0.6rem 0.85rem !important;
+            }
+            .browser-address {
+                max-width: 50% !important;
+                font-size: 0.68rem !important;
+                padding: 0.25rem 0.5rem !important;
+            }
+            .browser-badge {
+                font-size: 0.65rem !important;
+            }
+            .showcase-content h3 {
+                font-size: 1.4rem !important;
+                line-height: 1.3 !important;
+            }
+            .showcase-content p.showcase-lead {
+                font-size: 0.92rem !important;
+            }
+            .showcase-kpi-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 0.6rem !important;
+            }
+            .showcase-kpi-num {
+                font-size: 1.05rem !important;
+            }
+            .showcase-kpi-lbl {
+                font-size: 0.72rem !important;
+            }
+            .showcase-perks li {
+                font-size: 0.875rem !important;
+            }
+            .showcase-cta-btn {
+                padding: 0.85rem 1rem !important;
+                font-size: 0.92rem !important;
+            }
+
             .compare-table {
                 min-width: 580px;
             }
@@ -1545,6 +1892,7 @@
 
             <div class="nav-links">
                 <a href="#demos">Live Demos</a>
+                <a href="#showcase">Product Tour</a>
                 <a href="#plan">How It Works</a>
                 <a href="#solution">Why Us</a>
                 <a href="{{ route('admission.create') }}" class="nav-admission-badge">
@@ -1563,6 +1911,7 @@
 
         <div class="mobile-menu" id="mobileMenu">
             <a href="#demos"><i class="fas fa-play-circle" style="color: #3b82f6;"></i> Interactive Live Demos</a>
+            <a href="#showcase"><i class="fas fa-desktop" style="color: #0284c7;"></i> Product Screenshots &amp; Tour</a>
             <a href="#plan"><i class="fas fa-tasks" style="color: #8b5cf6;"></i> 3-Step Simple Plan</a>
             <a href="#solution"><i class="fas fa-shield-alt" style="color: #10b981;"></i> Why ES-SCHOOLS</a>
             <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700; background: #ecfdf5; border-color: #a7f3d0;">
@@ -1734,6 +2083,256 @@
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT UI SHOWCASE & SCREENSHOT TOUR (Top-Tier Silicon Valley Standard) -->
+    <section class="showcase-section" id="showcase">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow" style="background: rgba(30, 58, 138, 0.08); color: #1e3a8a;">
+                    <i class="fas fa-desktop"></i> Interactive Product Tour
+                </span>
+                <h2>Inside the Platform: High-Fidelity Solution Previews</h2>
+                <p class="section-sub">
+                    Engineered with extreme precision for Nigerian private schools. Explore live previews of our four core user portals below:
+                </p>
+            </div>
+
+            <!-- Tab Navigation Pills -->
+            <div class="showcase-tabs-nav" role="tablist">
+                <button class="showcase-tab active" data-tab="admin" role="tab" aria-selected="true">
+                    <i class="fas fa-chart-line"></i> Proprietor &amp; Admin Command
+                </button>
+                <button class="showcase-tab" data-tab="teacher" role="tab" aria-selected="false">
+                    <i class="fas fa-file-invoice"></i> Teacher 1-Click Broadsheet
+                </button>
+                <button class="showcase-tab" data-tab="parent" role="tab" aria-selected="false">
+                    <i class="fas fa-mobile-alt"></i> Parent Fees &amp; Report Cards
+                </button>
+                <button class="showcase-tab" data-tab="student" role="tab" aria-selected="false">
+                    <i class="fas fa-laptop-code"></i> Student CBT Examination
+                </button>
+            </div>
+
+            <!-- Showcase Panels -->
+            <div class="showcase-panels-wrap">
+                <!-- 1. Admin Showcase Panel -->
+                <div class="showcase-panel active" id="tab-panel-admin">
+                    <div class="browser-frame">
+                        <div class="browser-header">
+                            <div class="browser-controls">
+                                <span class="browser-dot red"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-address">
+                                <i class="fas fa-lock"></i> https://sms.extremesolutions.com.ng/school/dashboard
+                            </div>
+                            <div class="browser-badge">
+                                Live Cloud System
+                            </div>
+                        </div>
+                        <div class="browser-content">
+                            <img src="{{ asset('images/mockup-admin-portal.png') }}" alt="ES-SCHOOLS Admin Financial &amp; Tuition Fee Recovery Dashboard" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <span class="showcase-role-badge">
+                            <i class="fas fa-user-shield"></i> Proprietor &amp; Bursary Module
+                        </span>
+                        <h3>Zero Revenue Leakage with Real-Time Tuition Tracking</h3>
+                        <p class="showcase-lead">
+                            Track every kobo in school fees billed, recovered, and outstanding in real-time. Eliminate fake bank transfer alerts with automatic Paystack/Flutterwave gateway reconciliation and automated WhatsApp payment reminders.
+                        </p>
+                        <div class="showcase-kpi-grid">
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num">&#8358;34.5M+</div>
+                                <div class="showcase-kpi-lbl">Billed Tuition Tracked</div>
+                            </div>
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num">93.04%</div>
+                                <div class="showcase-kpi-lbl">On-Time Fee Recovery</div>
+                            </div>
+                        </div>
+                        <ul class="showcase-perks">
+                            <li><i class="fas fa-check-circle"></i> Live termly fee recovery analytics with itemized bursar audit trails</li>
+                            <li><i class="fas fa-check-circle"></i> Instant payment verification with digital receipt generator</li>
+                            <li><i class="fas fa-check-circle"></i> Complete student, teacher, and parent master directory</li>
+                        </ul>
+                        <form method="POST" action="{{ route('school-management.demo-login.submit') }}">
+                            @csrf
+                            <input type="hidden" name="role" value="admin">
+                            <button type="submit" class="showcase-cta-btn">
+                                <span>Launch Live Admin Sandbox</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 2. Teacher Showcase Panel -->
+                <div class="showcase-panel" id="tab-panel-teacher">
+                    <div class="browser-frame">
+                        <div class="browser-header">
+                            <div class="browser-controls">
+                                <span class="browser-dot red"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-address">
+                                <i class="fas fa-lock"></i> https://sms.extremesolutions.com.ng/school/teacher/broadsheet
+                            </div>
+                            <div class="browser-badge">
+                                Auto-Grading Engine
+                            </div>
+                        </div>
+                        <div class="browser-content">
+                            <img src="{{ asset('images/mockup-teacher-broadsheet.png') }}" alt="ES-SCHOOLS Continuous Assessment and WAEC Terminal Broadsheet" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <span class="showcase-role-badge" style="color: #059669; background: #ecfdf5;">
+                            <i class="fas fa-chalkboard-teacher"></i> Teacher Academic Module
+                        </span>
+                        <h3>Continuous Assessment &amp; 1-Click Terminal Broadsheets</h3>
+                        <p class="showcase-lead">
+                            Eliminate late-night calculator errors and paper registers. Teachers enter CA1, CA2, and exam scores once—ES-SCHOOLS computes totals, WAEC/NECO letter grades, and student class positions automatically.
+                        </p>
+                        <div class="showcase-kpi-grid">
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num" style="color: #059669;">100%</div>
+                                <div class="showcase-kpi-lbl">Computation Accuracy</div>
+                            </div>
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num" style="color: #059669;">1-Click</div>
+                                <div class="showcase-kpi-lbl">Terminal PDF Export</div>
+                            </div>
+                        </div>
+                        <ul class="showcase-perks">
+                            <li><i class="fas fa-check-circle"></i> Universal Basic &amp; WAEC 9-point grading scale pre-configured</li>
+                            <li><i class="fas fa-check-circle"></i> Instant class position ranking (1st, 2nd, 3rd) computed automatically</li>
+                            <li><i class="fas fa-check-circle"></i> Direct publishing to student terminal report cards in seconds</li>
+                        </ul>
+                        <form method="POST" action="{{ route('school-management.demo-login.submit') }}">
+                            @csrf
+                            <input type="hidden" name="role" value="teacher">
+                            <button type="submit" class="showcase-cta-btn" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);">
+                                <span>Launch Live Teacher Sandbox</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 3. Parent Showcase Panel -->
+                <div class="showcase-panel" id="tab-panel-parent">
+                    <div class="browser-frame">
+                        <div class="browser-header">
+                            <div class="browser-controls">
+                                <span class="browser-dot red"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-address">
+                                <i class="fas fa-lock"></i> https://sms.extremesolutions.com.ng/parent/dashboard
+                            </div>
+                            <div class="browser-badge">
+                                Mobile Responsive
+                            </div>
+                        </div>
+                        <div class="browser-content">
+                            <img src="{{ asset('images/mockup-parent-portal.png') }}" alt="ES-SCHOOLS Parent Portal Fee Payment &amp; Terminal Report Card" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <span class="showcase-role-badge" style="color: #d97706; background: #fffbeb;">
+                            <i class="fas fa-users"></i> Parent Transparency Module
+                        </span>
+                        <h3>Mobile School Fees Payments &amp; Verified Terminal Report Slips</h3>
+                        <p class="showcase-lead">
+                            Give parents 24/7 peace of mind. Parents can check live fee balances, pay securely with instant Paystack receipts, inspect daily attendance records, and download verified digital report cards with school crests.
+                        </p>
+                        <div class="showcase-kpi-grid">
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num" style="color: #d97706;">&#8358;0.00</div>
+                                <div class="showcase-kpi-lbl">Zero Queue Friction</div>
+                            </div>
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num" style="color: #d97706;">24/7</div>
+                                <div class="showcase-kpi-lbl">Instant PDF Access</div>
+                            </div>
+                        </div>
+                        <ul class="showcase-perks">
+                            <li><i class="fas fa-check-circle"></i> Itemized term fee breakdown with automated receipt issuance</li>
+                            <li><i class="fas fa-check-circle"></i> Verified terminal report cards with principal stamp &amp; signature</li>
+                            <li><i class="fas fa-check-circle"></i> Real-time daily classroom attendance and school notices</li>
+                        </ul>
+                        <form method="POST" action="{{ route('school-management.demo-login.submit') }}">
+                            @csrf
+                            <input type="hidden" name="role" value="parent">
+                            <button type="submit" class="showcase-cta-btn" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">
+                                <span>Launch Live Parent Sandbox</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 4. Student Showcase Panel -->
+                <div class="showcase-panel" id="tab-panel-student">
+                    <div class="browser-frame">
+                        <div class="browser-header">
+                            <div class="browser-controls">
+                                <span class="browser-dot red"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-address">
+                                <i class="fas fa-lock"></i> https://sms.extremesolutions.com.ng/student/cbt/take
+                            </div>
+                            <div class="browser-badge">
+                                Timed Examination Engine
+                            </div>
+                        </div>
+                        <div class="browser-content">
+                            <img src="{{ asset('images/mockup-student-cbt.png') }}" alt="ES-SCHOOLS Student CBT Examination Runner" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <span class="showcase-role-badge" style="color: #7c3aed; background: #f5f3ff;">
+                            <i class="fas fa-user-graduate"></i> Student &amp; CBT Module
+                        </span>
+                        <h3>WAEC &amp; JAMB Standard Computer-Based Testing (CBT)</h3>
+                        <p class="showcase-lead">
+                            Prepare your students for external examination victory. Our built-in CBT engine provides timed tests, diagram support, randomized questions, instant grading, and detailed answer reviews.
+                        </p>
+                        <div class="showcase-kpi-grid">
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num" style="color: #7c3aed;">50+</div>
+                                <div class="showcase-kpi-lbl">Questions Per Test</div>
+                            </div>
+                            <div class="showcase-kpi-item">
+                                <div class="showcase-kpi-num" style="color: #7c3aed;">Instant</div>
+                                <div class="showcase-kpi-lbl">Auto Marking &amp; Review</div>
+                            </div>
+                        </div>
+                        <ul class="showcase-perks">
+                            <li><i class="fas fa-check-circle"></i> Timed countdown timer with visual question navigation palette</li>
+                            <li><i class="fas fa-check-circle"></i> Rich mathematical and scientific diagram support</li>
+                            <li><i class="fas fa-check-circle"></i> Weekly class timetables, subject assignments, and result slips</li>
+                        </ul>
+                        <form method="POST" action="{{ route('school-management.demo-login.submit') }}">
+                            @csrf
+                            <input type="hidden" name="role" value="student">
+                            <button type="submit" class="showcase-cta-btn" style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
+                                <span>Launch Live Student Sandbox</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2171,6 +2770,30 @@
                 } else {
                     navbar.classList.remove('scrolled');
                 }
+            });
+
+            // Showcase Tab Switcher
+            const showcaseTabs = document.querySelectorAll('.showcase-tab');
+            const showcasePanels = document.querySelectorAll('.showcase-panel');
+
+            showcaseTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    showcaseTabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    showcasePanels.forEach(p => p.classList.remove('active'));
+
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+
+                    const activePanel = document.getElementById('tab-panel-' + targetTab);
+                    if (activePanel) {
+                        activePanel.classList.add('active');
+                    }
+                });
             });
 
             // Smooth scroll offset for sticky navbar

@@ -1181,17 +1181,6 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a href="{{ route('school.dashboard') }}" class="menu-link">
-                    <div class="menu-left">
-                        <i class="fas fa-school" style="color: #64748b;"></i>
-                        <span>School Admin</span>
-                    </div>
-                    <div class="menu-right">
-                        <i class="fas fa-external-link-alt" style="font-size: 0.7rem;"></i>
-                    </div>
-                </a>
-            </li>
-            <li class="menu-item">
                 <a href="javascript:void(0)" onclick="openModal('galleryModal')" class="menu-link">
                     <div class="menu-left">
                         <i class="fas fa-images" style="color: #14b8a6;"></i>
@@ -1204,14 +1193,6 @@
                     <div class="menu-left">
                         <i class="far fa-comment-dots" style="color: #3b82f6;"></i>
                         <span>Staff Chat</span>
-                    </div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="{{ route('school.payments.settings') }}" class="menu-link">
-                    <div class="menu-left">
-                        <i class="fas fa-cog" style="color: #64748b;"></i>
-                        <span>Settings</span>
                     </div>
                 </a>
             </li>

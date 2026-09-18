@@ -127,7 +127,7 @@
             <li class="menu-item"><a href="{{ route('sms.teacher.assignments') }}" class="menu-link"><div class="menu-left"><i class="fas fa-tasks" style="color: #f97316;"></i><span>Assignments</span></div></a></li>
             <li class="menu-item"><a href="{{ route('sms.teacher.results-entry.index') }}" class="menu-link"><div class="menu-left"><i class="far fa-file-alt" style="color: #10b981;"></i><span>Enter Results</span></div></a></li>
             <li class="menu-item"><a href="{{ route('sms.teacher.results') }}" class="menu-link"><div class="menu-left"><i class="fas fa-poll" style="color: #6366f1;"></i><span>Report Cards</span></div></a></li>
-            <li class="menu-item"><a href="{{ route('school.dashboard') }}" class="menu-link"><div class="menu-left"><i class="fas fa-school" style="color: #64748b;"></i><span>School Admin</span></div></a></li>
+            <li class="menu-item"><a href="{{ route('sms.teacher.question-bank') }}" class="menu-link"><div class="menu-left"><i class="fas fa-database" style="color: #0ea5e9;"></i><span>Question Bank</span></div></a></li>
             <li class="menu-item" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
                 <form id="teacherLogoutForm" method="POST" action="{{ route('sms.logout') }}" style="display: none;">@csrf</form>
                 <a href="javascript:void(0)" onclick="document.getElementById('teacherLogoutForm').submit();" class="menu-link" style="color: #ef4444;"><div class="menu-left"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div></a>

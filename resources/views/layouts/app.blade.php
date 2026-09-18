@@ -18,18 +18,18 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('og_title', 'School Management System - Simplify School Administration')">
-    <meta property="og:description" content="@yield('og_description', 'Comprehensive school management system for administrators, teachers, and students. Manage attendance, results, fees, assignments, and more with ease.')">
-    <meta property="og:image" content="@yield('og_image', asset('images/og-image.jpg'))">
-    <meta property="og:site_name" content="School Management System">
-    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="@yield('og_title', 'ES-SCHOOLS - Nigeria\'s Premier School Management Platform')">
+    <meta property="og:description" content="@yield('og_description', 'Automate tuition recovery, 1-click terminal report cards, and parent communications with ES-SCHOOLS.')">
+    <meta property="og:image" content="@yield('og_image', asset('og-preview.png'))">
+    <meta property="og:site_name" content="ES-SCHOOLS">
+    <meta property="og:locale" content="en_NG">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="@yield('twitter_title', 'School Management System - Simplify School Administration')">
-    <meta name="twitter:description" content="@yield('twitter_description', 'Comprehensive school management system for administrators, teachers, and students.')">
-    <meta name="twitter:image" content="@yield('twitter_image', asset('images/og-image.jpg'))">
+    <meta name="twitter:title" content="@yield('twitter_title', 'ES-SCHOOLS - Nigeria\'s Premier School Management Platform')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Automate tuition recovery, 1-click terminal report cards, and parent communications with ES-SCHOOLS.')">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('og-preview.png'))">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url()->current() }}">

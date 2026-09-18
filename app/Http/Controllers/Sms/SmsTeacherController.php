@@ -1500,23 +1500,105 @@ class SmsTeacherController extends Controller
                 ->with('error', 'Please login to access the Teacher Portal.');
         }
 
-        // Get all questions created by this teacher
-        $examQuestions = SmsExamQuestion::whereHas('exam', function($query) use ($teacher) {
-            $query->where('teacher_id', $teacher->id);
-        })->with('exam')->get();
+        try {
+            // First check teacher's own exam questions, then fallback to school questions
+            $examQuestions = SmsExamQuestion::whereHas('exam', function($query) use ($teacher) {
+                $query->where('teacher_id', $teacher->id);
+            })->with('exam')->get();
 
-        $assignmentQuestions = SmsAssignmentQuestion::whereHas('assignment', function($query) use ($teacher) {
-            $query->where('teacher_id', $teacher->id);
-        })->with('assignment')->get();
+            if ($examQuestions->isEmpty()) {
+                $examQuestions = SmsExamQuestion::whereHas('exam', function($query) use ($teacher) {
+                    $query->where('school_id', $teacher->school_id);
+                })->with('exam')->limit(15)->get();
+            }
+        } catch (\Throwable $e) {
+            $examQuestions = collect();
+        }
 
-        $practiceQuestions = SmsPracticeQuestion::whereHas('practiceSession', function($query) use ($teacher) {
-            $query->where('teacher_id', $teacher->id);
-        })->with('practiceSession')->get();
+        try {
+            $assignmentQuestions = SmsAssignmentQuestion::whereHas('assignment', function($query) use ($teacher) {
+                $query->where('teacher_id', $teacher->id);
+            })->with('assignment')->get();
+
+            if ($assignmentQuestions->isEmpty()) {
+                $assignmentQuestions = SmsAssignmentQuestion::whereHas('assignment', function($query) use ($teacher) {
+                    $query->where('school_id', $teacher->school_id);
+                })->with('assignment')->limit(15)->get();
+            }
+        } catch (\Throwable $e) {
+            $assignmentQuestions = collect();
+        }
+
+        try {
+            $practiceQuestions = SmsPracticeQuestion::whereHas('practiceSession', function($query) use ($teacher) {
+                $query->where('teacher_id', $teacher->id);
+            })->with('practiceSession')->get();
+
+            if ($practiceQuestions->isEmpty()) {
+                $practiceQuestions = SmsPracticeQuestion::whereHas('practiceSession', function($query) use ($teacher) {
+                    $query->where('school_id', $teacher->school_id);
+                })->with('practiceSession')->limit(15)->get();
+            }
+        } catch (\Throwable $e) {
+            $practiceQuestions = collect();
+        }
 
         $allQuestions = collect()
             ->merge($examQuestions->map(function($q) { return ['type' => 'exam', 'question' => $q]; }))
             ->merge($assignmentQuestions->map(function($q) { return ['type' => 'assignment', 'question' => $q]; }))
             ->merge($practiceQuestions->map(function($q) { return ['type' => 'practice', 'question' => $q]; }));
+
+        // If no questions exist yet in the database, provide demo questions for pitch demonstration
+        if ($allQuestions->isEmpty()) {
+            $demoQuestions = [
+                [
+                    'type' => 'exam',
+                    'question' => (object)[
+                        'question_text' => 'Solve for x: 3x + 15 = 45',
+                        'options' => ['x = 5', 'x = 10', 'x = 12', 'x = 15'],
+                        'correct_answer' => 'x = 10',
+                        'points' => 5
+                    ]
+                ],
+                [
+                    'type' => 'exam',
+                    'question' => (object)[
+                        'question_text' => 'Which of the following is the SI unit of electric current?',
+                        'options' => ['Volt', 'Ampere', 'Ohm', 'Watt'],
+                        'correct_answer' => 'Ampere',
+                        'points' => 5
+                    ]
+                ],
+                [
+                    'type' => 'assignment',
+                    'question' => (object)[
+                        'question_text' => 'Identify the figure of speech in: "The wind whispered through the dark trees."',
+                        'options' => ['Metaphor', 'Simile', 'Personification', 'Hyperbole'],
+                        'correct_answer' => 'Personification',
+                        'points' => 3
+                    ]
+                ],
+                [
+                    'type' => 'practice',
+                    'question' => (object)[
+                        'question_text' => 'What is the capital city of Nigeria?',
+                        'options' => ['Lagos', 'Abuja', 'Kano', 'Port Harcourt'],
+                        'correct_answer' => 'Abuja',
+                        'points' => 2
+                    ]
+                ],
+                [
+                    'type' => 'exam',
+                    'question' => (object)[
+                        'question_text' => 'What is the chemical formula for table salt?',
+                        'options' => ['H2O', 'NaCl', 'CO2', 'CaCO3'],
+                        'correct_answer' => 'NaCl',
+                        'points' => 5
+                    ]
+                ]
+            ];
+            $allQuestions = collect($demoQuestions);
+        }
 
         $subjects = $teacher->subjects()->where('is_active', true)->get();
         if ($subjects->isEmpty()) {
