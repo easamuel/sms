@@ -2,25 +2,24 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- Primary Meta Tags -->
-    <title>@yield('title', 'Admin Dashboard - School Management System')</title>
-    <meta name="title" content="@yield('meta_title', 'Admin Dashboard - School Management System')">
-    <meta name="description" content="@yield('meta_description', 'Admin dashboard for comprehensive school management. Manage students, staff, classes, fees, and all school operations from one centralized platform.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'school admin dashboard, school administration, student management, staff management, school management system')">
+    <title>@yield('title', 'Admin Dashboard - ES-SCHOOLS')</title>
+    <meta name="description" content="Proprietor &amp; Admin Management Portal for ES-SCHOOLS. Complete management for students, staff, classes, fees, exams, and academic operations.">
     <meta name="robots" content="noindex, nofollow">
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="{{ url()->current() }}">
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     @include('sms.partials.design-system')
@@ -32,353 +31,471 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --bg-body: #f4f6fb;
+            --bg-sidebar: #ffffff;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-header: #f8fafc;
+            --border-color: #e2e8f0;
+            --border-subtle: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --accent-orange: #ff9f43;
+            --accent-purple: #a55eea;
+            --accent-blue: #4b7bec;
+            --accent-cyan: #0fbcf9;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.05);
+        }
+
+        body.dark-theme {
+            --bg-body: #16171d;
+            --bg-sidebar: #121318;
+            --bg-header: #1a1b22;
+            --bg-card: #20222a;
+            --bg-card-header: #272933;
+            --border-color: #2c2e39;
+            --border-subtle: #20222a;
+            --text-main: #ffffff;
+            --text-muted: #9aa0ac;
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
+        }
+
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100% !important;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--sms-gray-50);
-            color: var(--sms-gray-900);
-            line-height: 1.6;
-        }
-        
-        .admin-layout {
-            display: flex;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
+            display: flex;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
-        
-        /* Sidebar */
-        .admin-sidebar {
-            width: 280px;
-            background: white;
-            border-right: 1px solid var(--sms-gray-200);
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 255px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
             position: fixed;
-            height: 100vh;
-            overflow-y: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
             z-index: 1000;
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
-        
-        .admin-sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--sms-gray-200);
-            background: linear-gradient(135deg, var(--sms-primary), var(--sms-primary-dark));
-            color: white;
+
+        .sidebar-header {
+            padding: 1.15rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            height: 68px;
         }
-        
-        .admin-sidebar-logo {
+
+        .brand-logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: white;
             text-decoration: none;
-            transition: opacity 0.2s ease;
         }
-        
-        .admin-sidebar-logo:hover {
-            opacity: 0.9;
-        }
-        
-        .admin-sidebar-logo-icon {
+
+        .brand-logo .grad-cap {
+            background: linear-gradient(135deg, #1e3a8a, #10b981);
+            color: white;
             width: 36px;
             height: 36px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 10px rgba(30,58,138,0.25);
+            flex-shrink: 0;
         }
-        
-        .admin-sidebar-nav {
-            padding: 1rem 0;
-        }
-        
-        .nav-section {
-            margin-bottom: 1.5rem;
-        }
-        
-        .nav-section-title {
-            padding: 0.5rem 1.5rem;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--sms-gray-500);
-            font-weight: 700;
-        }
-        
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: var(--sms-gray-700);
-            text-decoration: none;
-            transition: all 0.2s;
-            font-size: 0.9375rem;
-            font-weight: 500;
-        }
-        
-        .nav-item:hover {
-            background: var(--sms-gray-50);
-            color: var(--sms-primary);
-        }
-        
-        .nav-item.active {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--sms-primary);
-            border-right: 3px solid var(--sms-primary);
-        }
-        
-        .nav-item i {
-            width: 20px;
-            text-align: center;
-        }
-        
-        .nav-submenu {
-            padding-left: 2.5rem;
-        }
-        
-        .nav-submenu .nav-item {
-            padding: 0.625rem 1.5rem;
-            font-size: 0.875rem;
-        }
-        
-        /* Main Content */
-        .admin-main {
-            flex: 1;
-            margin-left: 280px;
+
+        .brand-text-wrap {
             display: flex;
             flex-direction: column;
         }
-        
-        .admin-topbar {
-            background: white;
-            border-bottom: 1px solid var(--sms-gray-200);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
+
+        .brand-title {
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        body.dark-theme .brand-title {
+            color: #ffffff;
+        }
+
+        .brand-sub {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .collapse-btn {
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 0.25rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .collapse-btn:hover {
+            color: var(--primary);
+            background: var(--border-subtle);
+        }
+
+        .mobile-close-btn {
+            display: none;
+            width: 32px;
+            height: 32px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0.85rem 0.75rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .menu-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7rem 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .menu-link:hover, .menu-link.active {
+            color: var(--primary);
+            background: rgba(30, 58, 138, 0.08);
+            font-weight: 700;
+        }
+
+        body.dark-theme .menu-link:hover, body.dark-theme .menu-link.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.14);
+        }
+
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-left i {
+            font-size: 1.05rem;
+            width: 22px;
+            text-align: center;
+        }
+
+        .menu-section-header {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            font-weight: 800;
+            padding: 0.75rem 0.85rem 0.35rem;
+        }
+
+        /* Main Content Wrapper */
+        .main-wrapper {
+            margin-left: 255px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            min-height: 100vh;
+            background-color: var(--bg-body);
+        }
+
+        /* Top Header */
+        .top-header {
+            height: 68px;
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.75rem;
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            z-index: 900;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
-        
-        .admin-topbar-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--sms-gray-900);
-        }
-        
-        .admin-topbar-actions {
+
+        .header-left {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
-        .admin-user-menu {
+
+        .mobile-toggle-btn {
+            display: none;
+            width: 38px;
+            height: 38px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.05rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .header-title-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .header-select-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-color);
+            padding: 0.45rem 0.85rem;
+            border-radius: 30px;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .header-select-pill i {
+            color: var(--accent-orange);
+        }
+
+        .header-right {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.5rem 1rem;
-            background: var(--sms-gray-50);
-            border-radius: 8px;
         }
-        
-        .admin-user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sms-primary), var(--sms-primary-dark));
+
+        .header-icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .header-icon-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--border-subtle);
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.35rem 0.85rem 0.35rem 0.45rem;
+            border-radius: 30px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-color);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a8a, #10b981);
             color: white;
+            font-weight: 800;
+            font-size: 0.8125rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .user-role {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
             font-weight: 600;
-            font-size: 0.875rem;
         }
-        
+
+        .btn-logout {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.35rem;
+            border-radius: 6px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-logout:hover {
+            color: #ef4444;
+        }
+
+        /* Page Content */
         .admin-content {
+            padding: 1.75rem;
             flex: 1;
-            padding: 1rem;
+            min-width: 0;
+            max-width: 1400px;
+            width: 100%;
         }
-        
-        @media (min-width: 640px) {
-            .admin-content {
-                padding: 1.5rem;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .admin-content {
-                padding: 2rem;
-            }
-        }
-        
+
         /* Flash Messages */
         .sms-alert {
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
         }
-        
+
         .sms-alert-success {
             background: #d1fae5;
             color: #065f46;
             border: 1px solid #a7f3d0;
         }
-        
+
         .sms-alert-error {
             background: #fee2e2;
             color: #991b1b;
             border: 1px solid #fecaca;
         }
-        
+
         .sms-alert-warning {
             background: #fef3c7;
             color: #92400e;
             border: 1px solid #fde68a;
         }
-        
+
         .sms-alert-info {
             background: #dbeafe;
             color: #1e40af;
             border: 1px solid #bfdbfe;
         }
-        
-        .sms-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-        
-        .sms-btn-primary {
-            background: linear-gradient(135deg, var(--sms-primary), var(--sms-primary-dark));
-            color: white;
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-        }
-        
-        .sms-btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
-        
-        .sms-btn-secondary {
-            background: white;
-            color: var(--sms-gray-700);
-            border: 1px solid var(--sms-gray-300);
-        }
-        
-        .sms-btn-secondary:hover {
-            background: var(--sms-gray-50);
-        }
-        
-        /* Mobile Menu Toggle */
-        .admin-menu-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            padding: 0.5rem;
-            cursor: pointer;
-            color: var(--sms-gray-700);
-            font-size: 1.25rem;
-            touch-action: manipulation;
-            margin-right: 0.5rem;
-        }
-        
-        .admin-menu-toggle:active {
-            transform: scale(0.95);
-        }
-        
-        /* Mobile Overlay */
-        .admin-sidebar-overlay {
+
+        /* Sidebar Overlay for Mobile */
+        .sidebar-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
             z-index: 999;
         }
-        
-        .admin-sidebar-overlay.active {
+
+        .sidebar-overlay.active {
             display: block;
         }
-        
-        /* Mobile Responsive */
+
+        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
-            .admin-menu-toggle {
-                display: block;
-            }
-            
-            .admin-sidebar {
+            .sidebar {
                 transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                width: 280px;
             }
-            
-            .admin-sidebar.open {
+            .sidebar.mobile-open {
                 transform: translateX(0);
             }
-            
-            .admin-main {
+            .main-wrapper {
                 margin-left: 0;
             }
-            
-            .admin-topbar {
-                padding: 0.875rem 1rem;
+            .mobile-toggle-btn {
+                display: flex;
             }
-            
-            .admin-topbar-title {
-                font-size: 1.25rem;
+            .mobile-close-btn {
+                display: flex;
             }
-            
-            .admin-user-menu {
-                padding: 0.375rem 0.75rem;
-                gap: 0.5rem;
-            }
-            
-            .admin-user-menu > div:last-child {
+            .header-select-pill {
                 display: none;
             }
-            
+            .user-details {
+                display: none;
+            }
             .admin-content {
-                padding: 1rem;
+                padding: 1.25rem 1rem;
             }
         }
-        
+
         @media (max-width: 640px) {
-            .admin-sidebar {
-                width: 260px;
+            .top-header {
+                padding: 0 1rem;
+                height: 60px;
             }
-            
-            .admin-topbar-actions {
-                gap: 0.5rem;
+            .header-title-text {
+                font-size: 1.05rem;
             }
-            
-            .sms-btn {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.8125rem;
-            }
-            
-            .sms-btn i {
-                margin: 0;
-            }
-            
-            .sms-btn span {
-                display: none;
+            .admin-content {
+                padding: 1rem 0.75rem;
             }
         }
     </style>
@@ -386,257 +503,314 @@
     @stack('styles')
 </head>
 <body>
-    <div class="admin-layout">
-        <!-- Sidebar -->
-        <aside class="admin-sidebar" id="adminSidebar">
-            <div class="admin-sidebar-header">
-                <a href="{{ route('school.dashboard') }}" class="admin-sidebar-logo" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;" title="Go to Admin Dashboard">
-                    <div class="admin-sidebar-logo-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <span>School Admin</span>
-                </a>
-            </div>
-            
-            <nav class="admin-sidebar-nav">
-                <!-- Dashboard -->
-                <div class="nav-section">
-                    <a href="{{ route('school.dashboard') }}" class="nav-item {{ request()->routeIs('school.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home"></i>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <a href="{{ route('home') }}" class="brand-logo" title="Back to Homepage">
+                <div class="grad-cap">
+                    <i class="fas fa-school"></i>
+                </div>
+                <div class="brand-text-wrap">
+                    <span class="brand-title">ES-SCHOOLS</span>
+                    <span class="brand-sub">Proprietor / Admin</span>
+                </div>
+            </a>
+            <button class="mobile-close-btn" id="closeSidebarMobile" onclick="toggleAdminSidebar()" title="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="{{ route('school.dashboard') }}" class="menu-link {{ request()->routeIs('school.dashboard') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-tachometer-alt" style="color: #1e3a8a;"></i>
                         <span>Dashboard</span>
-                    </a>
-                </div>
-                
-                <!-- Students -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Students</div>
-                    <a href="{{ route('school.students.index') }}" class="nav-item {{ request()->routeIs('school.students.*') ? 'active' : '' }}">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>Student Info</span>
-                    </a>
-                    <a href="{{ route('school.students.create') }}" class="nav-item nav-submenu">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Register Student</span>
-                    </a>
-                    <a href="{{ route('school.parents.index') }}" class="nav-item nav-submenu {{ request()->routeIs('school.parents.index') || request()->routeIs('school.parents.show') || request()->routeIs('school.parents.edit') ? 'active' : '' }}">
-                        <i class="fas fa-users"></i>
-                        <span>Parents Management</span>
-                    </a>
-                    <a href="{{ route('school.parents.register') }}" class="nav-item nav-submenu {{ request()->routeIs('school.parents.register') ? 'active' : '' }}">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Register Parent</span>
-                    </a>
-                    <a href="{{ route('school.students.id-cards') }}" class="nav-item nav-submenu {{ request()->routeIs('school.students.id-cards*') ? 'active' : '' }}">
-                        <i class="fas fa-id-card"></i>
-                        <span>ID Cards</span>
-                    </a>
-                    <a href="{{ route('school.students.index') }}?action=certificates" class="nav-item nav-submenu">
-                        <i class="fas fa-certificate"></i>
-                        <span>Certificates</span>
-                    </a>
-                </div>
-                
-                <!-- Academic -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Academic</div>
-                    <a href="{{ route('school.timetable.index') }}" class="nav-item {{ request()->routeIs('school.timetable.*') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Routines (Timetable)</span>
-                    </a>
-                    <a href="{{ route('school.attendance.index') }}" class="nav-item {{ request()->routeIs('school.attendance.*') ? 'active' : '' }}">
-                        <i class="fas fa-clipboard-check"></i>
-                        <span>Attendance</span>
-                    </a>
-                </div>
-                
-                <!-- Fees -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Fees</div>
-                    <a href="{{ route('school.fees.index') }}" class="nav-item {{ request()->routeIs('school.fees.index') || request()->routeIs('school.fees.edit') || request()->routeIs('school.fees.create') ? 'active' : '' }}">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <span>Fee Structures</span>
-                    </a>
-                    <a href="{{ route('school.fees.student-fees') }}" class="nav-item nav-submenu {{ request()->routeIs('school.fees.student-fees') ? 'active' : '' }}">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>Student Fees</span>
-                    </a>
-                </div>
-                
-                <!-- Payments -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Payments</div>
-                    <a href="{{ route('school.payments.index') }}" class="nav-item {{ request()->routeIs('school.payments.index') ? 'active' : '' }}">
-                        <i class="fas fa-credit-card"></i>
-                        <span>Payment Dashboard</span>
-                    </a>
-                    <a href="{{ route('school.payments.manual-transfers') }}" class="nav-item nav-submenu {{ request()->routeIs('school.payments.manual-transfers*') ? 'active' : '' }}">
-                        <i class="fas fa-university"></i>
-                        <span>Manual Transfers</span>
-                    </a>
-                    <a href="{{ route('school.payments.settings') }}" class="nav-item nav-submenu {{ request()->routeIs('school.payments.settings*') ? 'active' : '' }}">
-                        <i class="fas fa-cog"></i>
-                        <span>Payment Settings</span>
-                    </a>
-                </div>
-                
-                <!-- Examination -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Examination</div>
-                    <a href="{{ route('school.exams.index') }}" class="nav-item {{ request()->routeIs('school.exams.*') ? 'active' : '' }}">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Examination</span>
-                    </a>
-                    <a href="{{ route('school.exams.index') }}?type=online" class="nav-item">
-                        <i class="fas fa-laptop"></i>
-                        <span>Online Examination</span>
-                    </a>
-                </div>
-                
-                <!-- Academic Activities -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Academic Activities</div>
-                </div>
-                
-                <!-- Communication -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Communication</div>
-                    <a href="{{ route('school.messages.index') }}" class="nav-item {{ request()->routeIs('school.messages.*') ? 'active' : '' }}">
-                        <i class="fas fa-comments"></i>
-                        <span>Parent Messages</span>
-                    </a>
-                    <a href="{{ route('school.notices.index') }}" class="nav-item {{ request()->routeIs('school.notices.*') ? 'active' : '' }}">
-                        <i class="fas fa-bullhorn"></i>
-                        <span>Notice Board</span>
-                    </a>
-                </div>
-                
-                <!-- Staff -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Staff</div>
-                    <a href="{{ route('school.staff.index') }}" class="nav-item {{ request()->routeIs('school.staff.*') ? 'active' : '' }}">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <span>Staff Management</span>
-                    </a>
-                </div>
-                
-                <!-- Classes & Subjects -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Academic Setup</div>
-                    <a href="{{ route('school.classes.index') }}" class="nav-item {{ request()->routeIs('school.classes.*') ? 'active' : '' }}">
-                        <i class="fas fa-layer-group"></i>
-                        <span>Classes</span>
-                    </a>
-                    <a href="{{ route('school.subjects.index') }}" class="nav-item {{ request()->routeIs('school.subjects.*') ? 'active' : '' }}">
-                        <i class="fas fa-book-open"></i>
-                        <span>Subjects</span>
-                    </a>
-                </div>
-                
-                <!-- Accounts & Reports -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Finance & Reports</div>
-                    <a href="{{ route('school.results.index') }}" class="nav-item {{ request()->routeIs('school.results.*') ? 'active' : '' }}">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Reports</span>
-                    </a>
-                </div>
-                
-                <!-- Settings -->
-                <div class="nav-section">
-                    <div class="nav-section-title">Settings</div>
-                </div>
-            </nav>
-        </aside>
-        
-        <!-- Mobile Overlay -->
-        <div class="admin-sidebar-overlay" id="adminOverlay" onclick="toggleSidebar()"></div>
-        
-        <!-- Main Content -->
-        <div class="admin-main">
-            <div class="admin-topbar">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <button class="admin-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <h1 class="admin-topbar-title">@yield('page-title', 'Dashboard')</h1>
-                </div>
-                <div class="admin-topbar-actions">
-                    @if(session('sms_user'))
-                    <div class="admin-user-menu">
-                        <div class="admin-user-avatar">
-                            {{ strtoupper(substr(session('sms_user')->name ?? 'A', 0, 1)) }}
-                        </div>
-                        <div>
-                            <div style="font-weight: 600; font-size: 0.875rem;">{{ session('sms_user')->name ?? 'Admin' }}</div>
-                            <div style="font-size: 0.75rem; color: var(--sms-gray-500);">School Administrator</div>
-                        </div>
                     </div>
-                    <form method="POST" action="{{ route('sms.logout') }}" style="display: inline;">
+                </a>
+            </li>
+
+            <div class="menu-section-header">Students &amp; Families</div>
+
+            <li class="menu-item">
+                <a href="{{ route('school.students.index') }}" class="menu-link {{ request()->routeIs('school.students.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-user-graduate" style="color: #ff9f43;"></i>
+                        <span>Student Directory</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.parents.index') }}" class="menu-link {{ request()->routeIs('school.parents.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-users" style="color: #4b7bec;"></i>
+                        <span>Parents Management</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('admission.create') }}" class="menu-link">
+                    <div class="menu-left">
+                        <i class="fas fa-user-plus" style="color: #10b981;"></i>
+                        <span>Online Admission</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.students.id-cards') }}" class="menu-link {{ request()->routeIs('school.students.id-cards*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-id-card" style="color: #8b5cf6;"></i>
+                        <span>Student ID Cards</span>
+                    </div>
+                </a>
+            </li>
+
+            <div class="menu-section-header">Academics &amp; Faculty</div>
+
+            <li class="menu-item">
+                <a href="{{ route('school.staff.index') }}" class="menu-link {{ request()->routeIs('school.staff.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-chalkboard-teacher" style="color: #4b7bec;"></i>
+                        <span>Teachers &amp; Staff</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.classes.index') }}" class="menu-link {{ request()->routeIs('school.classes.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-layer-group" style="color: #a55eea;"></i>
+                        <span>Classes &amp; Sections</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.subjects.index') }}" class="menu-link {{ request()->routeIs('school.subjects.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-book" style="color: #10b981;"></i>
+                        <span>Subjects</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.attendance.index') }}" class="menu-link {{ request()->routeIs('school.attendance.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-user-check" style="color: #0fbcf9;"></i>
+                        <span>Attendance</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.timetable.index') }}" class="menu-link {{ request()->routeIs('school.timetable.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="far fa-calendar-alt" style="color: #f59e0b;"></i>
+                        <span>Routines &amp; Timetable</span>
+                    </div>
+                </a>
+            </li>
+
+            <div class="menu-section-header">CBT &amp; Evaluation</div>
+
+            <li class="menu-item">
+                <a href="{{ route('school.exams.index') }}" class="menu-link {{ request()->routeIs('school.exams.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-laptop-code" style="color: #8b5cf6;"></i>
+                        <span>Exams &amp; CBT</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.results.index') }}" class="menu-link {{ request()->routeIs('school.results.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-poll" style="color: #06b6d4;"></i>
+                        <span>Results &amp; Grading</span>
+                    </div>
+                </a>
+            </li>
+
+            <div class="menu-section-header">Finance &amp; Fees</div>
+
+            <li class="menu-item">
+                <a href="{{ route('school.fees.index') }}" class="menu-link {{ request()->routeIs('school.fees.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-money-bill-wave" style="color: #10b981;"></i>
+                        <span>Fees &amp; Invoicing</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.payments.index') }}" class="menu-link {{ request()->routeIs('school.payments.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="fas fa-credit-card" style="color: #3b82f6;"></i>
+                        <span>Payments &amp; Transfers</span>
+                    </div>
+                </a>
+            </li>
+
+            <div class="menu-section-header">Communication &amp; Portal</div>
+
+            <li class="menu-item">
+                <a href="{{ route('school.messages.index') }}" class="menu-link {{ request()->routeIs('school.messages.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="far fa-comments" style="color: #3b82f6;"></i>
+                        <span>Parent Messages</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('school.notices.index') }}" class="menu-link {{ request()->routeIs('school.notices.*') ? 'active' : '' }}">
+                    <div class="menu-left">
+                        <i class="far fa-bell" style="color: #f59e0b;"></i>
+                        <span>Notice Board</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="adminSidebarOverlay" onclick="toggleAdminSidebar()"></div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-toggle-btn" onclick="toggleAdminSidebar()" aria-label="Toggle Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title-text">@yield('page-title', 'School Admin')</div>
+                <div class="header-select-pill">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>2026/2027 Academic Session</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <!-- Theme Toggle Button -->
+                <button class="header-icon-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Switch Light/Dark Mode" aria-label="Switch Theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+
+                <!-- Website Home Link -->
+                <a href="{{ route('home') }}" class="header-icon-btn" title="Go to Website Homepage">
+                    <i class="fas fa-globe"></i>
+                </a>
+
+                <!-- User Profile Pill -->
+                <div class="user-pill">
+                    <div class="user-avatar">
+                        {{ strtoupper(substr(session('sms_user')->name ?? 'Admin', 0, 1)) }}
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">{{ session('sms_user')->name ?? 'Administrator' }}</span>
+                        <span class="user-role">Proprietor / Admin</span>
+                    </div>
+                    <form method="POST" action="{{ route('sms.logout') }}" style="display: inline; margin-left: 0.25rem;">
                         @csrf
-                        <button type="submit" class="sms-btn sms-btn-secondary" aria-label="Logout">
+                        <button type="submit" class="btn-logout" title="Sign Out">
                             <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
                         </button>
                     </form>
-                    @endif
                 </div>
             </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-content">
+            <!-- Flash Messages -->
+            @if(session('success'))
+                <div class="sms-alert sms-alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <span>{!! session('success') !!}</span>
+                </div>
+            @endif
             
-            <div class="admin-content">
-                <!-- Flash Messages -->
-                @if(session('success'))
-                    <div class="sms-alert sms-alert-success">
-                        <i class="fas fa-check-circle"></i>
-                        <span>{!! session('success') !!}</span>
-                    </div>
-                @endif
-                
-                @if(session('error'))
+            @if(session('error'))
                 <div class="sms-alert sms-alert-error">
                     <i class="fas fa-exclamation-circle"></i>
                     <span>{{ session('error') }}</span>
                 </div>
-                @endif
-                
-                @if(session('warning'))
+            @endif
+            
+            @if(session('warning'))
                 <div class="sms-alert sms-alert-warning">
                     <i class="fas fa-exclamation-triangle"></i>
                     <span>{{ session('warning') }}</span>
                 </div>
-                @endif
-                
-                @if(session('info'))
+            @endif
+            
+            @if(session('info'))
                 <div class="sms-alert sms-alert-info">
                     <i class="fas fa-info-circle"></i>
                     <span>{{ session('info') }}</span>
                 </div>
-                @endif
-                
-                @if(isset($errors) && $errors->any())
+            @endif
+            
+            @if(isset($errors) && $errors->any())
                 <div class="sms-alert sms-alert-error">
                     <i class="fas fa-exclamation-circle"></i>
                     <div>
-                        <strong>Please fix the following errors:</strong>
-                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <strong>Please resolve the following:</strong>
+                        <ul style="margin-top: 0.25rem; margin-left: 1.25rem;">
                             @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                                <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
-                @endif
-                
-                <!-- Page Content -->
-                @yield('content')
-            </div>
-        </div>
+            @endif
+
+            @yield('content')
+        </main>
     </div>
-    
+
     <!-- Scripts -->
     <script>
         window.csrfToken = '{{ csrf_token() }}';
-        
-        // Auto-hide flash messages
+
+        // Mobile drawer toggle
+        function toggleAdminSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('adminSidebarOverlay');
+            if (sidebar) {
+                sidebar.classList.toggle('mobile-open');
+            }
+            if (overlay) {
+                overlay.classList.toggle('active');
+            }
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('sms_theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                if (isDark) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+        }
+
+        // Initialize Theme from localStorage
+        (function() {
+            const savedTheme = localStorage.getItem('sms_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                updateThemeIcon(true);
+            }
+        })();
+
+        // Auto-dismiss alerts
         document.addEventListener('DOMContentLoaded', function() {
             const alerts = document.querySelectorAll('.sms-alert');
             alerts.forEach(function(alert) {
@@ -648,29 +822,6 @@
                     }, 300);
                 }, 5000);
             });
-        });
-        
-        // Mobile sidebar toggle
-        function toggleSidebar() {
-            const sidebar = document.getElementById('adminSidebar');
-            const overlay = document.getElementById('adminOverlay');
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('active');
-        }
-        
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('adminSidebar');
-            const overlay = document.getElementById('adminOverlay');
-            const toggle = document.querySelector('.admin-menu-toggle');
-            
-            if (window.innerWidth <= 1024 && 
-                sidebar.classList.contains('open') &&
-                !sidebar.contains(event.target) &&
-                !toggle.contains(event.target)) {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
-            }
         });
     </script>
     

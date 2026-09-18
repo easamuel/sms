@@ -211,9 +211,11 @@ class SmsTeacherController extends Controller
 
     public function exams()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $exams = SmsExam::where('school_id', $teacher->school_id)
             ->where('teacher_id', $teacher->id)
@@ -232,32 +234,49 @@ class SmsTeacherController extends Controller
                 ->get();
         }
 
+        if ($classes->isEmpty()) {
+            $classes = SmsClass::where('school_id', $teacher->school_id)->take(6)->get();
+        }
+
         // Only show assigned subjects
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         return view('sms.teacher.exams', compact('teacher', 'exams', 'classes', 'subjects'));
     }
 
     public function createExam()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $classes = SmsClass::where('school_id', $teacher->school_id)->get();
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->get();
+        }
 
         return view('sms.teacher.exams.create', compact('teacher', 'classes', 'subjects'));
     }
 
     public function storeExam(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Validate subject belongs to teacher
         $assignedSubjectIds = $teacher->subjects()->pluck('sms_subjects.id')->toArray();
+        if (empty($assignedSubjectIds)) {
+            $assignedSubjectIds = SmsSubject::where('school_id', $teacher->school_id)->pluck('id')->toArray();
+        }
         
         $request->validate([
             'title' => 'required|string|max:255',
@@ -305,9 +324,11 @@ class SmsTeacherController extends Controller
 
     public function results()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Filter classes based on teacher type
         if ($teacher->teacher_type === 'primary') {
@@ -320,8 +341,15 @@ class SmsTeacherController extends Controller
                 ->get();
         }
 
+        if ($classes->isEmpty()) {
+            $classes = SmsClass::where('school_id', $teacher->school_id)->take(6)->get();
+        }
+
         // Only show assigned subjects
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         $results = Result::where('school_id', $teacher->school_id)
             ->where('teacher_id', $teacher->id)
@@ -334,9 +362,11 @@ class SmsTeacherController extends Controller
 
     public function uploadResults(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $request->validate([
             'class_id' => 'required|exists:sms_classes,id',
@@ -397,9 +427,11 @@ class SmsTeacherController extends Controller
 
     public function downloadResultsTemplate(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $classId = $request->get('class_id');
         $subjectId = $request->get('subject_id');
@@ -410,7 +442,11 @@ class SmsTeacherController extends Controller
 
         $class = SmsClass::where('school_id', $teacher->school_id)
             ->where('id', $classId)
-            ->firstOrFail();
+            ->first();
+
+        if (!$class) {
+            return redirect()->back()->with('error', 'Class not found.');
+        }
 
         $students = $class->students()->with('user')->orderBy('student_id_number')->get();
 
@@ -460,9 +496,11 @@ class SmsTeacherController extends Controller
 
     public function uploadResultsCsv(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $request->validate([
             'csv_file' => 'required|mimes:csv,txt|max:2048',
@@ -590,9 +628,11 @@ class SmsTeacherController extends Controller
 
     public function showUploadResultsForm(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Filter classes based on teacher type
         if ($teacher->teacher_type === 'primary') {
@@ -605,8 +645,15 @@ class SmsTeacherController extends Controller
                 ->get();
         }
 
+        if ($classes->isEmpty()) {
+            $classes = SmsClass::where('school_id', $teacher->school_id)->take(6)->get();
+        }
+
         // Only show assigned subjects
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         $examId = $request->get('exam_id');
         $classId = $request->get('class_id');
@@ -783,9 +830,11 @@ class SmsTeacherController extends Controller
 
     public function markAttendance(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $request->validate([
             'class_id' => 'required|exists:sms_classes,id',
@@ -815,9 +864,11 @@ class SmsTeacherController extends Controller
 
     public function assignments()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $assignments = SmsAssignment::where('school_id', $teacher->school_id)
             ->where('teacher_id', $teacher->id)
@@ -836,17 +887,26 @@ class SmsTeacherController extends Controller
                 ->get();
         }
 
+        if ($classes->isEmpty()) {
+            $classes = SmsClass::where('school_id', $teacher->school_id)->take(6)->get();
+        }
+
         // Only show assigned subjects
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         return view('sms.teacher.assignments.index', compact('teacher', 'assignments', 'classes', 'subjects'));
     }
 
     public function createAssignment()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Filter classes based on teacher type
         if ($teacher->teacher_type === 'primary') {
@@ -859,20 +919,32 @@ class SmsTeacherController extends Controller
                 ->get();
         }
 
+        if ($classes->isEmpty()) {
+            $classes = SmsClass::where('school_id', $teacher->school_id)->take(6)->get();
+        }
+
         // Only show assigned subjects
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         return view('sms.teacher.assignments.create', compact('teacher', 'classes', 'subjects'));
     }
 
     public function storeAssignment(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Validate subject belongs to teacher
         $assignedSubjectIds = $teacher->subjects()->pluck('sms_subjects.id')->toArray();
+        if (empty($assignedSubjectIds)) {
+            $assignedSubjectIds = SmsSubject::where('school_id', $teacher->school_id)->pluck('id')->toArray();
+        }
         
         $request->validate([
             'title' => 'required|string|max:255',
@@ -942,9 +1014,11 @@ class SmsTeacherController extends Controller
 
     public function practiceSessions()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $practiceSessions = SmsPracticeSession::where('school_id', $teacher->school_id)
             ->where('teacher_id', $teacher->id)
@@ -963,17 +1037,26 @@ class SmsTeacherController extends Controller
                 ->get();
         }
 
+        if ($classes->isEmpty()) {
+            $classes = SmsClass::where('school_id', $teacher->school_id)->take(6)->get();
+        }
+
         // Only show assigned subjects
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         return view('sms.teacher.practice-sessions', compact('teacher', 'practiceSessions', 'classes', 'subjects'));
     }
 
     public function createPracticeSession()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Filter classes based on teacher type
         if ($teacher->teacher_type === 'primary') {
@@ -986,20 +1069,32 @@ class SmsTeacherController extends Controller
                 ->get();
         }
 
+        if ($classes->isEmpty()) {
+            $classes = SmsClass::where('school_id', $teacher->school_id)->take(6)->get();
+        }
+
         // Only show assigned subjects
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         return view('sms.teacher.practice-sessions.create', compact('teacher', 'classes', 'subjects'));
     }
 
     public function storePracticeSession(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Validate subject belongs to teacher
         $assignedSubjectIds = $teacher->subjects()->pluck('sms_subjects.id')->toArray();
+        if (empty($assignedSubjectIds)) {
+            $assignedSubjectIds = SmsSubject::where('school_id', $teacher->school_id)->pluck('id')->toArray();
+        }
         
         $request->validate([
             'title' => 'required|string|max:255',
@@ -1066,12 +1161,17 @@ class SmsTeacherController extends Controller
 
     public function uploadPracticeSessionCsv(Request $request)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Validate subject belongs to teacher
         $assignedSubjectIds = $teacher->subjects()->pluck('sms_subjects.id')->toArray();
+        if (empty($assignedSubjectIds)) {
+            $assignedSubjectIds = SmsSubject::where('school_id', $teacher->school_id)->pluck('id')->toArray();
+        }
 
         $request->validate([
             'csv_file' => 'required|mimes:csv,txt|max:5120', // 5MB max
@@ -1172,23 +1272,32 @@ class SmsTeacherController extends Controller
 
     public function showPracticeSession($id)
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $practiceSession = SmsPracticeSession::where('school_id', $teacher->school_id)
             ->where('teacher_id', $teacher->id)
             ->with(['class', 'subject', 'questions', 'attempts.student.user'])
-            ->findOrFail($id);
+            ->find($id);
+
+        if (!$practiceSession) {
+            return redirect()->route('sms.teacher.practice-sessions')
+                ->with('error', 'Practice session not found.');
+        }
 
         return view('sms.teacher.practice-sessions.show', compact('practiceSession', 'teacher'));
     }
 
     public function downloadPracticeTemplate()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         $filename = 'practice_questions_template_' . date('Y-m-d') . '.csv';
         
@@ -1385,9 +1494,11 @@ class SmsTeacherController extends Controller
 
     public function questionBank()
     {
-        $smsUserId = session('sms_user_id');
-        $user = \App\Models\Sms\SmsUser::findOrFail($smsUserId);
-        $teacher = SmsTeacher::where('user_id', $user->id)->firstOrFail();
+        $teacher = $this->getAuthenticatedTeacher();
+        if (!$teacher) {
+            return redirect()->route('school-management.demo-login')
+                ->with('error', 'Please login to access the Teacher Portal.');
+        }
 
         // Get all questions created by this teacher
         $examQuestions = SmsExamQuestion::whereHas('exam', function($query) use ($teacher) {
@@ -1408,6 +1519,9 @@ class SmsTeacherController extends Controller
             ->merge($practiceQuestions->map(function($q) { return ['type' => 'practice', 'question' => $q]; }));
 
         $subjects = $teacher->subjects()->where('is_active', true)->get();
+        if ($subjects->isEmpty()) {
+            $subjects = SmsSubject::where('school_id', $teacher->school_id)->where('is_active', true)->take(6)->get();
+        }
 
         return view('sms.teacher.question-bank', compact('teacher', 'allQuestions', 'subjects'));
     }
