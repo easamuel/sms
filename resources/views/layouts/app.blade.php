@@ -6,11 +6,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- Primary Meta Tags -->
-    <title>@yield('title', 'School Management System - Simplify School Administration')</title>
-    <meta name="title" content="@yield('meta_title', 'School Management System - Simplify School Administration')">
-    <meta name="description" content="@yield('meta_description', 'Comprehensive school management system for administrators, teachers, and students. Manage attendance, results, fees, assignments, and more with ease. Mobile-friendly platform for modern education.')">
+    <title>@yield('title', 'ES-SCHOOLS | Stop Chasing Fees & Run on Autopilot')</title>
+    <meta name="title" content="@yield('meta_title', 'ES-SCHOOLS | Stop Chasing Fees & Run on Autopilot')">
+    <meta name="description" content="@yield('meta_description', 'Automate tuition fee recovery, 1-click terminal report cards, and parent billing for Nigerian schools. Test-drive live interactive demos today.')">
     <meta name="keywords" content="@yield('meta_keywords', 'school management system, school administration, student management, teacher portal, attendance tracking, result management, fee management, online school system, education software')">
-    <meta name="author" content="School Management System">
+    <meta name="author" content="ExtremeSolutions Nigeria">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
@@ -18,8 +18,8 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('og_title', 'ES-SCHOOLS - Nigeria\'s Premier School Management Platform')">
-    <meta property="og:description" content="@yield('og_description', 'Automate tuition recovery, 1-click terminal report cards, and parent communications with ES-SCHOOLS.')">
+    <meta property="og:title" content="@yield('og_title', 'ES-SCHOOLS: Automate Tuition & School Operations')">
+    <meta property="og:description" content="@yield('og_description', 'Automate tuition recovery, 1-click report cards & parent billing for Nigerian schools. Try live interactive demos now!')">
     <meta property="og:image" content="@yield('og_image', asset('og-preview.png'))">
     <meta property="og:site_name" content="ES-SCHOOLS">
     <meta property="og:locale" content="en_NG">
@@ -27,8 +27,8 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="@yield('twitter_title', 'ES-SCHOOLS - Nigeria\'s Premier School Management Platform')">
-    <meta name="twitter:description" content="@yield('twitter_description', 'Automate tuition recovery, 1-click terminal report cards, and parent communications with ES-SCHOOLS.')">
+    <meta name="twitter:title" content="@yield('twitter_title', 'ES-SCHOOLS: Automate Tuition & School Operations')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Automate tuition recovery, 1-click report cards & parent billing for Nigerian schools. Try live interactive demos now!')">
     <meta name="twitter:image" content="@yield('twitter_image', asset('og-preview.png'))">
     
     <!-- Canonical URL -->

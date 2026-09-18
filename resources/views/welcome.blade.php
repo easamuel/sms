@@ -5,11 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <!-- Primary Meta Tags -->
-        <title>School Management System - Simplify School Administration | Modern Education Platform</title>
-        <meta name="title" content="School Management System - Simplify School Administration | Modern Education Platform">
-        <meta name="description" content="Comprehensive school management system for administrators, teachers, and students. Manage attendance, results, fees, assignments, and more with ease. Mobile-friendly platform for modern education.">
+        <title>ES-SCHOOLS | Stop Chasing Fees &amp; Run on Autopilot</title>
+        <meta name="title" content="ES-SCHOOLS | Stop Chasing Fees &amp; Run on Autopilot">
+        <meta name="description" content="Automate tuition fee recovery, 1-click terminal report cards, and parent billing for Nigerian schools. Test-drive live interactive demos today.">
         <meta name="keywords" content="school management system, school administration, student management, teacher portal, attendance tracking, result management, fee management, online school system, education software, school ERP">
-        <meta name="author" content="School Management System">
+        <meta name="author" content="ExtremeSolutions Nigeria">
         <meta name="robots" content="index, follow">
         <meta name="language" content="English">
         <meta name="revisit-after" content="7 days">
@@ -17,18 +17,18 @@
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/') }}">
-        <meta property="og:title" content="School Management System - Simplify School Administration">
-        <meta property="og:description" content="Comprehensive school management system for administrators, teachers, and students. Manage attendance, results, fees, assignments, and more with ease.">
-        <meta property="og:image" content="{{ asset('images/og-image.jpg') }}">
-        <meta property="og:site_name" content="School Management System">
-        <meta property="og:locale" content="en_US">
+        <meta property="og:title" content="ES-SCHOOLS: Automate Tuition &amp; School Operations">
+        <meta property="og:description" content="Automate tuition recovery, 1-click report cards &amp; parent billing for Nigerian schools. Try live interactive demos now!">
+        <meta property="og:image" content="{{ asset('og-preview.png') }}">
+        <meta property="og:site_name" content="ES-SCHOOLS">
+        <meta property="og:locale" content="en_NG">
         
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:url" content="{{ url('/') }}">
-        <meta name="twitter:title" content="School Management System - Simplify School Administration">
-        <meta name="twitter:description" content="Comprehensive school management system for administrators, teachers, and students.">
-        <meta name="twitter:image" content="{{ asset('images/og-image.jpg') }}">
+        <meta name="twitter:title" content="ES-SCHOOLS: Automate Tuition &amp; School Operations">
+        <meta name="twitter:description" content="Automate tuition recovery, 1-click report cards &amp; parent billing for Nigerian schools. Try live interactive demos now!">
+        <meta name="twitter:image" content="{{ asset('og-preview.png') }}">
         
         <!-- Canonical URL -->
         <link rel="canonical" href="{{ url('/') }}">

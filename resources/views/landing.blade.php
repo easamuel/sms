@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- Primary SEO Meta Tags -->
-    <title>ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform</title>
-    <meta name="title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform">
-    <meta name="description" content="ES-SCHOOLS is Nigeria's premier school management and automated tuition fee recovery platform. Generate 1-click terminal report cards, track student attendance, and run your school on autopilot. WhatsApp: 09052585622 | sms@extremesolutions.com.ng">
+    <title>ES-SCHOOLS | Stop Chasing Fees &amp; Run on Autopilot</title>
+    <meta name="title" content="ES-SCHOOLS | Stop Chasing Fees &amp; Run on Autopilot">
+    <meta name="description" content="Automate tuition fee recovery, 1-click terminal report cards, and parent billing for Nigerian schools. Test-drive live interactive demos today.">
     <meta name="keywords" content="School management system Nigeria, SMS software Nigeria, school fees payment tracker, student report card generator, Lagos private schools software, Abuja schools portal, CBT exam system, ExtremeSolutions SMS, school admission portal">
     <meta name="author" content="ExtremeSolutions Nigeria">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -16,24 +16,24 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sms.extremesolutions.com.ng/">
-    <meta property="og:title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork | Nigeria's #1 School Management Platform">
-    <meta property="og:description" content="Automate tuition fee recovery, 1-click terminal report cards, and parent communications for Nigerian schools. Test drive live interactive demos today.">
+    <meta property="og:title" content="ES-SCHOOLS: Automate Tuition &amp; School Operations">
+    <meta property="og:description" content="Automate tuition recovery, 1-click report cards &amp; parent billing for Nigerian schools. Try live interactive demos now!">
     <meta property="og:image" content="https://sms.extremesolutions.com.ng/og-preview.png">
     <meta property="og:image:secure_url" content="https://sms.extremesolutions.com.ng/og-preview.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="ES-SCHOOLS - Nigeria's Premier School Management and Tuition Recovery Platform">
+    <meta property="og:image:alt" content="ES-SCHOOLS - Experience 1-Click Live Demos | Nigeria's #1 School Management Platform">
     <meta property="og:site_name" content="ES-SCHOOLS">
     <meta property="og:locale" content="en_NG">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://sms.extremesolutions.com.ng/">
-    <meta property="twitter:title" content="ES-SCHOOLS - Stop Chasing Fees &amp; Fighting Paperwork">
-    <meta property="twitter:description" content="Nigeria's premier school management system. Automate tuition recovery, 1-click report cards, and parent communications.">
+    <meta property="twitter:title" content="ES-SCHOOLS: Automate Tuition &amp; School Operations">
+    <meta property="twitter:description" content="Automate tuition recovery, 1-click report cards &amp; parent billing for Nigerian schools. Try live interactive demos now!">
     <meta property="twitter:image" content="https://sms.extremesolutions.com.ng/og-preview.png">
-    <meta property="twitter:image:alt" content="ES-SCHOOLS Platform Solution Showcase">
+    <meta property="twitter:image:alt" content="ES-SCHOOLS - Experience 1-Click Live Demos">
 
     <!-- Browser Favicon & App Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
