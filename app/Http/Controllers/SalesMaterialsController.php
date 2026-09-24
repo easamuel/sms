@@ -54,3 +54,4 @@ class SalesMaterialsController extends Controller
         return view('materials.executive-one-pager');
     }
 }
+

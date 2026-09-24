@@ -3,58 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Official Terminal Report Card Sample - ES-SCHOOLS Sales Kit</title>
+    <title>ExtremeSolutions - Official Student Terminal Performance Report</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@700;900&family=Alex+Brush&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         @page {
             size: A4 portrait;
-            margin: 8mm;
+            margin: 6mm;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: #0b1329;
-            color: #0f172a;
-            padding: 20px;
-            min-height: 100vh;
+            color: #000000;
+            padding: 20px 10px;
+            font-size: 11px;
+            line-height: 1.25;
         }
 
         /* Top Action Bar */
         .action-bar {
-            max-width: 860px;
-            margin: 0 auto 20px auto;
+            max-width: 820px;
+            margin: 0 auto 16px auto;
             background: rgba(30, 41, 59, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid #334155;
-            padding: 12px 24px;
-            border-radius: 14px;
+            padding: 12px 20px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
+            gap: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
         .action-bar-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .back-link {
             color: #94a3b8;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
@@ -70,24 +73,24 @@
             background: #059669;
             color: #a7f3d0;
             border: 1px solid #10b981;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 9999px;
         }
 
         .action-bar-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn-action {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
+            padding: 7px 14px;
+            border-radius: 7px;
+            font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
             border: none;
@@ -101,378 +104,413 @@
         .btn-print {
             background: #10b981;
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .btn-print:hover {
             background: #059669;
-            transform: translateY(-1px);
         }
 
-        .btn-whatsapp {
-            background: #25d366;
+        .btn-download {
+            background: #2563eb;
             color: #ffffff;
         }
 
-        /* Printable Sheet */
+        .btn-download:hover {
+            background: #1d4ed8;
+        }
+
+        /* Printable Sheet Canvas */
         .sheet {
-            max-width: 860px;
+            width: 210mm;
+            min-height: 297mm;
+            max-width: 820px;
             margin: 0 auto;
             background: #ffffff;
-            padding: 26px 30px;
-            border-radius: 4px;
+            padding: 10px 14px 14px 14px;
+            border: 1px solid #1e293b;
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            border: 2px solid #0f172a;
             position: relative;
-            overflow: hidden;
+            box-sizing: border-box;
         }
 
-        .security-border {
-            border: 1px solid #94a3b8;
-            padding: 16px;
-            position: relative;
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.2px;
         }
 
-        /* Watermark */
-        .watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-30deg);
-            font-size: 5rem;
-            font-weight: 800;
-            color: rgba(15, 23, 42, 0.03);
-            white-space: nowrap;
-            pointer-events: none;
-            user-select: none;
-            z-index: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .sheet-inner {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header */
-        .report-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px solid #0f172a;
-            padding-bottom: 12px;
-            margin-bottom: 12px;
-        }
-
-        .crest-box {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #1e3a8a, #059669);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
-        }
-
-        .header-center {
+        th, td {
+            border: 1px solid #222222;
+            padding: 2.2px 3px;
             text-align: center;
-            flex: 1;
-            padding: 0 15px;
+            vertical-align: middle;
         }
 
-        .school-h1 {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: #0f172a;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-            line-height: 1.2;
-        }
-
-        .school-motto {
-            font-size: 0.72rem;
-            font-style: italic;
-            color: #059669;
+        .th-olive {
+            background-color: #6c8437 !important;
+            color: #ffffff !important;
             font-weight: 700;
-            margin: 2px 0;
-        }
-
-        .school-address {
-            font-size: 0.72rem;
-            color: #475569;
-        }
-
-        .report-title-badge {
-            background: #1e3a8a;
-            color: #ffffff;
-            font-size: 0.85rem;
-            font-weight: 800;
+            font-size: 9px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 3px 16px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-top: 6px;
         }
 
-        .student-photo-box {
-            width: 75px;
-            height: 85px;
-            border: 2px solid #cbd5e1;
-            border-radius: 6px;
-            background: #f8fafc;
-            display: flex;
-            flex-direction: column;
+        .th-olive-dark {
+            background-color: #586e2a !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 9px;
+        }
+
+        /* Header Layout */
+        .report-header {
+            display: grid;
+            grid-template-columns: 85px 1fr 90px;
             align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            font-size: 0.65rem;
-            text-align: center;
-            padding: 4px;
-            flex-shrink: 0;
+            gap: 8px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
         }
 
-        .student-photo-box i {
-            font-size: 1.8rem;
-            color: #64748b;
+        .school-crest {
+            text-align: center;
+        }
+
+        .school-crest svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        .school-info {
+            text-align: center;
+        }
+
+        .school-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 19px;
+            font-weight: 900;
+            color: #0f2757;
+            letter-spacing: 0.5px;
+            line-height: 1.15;
             margin-bottom: 2px;
         }
 
-        /* Student Profile Grid */
-        .student-bio-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px 12px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 10px 14px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            font-size: 0.78rem;
-        }
-
-        .bio-field strong {
-            color: #0f172a;
-        }
-        .bio-field span {
-            color: #334155;
-        }
-
-        /* Academic Subject Table */
-        .academic-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.74rem;
-            margin-bottom: 12px;
-        }
-
-        .academic-table th {
-            background: #0f172a;
-            color: #ffffff;
-            padding: 5px 6px;
-            text-align: center;
-            font-weight: 700;
-            border: 1px solid #334155;
-            white-space: nowrap;
-        }
-
-        .academic-table th.subject-col {
-            text-align: left;
-            padding-left: 8px;
-        }
-
-        .academic-table td {
-            padding: 4px 6px;
-            border: 1px solid #cbd5e1;
-            text-align: center;
-        }
-
-        .academic-table td.subject-col {
-            text-align: left;
-            padding-left: 8px;
-            font-weight: 600;
-        }
-
-        .academic-table tbody tr:nth-child(even) {
-            background: #f8fafc;
-        }
-
-        .grade-pill {
+        .school-motto {
             font-weight: 800;
-            padding: 1px 5px;
-            border-radius: 3px;
-            font-size: 0.7rem;
-        }
-        .grade-a1 { background: #dcfce7; color: #166534; }
-        .grade-b2, .grade-b3 { background: #dbeafe; color: #1e40af; }
-        .grade-c4 { background: #fef9c3; color: #854d0e; }
-
-        /* Performance Appraisal / Domains Grid */
-        .dual-domains-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
+            font-size: 10.5px;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+            letter-spacing: 0.3px;
         }
 
-        .domains-card {
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 8px 12px;
+        .school-address {
+            font-size: 9.5px;
+            color: #333333;
+            margin-bottom: 2px;
+        }
+
+        .school-contact {
+            font-size: 8.5px;
+            color: #444444;
+            margin-bottom: 1px;
+        }
+
+        .school-links {
+            font-size: 8px;
+            color: #444444;
+            margin-bottom: 3px;
+        }
+
+        .report-title-banner {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 12.5px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            color: #000000;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .passport-photo-box {
+            width: 85px;
+            height: 98px;
+            border: 1px solid #111111;
+            padding: 2px;
             background: #ffffff;
-        }
-
-        .domains-title {
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #1e3a8a;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 4px;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .domains-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.7rem;
-        }
-
-        .domains-table td {
-            padding: 2px 4px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .domains-table td.rating-val {
-            text-align: right;
-            font-weight: 700;
-            color: #059669;
-        }
-
-        /* Result Overview Strip */
-        .result-summary-strip {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .summary-val {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #065f46;
-        }
-
-        .summary-lbl {
-            font-size: 0.68rem;
-            font-weight: 700;
-            color: #047857;
-            text-transform: uppercase;
-        }
-
-        /* Remarks & Signatures */
-        .remarks-section {
-            border: 1px solid #cbd5e1;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            background: #ffffff;
-            font-size: 0.74rem;
-        }
-
-        .remark-row {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 6px;
-        }
-
-        .remark-lbl {
-            width: 130px;
-            font-weight: 700;
-            color: #0f172a;
-            flex-shrink: 0;
-        }
-
-        .remark-text {
-            color: #334155;
-            flex: 1;
-            font-style: italic;
-        }
-
-        /* Signatures Grid */
-        .signatures-grid {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 20px;
-            padding-top: 8px;
-        }
-
-        .sig-col {
-            flex: 1;
-            text-align: center;
-        }
-
-        .sig-drawn {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 1.05rem;
-            color: #1e3a8a;
-            border-bottom: 1px dashed #64748b;
-            padding-bottom: 2px;
-            margin-bottom: 4px;
-        }
-
-        .sig-title-lbl {
-            font-size: 0.68rem;
-            color: #475569;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .official-seal-box {
-            width: 80px;
-            height: 80px;
-            border: 2px solid #b91c1c;
-            color: #b91c1c;
-            border-radius: 50%;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            font-size: 0.55rem;
+            overflow: hidden;
+        }
+
+        .passport-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Bio Data Box */
+        .biodata-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 6px;
+            border: 1.5px solid #111111;
+            font-size: 9px;
+        }
+
+        .biodata-table td {
+            border: 1px solid #222222;
+            padding: 3px 5px;
+            text-align: left;
+        }
+
+        .biodata-lbl {
             font-weight: 800;
-            text-transform: uppercase;
-            transform: rotate(-8deg);
-            padding: 4px;
+            color: #000000;
+        }
+
+        .biodata-val {
+            font-weight: 700;
+            color: #000000;
+        }
+
+        /* Main 2-column layout */
+        .main-columns {
+            display: grid;
+            grid-template-columns: 58% 42%;
+            gap: 6px;
+            margin-bottom: 6px;
+            align-items: start;
+        }
+
+        .table-subjects {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.4px;
+        }
+
+        .table-subjects th {
+            padding: 3px 2px;
             line-height: 1.1;
         }
 
-        .bursar-clearance-stamp {
-            background: #ecfdf5;
-            border: 1px solid #10b981;
-            color: #047857;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.68rem;
+        .table-subjects td {
+            padding: 2px 2px;
+            height: 15.5px;
+        }
+
+        .table-subjects td.subject-name {
+            text-align: left;
+            padding-left: 4px;
             font-weight: 700;
+            font-size: 8.5px;
+            letter-spacing: -0.1px;
+        }
+
+        .table-subjects td.remark-cell {
+            font-size: 7.8px;
+            font-weight: 700;
+        }
+
+        /* Right column stacked tables */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .table-side {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.2px;
+        }
+
+        .table-side th, .table-side td {
+            padding: 1.8px 2px;
+            height: 14.5px;
+        }
+
+        .table-side td.item-name {
+            text-align: left;
+            padding-left: 4px;
+            font-weight: 600;
+        }
+
+        .tick-mark {
+            font-weight: 900;
+            color: #000000;
+            font-size: 10px;
+        }
+
+        /* Bottom Section */
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 24% 28% 48%;
+            gap: 5px;
+            margin-bottom: 5px;
+            align-items: stretch;
+        }
+
+        .perf-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.2px;
+        }
+
+        .perf-summary-table td {
+            padding: 2px 3px;
+            text-align: left;
+            height: 15px;
+        }
+
+        .perf-summary-table td.val {
+            text-align: right;
+            font-weight: 800;
+        }
+
+        .grade-analysis-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .table-grade-analysis {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7.8px;
+            margin-bottom: 3px;
+        }
+
+        .table-grade-analysis th, .table-grade-analysis td {
+            padding: 2px 1px;
+            height: 13px;
+        }
+
+        .indices-box {
+            border: 1px solid #222222;
+            padding: 2px 4px;
+            font-size: 7.4px;
+            line-height: 1.25;
+            background: #fafafa;
+        }
+
+        .indices-title {
+            font-weight: 800;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 1px;
+            margin-bottom: 1px;
+        }
+
+        /* Remarks & Signatures Box */
+        .remarks-container {
+            border: 1.5px solid #111111;
+            margin-bottom: 4px;
+        }
+
+        .remark-row {
+            display: grid;
+            grid-template-columns: 110px 1fr 140px;
+            border-bottom: 1px solid #222222;
+            min-height: 28px;
+            align-items: center;
+        }
+
+        .remark-row:last-child {
+            border-bottom: none;
+            min-height: 38px;
+        }
+
+        .remark-label {
+            font-weight: 800;
+            font-size: 8.8px;
+            padding: 3px 5px;
+            border-right: 1px solid #222222;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .remark-content {
+            font-size: 8.8px;
+            padding: 3px 6px;
+            font-style: italic;
+            border-right: 1px solid #222222;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .remark-sign-box {
+            padding: 2px 4px;
+            font-size: 8px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sign-line {
+            font-family: 'Alex Brush', cursive, serif;
+            font-size: 16px;
+            color: #0f2757;
+            line-height: 1;
+            margin-bottom: -2px;
+        }
+
+        .sign-name {
+            font-weight: 800;
+            font-size: 7.8px;
+            text-transform: uppercase;
+        }
+
+        .official-seal {
+            position: absolute;
+            right: 10px;
+            top: -10px;
+            width: 55px;
+            height: 55px;
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        /* Resumption Line */
+        .resumption-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 3px 0;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+            margin-bottom: 4px;
+        }
+
+        /* Footer Branding */
+        .footer-branding {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 7.5px;
+            font-weight: 800;
+            color: #333333;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding-top: 2px;
+        }
+
+        .footer-logo {
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            color: #0f2757;
         }
 
         /* Print Media Styles */
@@ -480,315 +518,529 @@
             body {
                 background: #ffffff !important;
                 padding: 0 !important;
+                margin: 0 !important;
             }
+
             .action-bar {
                 display: none !important;
             }
+
             .sheet {
                 box-shadow: none !important;
-                border: 1px solid #0f172a !important;
+                border: none !important;
+                margin: 0 !important;
+                width: 100% !important;
                 max-width: 100% !important;
-                padding: 15px !important;
-            }
-            .academic-table th {
-                background: #0f172a !important;
-                color: #ffffff !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                padding: 4mm 6mm !important;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOP ACTION BAR -->
+    <!-- Top Action Bar (Hidden during Print) -->
     <div class="action-bar">
         <div class="action-bar-left">
             <a href="{{ route('materials.index') }}" class="back-link">
-                <i class="fas fa-arrow-left"></i> All Sales Materials
+                <i class="fas fa-arrow-left"></i> Sales Kit Hub
             </a>
-            <span class="proof-badge">Proof 2 of 5: Terminal Report Card</span>
+            <span class="proof-badge">
+                <i class="fas fa-check-circle"></i> Official Performance Report Proof
+            </span>
         </div>
         <div class="action-bar-right">
-            <button onclick="window.print()" class="btn-action btn-print">
-                <i class="fas fa-print"></i> Print A4 Portrait
-            </button>
-            <a href="https://wa.me/2349052585622?text=Hello%20ExtremeSolutions,%20I%20am%20reviewing%20the%20Official%20Terminal%20Report%20Card%20sample%20and%20want%20to%20schedule%20a%20demo." target="_blank" class="btn-action btn-whatsapp">
-                <i class="fab fa-whatsapp"></i> Share on WhatsApp
+            <a href="{{ route('materials.download-zip') }}" class="btn-action btn-download">
+                <i class="fas fa-download"></i> Download Package (.ZIP)
             </a>
+            <button onclick="window.print()" class="btn-action btn-print">
+                <i class="fas fa-print"></i> Print Document (A4)
+            </button>
         </div>
     </div>
 
-    <!-- PRINTABLE A4 PORTRAIT SHEET -->
+    <!-- The Printable Sheet Canvas -->
     <div class="sheet">
-        <div class="watermark">ACADEMIC EXCELLENCE</div>
-        <div class="security-border">
-            <div class="sheet-inner">
-                
-                <!-- Report Header -->
-                <div class="report-header">
-                    <div class="crest-box">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="header-center">
-                        <h1 class="school-h1">Premier Leadership Academy</h1>
-                        <p class="school-motto">&ldquo;Discipline, Knowledge and Character&rdquo;</p>
-                        <p class="school-address">Plot 14, Commercial Avenue, Ikeja, Lagos State &bull; Tel: 09052585622</p>
-                        <div class="report-title-badge">
-                            Continuous Assessment &amp; Terminal Report Card
-                        </div>
-                    </div>
-                    <div class="student-photo-box">
-                        <i class="fas fa-user-circle"></i>
-                        <span>STUDENT PASSPORT</span>
-                    </div>
-                </div>
 
-                <!-- Student Bio Grid -->
-                <div class="student-bio-grid">
-                    <div class="bio-field"><strong>Student Name:</strong> <span>OKAFOR, Chinedu E.</span></div>
-                    <div class="bio-field"><strong>Admission No:</strong> <span>PLA/2023/0482</span></div>
-                    <div class="bio-field"><strong>Class:</strong> <span>JSS 3 Gold (Junior Sec.)</span></div>
-                    <div class="bio-field"><strong>Gender / Age:</strong> <span>Male &bull; 14 Yrs</span></div>
-                    <div class="bio-field"><strong>Term / Session:</strong> <span>3rd Term &bull; 2025/2026</span></div>
-                    <div class="bio-field"><strong>Times School Opened:</strong> <span>120 Days</span></div>
-                    <div class="bio-field"><strong>Times Present:</strong> <span>118 Days (98.3%)</span></div>
-                    <div class="bio-field"><strong>House:</strong> <span>Nelson Mandela (Red)</span></div>
-                </div>
+        <!-- Header Section -->
+        <div class="report-header">
+            <!-- Left Crest -->
+            <div class="school-crest">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="46" fill="#f8fafc" stroke="#6c8437" stroke-width="4"/>
+                    <circle cx="50" cy="50" r="40" stroke="#0f2757" stroke-width="1.5" stroke-dasharray="3 2"/>
+                    <!-- Shield Body -->
+                    <path d="M50 16 L26 26 V48 C26 64 36 78 50 82 C64 78 74 64 74 48 V26 Z" fill="#0f2757"/>
+                    <!-- Shield Inner -->
+                    <path d="M50 20 L30 28 V46 C30 60 38 73 50 77 C62 73 70 60 70 46 V28 Z" fill="#ffffff"/>
+                    <!-- Cross & Book -->
+                    <path d="M50 24 V66 M34 44 H66" stroke="#6c8437" stroke-width="3"/>
+                    <path d="M38 52 C44 50 48 53 50 55 C52 53 56 50 62 52 V64 C56 62 52 64 50 62 C48 64 44 62 38 64 Z" fill="#0f2757"/>
+                    <!-- Banner -->
+                    <path d="M20 78 C35 73 65 73 80 78 L76 86 C62 82 38 82 24 86 Z" fill="#6c8437"/>
+                    <text x="50" y="83" font-size="5" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">EXTREMESOLUTIONS</text>
+                </svg>
+            </div>
 
-                <!-- Academic Performance Table -->
-                <table class="academic-table">
+            <!-- Center Info -->
+            <div class="school-info">
+                <h1 class="school-title">EXTREMESOLUTIONS MODEL GROUP OF SCHOOLS</h1>
+                <div class="school-motto">MOTTO: KNOWLEDGE IS FREEDOM &amp; POWER</div>
+                <div class="school-address">Victoria Island Campus, Lagos &bull; Idumegan Quarters, Ekpoma, Edo State</div>
+                <div class="school-contact">Tel: 08158339342, 08150772800, 09052585622</div>
+                <div class="school-links">Website: sms.extremesolutions.com.ng &bull; Email: sms@extremesolutions.com.ng</div>
+                <div class="report-title-banner">SECOND TERM STUDENT'S PERFORMANCE REPORT</div>
+            </div>
+
+            <!-- Right Passport Photo Box -->
+            <div class="passport-photo-box">
+                <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="120" fill="#e2e8f0"/>
+                    <!-- Portrait Head -->
+                    <circle cx="50" cy="42" r="22" fill="#fed7aa"/>
+                    <!-- Hair -->
+                    <path d="M28 40 C28 20 72 20 72 40 C68 28 32 28 28 40 Z" fill="#78350f"/>
+                    <!-- Face Features -->
+                    <circle cx="43" cy="40" r="2" fill="#1e293b"/>
+                    <circle cx="57" cy="40" r="2" fill="#1e293b"/>
+                    <path d="M48 44 L50 48 L52 44" stroke="#9a3412" stroke-width="1.2" fill="none"/>
+                    <path d="M45 52 Q50 56 55 52" stroke="#9a3412" stroke-width="1.2" fill="none"/>
+                    <!-- White Shirt & Blazer -->
+                    <path d="M15 120 L28 72 C35 70 45 74 50 78 C55 74 65 70 72 72 L85 120 Z" fill="#0f2757"/>
+                    <path d="M42 74 L50 90 L58 74 L50 76 Z" fill="#ffffff"/>
+                    <path d="M48 80 L50 120 L52 120 L52 80 Z" fill="#dc2626"/>
+                    <text x="50" y="114" font-size="7" font-weight="700" fill="#ffffff" text-anchor="middle">PASSPORT</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Student Biodata Box -->
+        <table class="biodata-table">
+            <tr>
+                <td style="width: 48%;"><span class="biodata-lbl">NAME:</span> <span class="biodata-val">EZE, Chikaodili Nkechi</span></td>
+                <td style="width: 26%;"><span class="biodata-lbl">CLASS:</span> <span class="biodata-val">JSS 2A</span></td>
+                <td style="width: 26%;"><span class="biodata-lbl">SESSION:</span> <span class="biodata-val">2024_2025</span></td>
+            </tr>
+            <tr>
+                <td><span class="biodata-lbl">ADMISSION NO:</span> <span class="biodata-val">04/1643</span></td>
+                <td><span class="biodata-lbl">D.O.B.:</span> <span class="biodata-val">Mon, 02-Feb-2006</span></td>
+                <td><span class="biodata-lbl">AGE:</span> <span class="biodata-val">17yrs</span></td>
+            </tr>
+            <tr>
+                <td><span class="biodata-lbl">GENDER:</span> <span class="biodata-val">FEMALE</span></td>
+                <td><span class="biodata-lbl">HOUSE:</span> <span class="biodata-val">FEMI AWONIYI</span></td>
+                <td><span class="biodata-lbl">CLUB/SOCIETY:</span> <span class="biodata-val">SCRABBLE, JETS, DEBATE</span></td>
+            </tr>
+        </table>
+
+        <!-- Main Content 2 Columns -->
+        <div class="main-columns">
+
+            <!-- Left: Cognitive Domain Table (Exact 17 subjects from image) -->
+            <div>
+                <table class="table-subjects">
                     <thead>
                         <tr>
-                            <th class="subject-col">Subject</th>
-                            <th style="width: 55px;">CA1 (20)</th>
-                            <th style="width: 55px;">CA2 (20)</th>
-                            <th style="width: 55px;">Exam (60)</th>
-                            <th style="width: 65px;">Total (100)</th>
-                            <th style="width: 55px;">Class Min</th>
-                            <th style="width: 55px;">Class Max</th>
-                            <th style="width: 55px;">Class Avg</th>
-                            <th style="width: 55px;">Grade</th>
-                            <th style="width: 55px;">Pos.</th>
-                            <th style="width: 140px;">Subject Remarks</th>
+                            <th class="th-olive" style="width: 38%; text-align: left; padding-left: 4px;">COGNITIVE DOMAIN<br>SUBJECTS</th>
+                            <th class="th-olive" style="width: 7%;">C.A.<br>40</th>
+                            <th class="th-olive" style="width: 7%;">EXAM<br>60</th>
+                            <th class="th-olive" style="width: 9%;">Term<br>TOTAL<br>100</th>
+                            <th class="th-olive" style="width: 7%;">GRADE</th>
+                            <th class="th-olive" style="width: 9%;">SUBJ.<br>POSN</th>
+                            <th class="th-olive" style="width: 13%;">GRADE<br>REMARKS</th>
+                            <th class="th-olive" style="width: 10%;">CLASS<br>AVG</th>
+                            <th class="th-olive" style="width: 9%;">1st<br>Term<br>100</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="subject-col">English Language</td>
-                            <td>18</td>
-                            <td>17</td>
-                            <td>53</td>
-                            <td><strong>88</strong></td>
-                            <td>42</td>
-                            <td>91</td>
-                            <td>68.4</td>
-                            <td><span class="grade-pill grade-a1">A1</span></td>
-                            <td>2nd</td>
-                            <td>Eloquent written expression</td>
+                            <td class="subject-name">AGRICULTURAL SCIENCE</td>
+                            <td>37</td><td>47</td><td>84</td><td>B2</td><td>2nd</td><td class="remark-cell">VERY GOOD</td><td>67.7</td><td>84</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">General Mathematics</td>
-                            <td>19</td>
-                            <td>18</td>
-                            <td>55</td>
-                            <td><strong>92</strong></td>
-                            <td>38</td>
-                            <td>96</td>
-                            <td>65.2</td>
-                            <td><span class="grade-pill grade-a1">A1</span></td>
-                            <td>1st</td>
-                            <td>Superb logical calculations</td>
+                            <td class="subject-name">BASIC SCIENCE</td>
+                            <td>34</td><td>34</td><td>68</td><td>C4</td><td>17th</td><td class="remark-cell">CREDIT</td><td>68.9</td><td>83</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">Basic Science</td>
-                            <td>17</td>
-                            <td>16</td>
-                            <td>51</td>
-                            <td><strong>84</strong></td>
-                            <td>40</td>
-                            <td>89</td>
-                            <td>64.8</td>
-                            <td><span class="grade-pill grade-a1">A1</span></td>
-                            <td>3rd</td>
-                            <td>Deep conceptual grasp</td>
+                            <td class="subject-name">BASIC TECHNOLOGY</td>
+                            <td>32</td><td>39</td><td>71</td><td>B3</td><td>20th</td><td class="remark-cell">GOOD</td><td>70.8</td><td>78</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">Basic Technology</td>
-                            <td>16</td>
-                            <td>17</td>
-                            <td>48</td>
-                            <td><strong>81</strong></td>
-                            <td>35</td>
-                            <td>85</td>
-                            <td>61.5</td>
-                            <td><span class="grade-pill grade-b2">B2</span></td>
-                            <td>4th</td>
-                            <td>Practical technical dexterity</td>
+                            <td class="subject-name">CIVIC EDUCATION</td>
+                            <td>35</td><td>42</td><td>77</td><td>B2</td><td>11th</td><td class="remark-cell">VERY GOOD</td><td>72.3</td><td>80</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">Business Studies</td>
-                            <td>18</td>
-                            <td>18</td>
-                            <td>54</td>
-                            <td><strong>90</strong></td>
-                            <td>45</td>
-                            <td>94</td>
-                            <td>71.0</td>
-                            <td><span class="grade-pill grade-a1">A1</span></td>
-                            <td>2nd</td>
-                            <td>Excellent bookkeeping skill</td>
+                            <td class="subject-name">ENGLISH STUDIES</td>
+                            <td>19</td><td>49</td><td>68</td><td>C4</td><td>14th</td><td class="remark-cell">CREDIT</td><td>66.6</td><td>76</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">Civic Education</td>
-                            <td>17</td>
-                            <td>18</td>
-                            <td>52</td>
-                            <td><strong>87</strong></td>
-                            <td>50</td>
-                            <td>92</td>
-                            <td>72.5</td>
-                            <td><span class="grade-pill grade-a1">A1</span></td>
-                            <td>3rd</td>
-                            <td>Commendable civic awareness</td>
+                            <td class="subject-name">FRENCH</td>
+                            <td>28</td><td>43</td><td>71</td><td>B3</td><td>16th</td><td class="remark-cell">GOOD</td><td>68.3</td><td>86</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">Computer Studies (ICT)</td>
-                            <td>19</td>
-                            <td>19</td>
-                            <td>56</td>
-                            <td><strong>94</strong></td>
-                            <td>48</td>
-                            <td>98</td>
-                            <td>74.2</td>
-                            <td><span class="grade-pill grade-a1">A1</span></td>
-                            <td>2nd</td>
-                            <td>Exceptional digital skills</td>
+                            <td class="subject-name">HOME ECONOMICS</td>
+                            <td>26</td><td>29</td><td>55</td><td>C6</td><td>30th</td><td class="remark-cell">CREDIT</td><td>68.4</td><td>52</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">Agricultural Science</td>
-                            <td>15</td>
-                            <td>16</td>
-                            <td>46</td>
-                            <td><strong>77</strong></td>
-                            <td>41</td>
-                            <td>83</td>
-                            <td>63.1</td>
-                            <td><span class="grade-pill grade-b3">B3</span></td>
-                            <td>6th</td>
-                            <td>Good practical fieldwork</td>
+                            <td class="subject-name">INFO. &amp; COMM. TECHNOLOGY</td>
+                            <td>27</td><td>53</td><td>80</td><td>B2</td><td>6th</td><td class="remark-cell">VERY GOOD</td><td>68.3</td><td>63</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">Social Studies</td>
-                            <td>16</td>
-                            <td>16</td>
-                            <td>50</td>
-                            <td><strong>82</strong></td>
-                            <td>44</td>
-                            <td>88</td>
-                            <td>66.9</td>
-                            <td><span class="grade-pill grade-b2">B2</span></td>
-                            <td>4th</td>
-                            <td>Solid critical reasoning</td>
+                            <td class="subject-name">PHONICS</td>
+                            <td>30</td><td>31</td><td>61</td><td>C5</td><td>29th</td><td class="remark-cell">CREDIT</td><td>72.9</td><td>67</td>
                         </tr>
                         <tr>
-                            <td class="subject-col">French Language</td>
-                            <td>15</td>
-                            <td>14</td>
-                            <td>44</td>
-                            <td><strong>73</strong></td>
-                            <td>30</td>
-                            <td>86</td>
-                            <td>58.4</td>
-                            <td><span class="grade-pill grade-b3">B3</span></td>
-                            <td>5th</td>
-                            <td>Very good vocabulary growth</td>
+                            <td class="subject-name">PHYSICAL &amp; HEALTH EDUCATION</td>
+                            <td>24</td><td>56</td><td>80</td><td>B2</td><td>5th</td><td class="remark-cell">VERY GOOD</td><td>68.9</td><td>88</td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">RELIGIOUS STUDIES</td>
+                            <td>27</td><td>35</td><td>62</td><td>C5</td><td>21st</td><td class="remark-cell">CREDIT</td><td>68.7</td><td>72</td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">SECURITY EDUCATION</td>
+                            <td>27</td><td>41</td><td>68</td><td>C4</td><td>22nd</td><td class="remark-cell">CREDIT</td><td>72.3</td><td>71</td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">MATHEMATICS</td>
+                            <td>31</td><td>40</td><td>71</td><td>B3</td><td>16th</td><td class="remark-cell">GOOD</td><td>71.0</td><td>64</td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">CULTURAL &amp; CREATIVE ARTS</td>
+                            <td>32</td><td>51</td><td>83</td><td>B2</td><td>2nd</td><td class="remark-cell">VERY GOOD</td><td>67.7</td><td>50</td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">MUSIC</td>
+                            <td>26</td><td>29</td><td>55</td><td>C6</td><td>26th</td><td class="remark-cell">CREDIT</td><td>66.5</td><td>78</td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">SOCIAL STUDIES</td>
+                            <td>30</td><td>30</td><td>60</td><td>C5</td><td>24th</td><td class="remark-cell">CREDIT</td><td>68.5</td><td>69</td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">YORUBA LANGUAGE</td>
+                            <td>27</td><td>47</td><td>74</td><td>B3</td><td>12th</td><td class="remark-cell">GOOD</td><td>70.8</td><td>83</td>
+                        </tr>
+                        <!-- Empty extra rows matching original sheet -->
+                        <tr>
+                            <td class="subject-name">&nbsp;</td>
+                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="subject-name">&nbsp;</td>
+                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right Column: Attendance, Affective, Psychomotor, Grade Scale -->
+            <div class="right-column">
+
+                <!-- 1. Attendance Summary -->
+                <table class="table-side">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="th-olive">ATTENDANCE SUMMARY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="item-name" style="width: 62%;">Times School Opened</td>
+                            <td style="width: 38%; font-weight: 800;">140</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">No of Times Present</td>
+                            <td style="font-weight: 800;">126 <span style="font-size: 7.2px; font-weight: normal;">(90.0 %)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">No of Times Absent</td>
+                            <td style="font-weight: 800;">14</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <!-- Summary Strip -->
-                <div class="result-summary-strip">
-                    <div>
-                        <div class="summary-val">848 / 1000</div>
-                        <div class="summary-lbl">Cumulative Total</div>
-                    </div>
-                    <div>
-                        <div class="summary-val">84.8%</div>
-                        <div class="summary-lbl">Term Average</div>
-                    </div>
-                    <div>
-                        <div class="summary-val">2nd / 45</div>
-                        <div class="summary-lbl">Class Position</div>
-                    </div>
-                    <div>
-                        <div class="summary-val" style="color: #15803d;">PASSED</div>
-                        <div class="summary-lbl">Promoted to SSS 1</div>
-                    </div>
-                </div>
+                <!-- 2. Affective Domain (Checked boxes) -->
+                <table class="table-side">
+                    <thead>
+                        <tr>
+                            <th class="th-olive" style="width: 58%; text-align: left; padding-left: 4px;">AFFECTIVE DOMAIN</th>
+                            <th class="th-olive" style="width: 8.4%;">5</th>
+                            <th class="th-olive" style="width: 8.4%;">4</th>
+                            <th class="th-olive" style="width: 8.4%;">3</th>
+                            <th class="th-olive" style="width: 8.4%;">2</th>
+                            <th class="th-olive" style="width: 8.4%;">1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="item-name">Attentiveness</td>
+                            <td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Honesty</td>
+                            <td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Neatness</td>
+                            <td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Politeness</td>
+                            <td></td><td></td><td></td><td><span class="tick-mark">&#10003;</span></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Punctuality/ Assembly</td>
+                            <td></td><td></td><td></td><td></td><td><span class="tick-mark">&#10003;</span></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Self Control/ Calmness</td>
+                            <td></td><td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Obedience</td>
+                            <td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Reliability</td>
+                            <td></td><td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Sense Of Responsibility</td>
+                            <td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Relationship With Others</td>
+                            <td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <!-- Domains & Behavioral Traits -->
-                <div class="dual-domains-grid">
-                    <div class="domains-card">
-                        <div class="domains-title">
-                            <span>Affective Domain (Character Traits)</span>
-                            <span style="font-weight: 500; font-size: 0.65rem;">Scale: 1 (Poor) to 5 (Exemplary)</span>
-                        </div>
-                        <table class="domains-table">
-                            <tr><td>Punctuality &amp; Attendance</td><td class="rating-val">5 / 5</td><td>Politeness &amp; Respect</td><td class="rating-val">5 / 5</td></tr>
-                            <tr><td>Neatness &amp; Uniform</td><td class="rating-val">5 / 5</td><td>Honesty &amp; Integrity</td><td class="rating-val">5 / 5</td></tr>
-                            <tr><td>Leadership &amp; Responsibility</td><td class="rating-val">4 / 5</td><td>Relationship with Peers</td><td class="rating-val">4 / 5</td></tr>
-                        </table>
-                    </div>
+                <!-- 3. Psychomotor Skills (Checked boxes) -->
+                <table class="table-side">
+                    <thead>
+                        <tr>
+                            <th class="th-olive" style="width: 58%; text-align: left; padding-left: 4px;">PSYCHOMOTOR -SKIL</th>
+                            <th class="th-olive" style="width: 8.4%;">5</th>
+                            <th class="th-olive" style="width: 8.4%;">4</th>
+                            <th class="th-olive" style="width: 8.4%;">3</th>
+                            <th class="th-olive" style="width: 8.4%;">2</th>
+                            <th class="th-olive" style="width: 8.4%;">1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="item-name">Handling Of Tools</td>
+                            <td></td><td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Drawing/ Painting</td>
+                            <td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Handwriting</td>
+                            <td></td><td></td><td></td><td><span class="tick-mark">&#10003;</span></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Public Speaking</td>
+                            <td></td><td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Speech Fluency</td>
+                            <td><span class="tick-mark">&#10003;</span></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td class="item-name">Sports &amp; Games</td>
+                            <td></td><td></td><td></td><td><span class="tick-mark">&#10003;</span></td><td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                    <div class="domains-card">
-                        <div class="domains-title">
-                            <span>Psychomotor Domain (Skills)</span>
-                            <span style="font-weight: 500; font-size: 0.65rem;">Scale: 1 to 5</span>
-                        </div>
-                        <table class="domains-table">
-                            <tr><td>Handwriting &amp; Legibility</td><td class="rating-val">4 / 5</td><td>CBT Computer Literacy</td><td class="rating-val">5 / 5</td></tr>
-                            <tr><td>Sports &amp; Athleticism</td><td class="rating-val">4 / 5</td><td>Musical &amp; Creative Skills</td><td class="rating-val">4 / 5</td></tr>
-                        </table>
-                        <div style="margin-top: 6px;">
-                            <span class="bursar-clearance-stamp">
-                                <i class="fas fa-check-circle"></i> Fees Cleared: &#8358;0.00 Balance (#PSK-89218)
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Remarks & Signatures -->
-                <div class="remarks-section">
-                    <div class="remark-row">
-                        <span class="remark-lbl">Class Teacher Remark:</span>
-                        <span class="remark-text">&ldquo;An outstanding academic performance. Chinedu is hardworking, respectful, and demonstrates genuine leadership qualities.&rdquo;</span>
-                    </div>
-                    <div class="remark-row" style="margin-bottom: 0;">
-                        <span class="remark-lbl">Principal Remark:</span>
-                        <span class="remark-text">&ldquo;Promoted to SSS 1 (Science Stream) with High Honours. Keep up this laudable standard.&rdquo;</span>
-                    </div>
-                </div>
-
-                <!-- Signatures Grid -->
-                <div class="signatures-grid">
-                    <div class="sig-col">
-                        <div class="sig-drawn">Mr. O. Babatunde</div>
-                        <div class="sig-title-lbl">Class Teacher Signature</div>
-                    </div>
-                    <div class="official-seal-box">
-                        <span>Premier Leadership Academy</span>
-                        <span style="font-size: 0.68rem; color: #15803d;">OFFICIAL</span>
-                        <span>Lagos State</span>
-                    </div>
-                    <div class="sig-col">
-                        <div class="sig-drawn">Dr. Mrs. K. Balogun, Ph.D.</div>
-                        <div class="sig-title-lbl">Principal &bull; Official Seal</div>
-                    </div>
-                </div>
+                <!-- 4. Grade Scale -->
+                <table class="table-side">
+                    <thead>
+                        <tr>
+                            <th colspan="3" class="th-olive">Grade Scale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 800; width: 22%;">A1</td>
+                            <td style="width: 38%;">85-100%</td>
+                            <td style="width: 40%; font-weight: 700; text-align: left; padding-left: 4px;">EXCELLENT</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">B2</td>
+                            <td>75-84.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">VERY GOOD</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">B3</td>
+                            <td>70-74.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">GOOD</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">C4</td>
+                            <td>65-69.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">CREDIT</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">C5</td>
+                            <td>60-64.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">CREDIT</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">C6</td>
+                            <td>50-59.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">CREDIT</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">D7</td>
+                            <td>45-49.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">PASS</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">E8</td>
+                            <td>40-44.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">PASS</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 800;">F9</td>
+                            <td>0-39.9%</td>
+                            <td style="font-weight: 700; text-align: left; padding-left: 4px;">FAIL</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
+
         </div>
+
+        <!-- Bottom Performance Summary & Analysis -->
+        <div class="bottom-section">
+
+            <!-- Performance Summary -->
+            <table class="perf-summary-table">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="th-olive">PERFORMANCE SUMMARY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total Obtained:</td>
+                        <td class="val">1188.0</td>
+                    </tr>
+                    <tr>
+                        <td>Total Obtainable:</td>
+                        <td class="val">1700</td>
+                    </tr>
+                    <tr>
+                        <td>Total Subjects:</td>
+                        <td class="val">17</td>
+                    </tr>
+                    <tr>
+                        <td>%TAGE</td>
+                        <td class="val">69.88%</td>
+                    </tr>
+                    <tr>
+                        <td>GRADE</td>
+                        <td class="val">C4</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-weight: 800; background: #f1f5f9;">
+                            13th of 32 - CREDIT
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Grade Analysis Table -->
+            <div class="grade-analysis-box">
+                <table class="table-grade-analysis">
+                    <thead>
+                        <tr>
+                            <th colspan="9" class="th-olive">Grade Analysis</th>
+                        </tr>
+                        <tr>
+                            <th>A1</th><th>B2</th><th>B3</th><th>C4</th><th>C5</th><th>C6</th><th>D7</th><th>E8</th><th>F9</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-</td><td>5</td><td>4</td><td>3</td><td>3</td><td>2</td><td>-</td><td>-</td><td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="font-size: 6.8px; text-align: center; font-weight: 800; color: #555; padding: 2px 0;">
+                    EXTREMESOLUTIONS ES-SCHOOLS &copy; 2026
+                </div>
+            </div>
+
+            <!-- Rating Indices -->
+            <div class="indices-box">
+                <div class="indices-title">Rating Indices</div>
+                <div><strong>5</strong> - Maintains an Excellent degree of Observable (Obv) traits</div>
+                <div><strong>4</strong> - Maintains a High level of Obv traits</div>
+                <div><strong>3</strong> - Acceptable level of Obv traits</div>
+                <div><strong>2</strong> - Shows Minimal regard for Obv traits</div>
+                <div><strong>1</strong> - Has No regard for Observable traits</div>
+            </div>
+
+        </div>
+
+        <!-- Remarks & Signatures Box -->
+        <div class="remarks-container">
+            <div class="remark-row">
+                <div class="remark-label">Class Teacher's Remark</div>
+                <div class="remark-content">has shown excellent ability to set goals and be persistent in achieving them. Nice job!!</div>
+                <div class="remark-sign-box">
+                    <div style="font-size: 7px; color: #666; margin-bottom: 2px;">Sign:</div>
+                    <div class="sign-line">A. Timileyin</div>
+                    <div class="sign-name">MR ADIGUN TIMILEYIN</div>
+                </div>
+            </div>
+            <div class="remark-row">
+                <div class="remark-label">Principal's Remark</div>
+                <div class="remark-content">A Bright and Commendable Performance.. An Average Result... You can Do much Better. Study Harder.</div>
+                <div class="remark-sign-box">
+                    <!-- Red Official Stamp Seal -->
+                    <svg class="official-seal" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="46" stroke="#b91c1c" stroke-width="2.5" fill="none"/>
+                        <circle cx="50" cy="50" r="38" stroke="#b91c1c" stroke-width="1.2" stroke-dasharray="3 2" fill="none"/>
+                        <path d="M50 18 C68 18 82 32 82 50 C82 68 68 82 50 82" stroke="#b91c1c" stroke-width="0.8" fill="none"/>
+                        <text x="50" y="32" font-size="6.5" font-weight="900" fill="#b91c1c" text-anchor="middle" font-family="Arial">EXTREMESOLUTIONS</text>
+                        <text x="50" y="42" font-size="5.2" font-weight="800" fill="#b91c1c" text-anchor="middle" font-family="Arial">APPROVED &bull; VERIFIED</text>
+                        <text x="50" y="60" font-size="7" font-weight="900" fill="#b91c1c" text-anchor="middle" font-family="Arial">24 APR 2026</text>
+                        <text x="50" y="72" font-size="5.5" font-weight="800" fill="#b91c1c" text-anchor="middle" font-family="Arial">OFFICE OF PRINCIPAL</text>
+                    </svg>
+
+                    <div style="font-size: 7px; color: #666; margin-bottom: 2px;">Sign:</div>
+                    <div class="sign-line">Owolabi Badmos</div>
+                    <div class="sign-name">MR OWOLABI BADMOS</div>
+                    <div style="font-size: 7.2px; font-weight: 700; color: #111; margin-top: 2px;">Date: 24-Apr-2026</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumption Bar -->
+        <div class="resumption-bar">
+            <span>Next Term Begins:</span>
+            <span style="font-size: 10.5px; color: #0f2757;">Mon, 28-April-2026</span>
+        </div>
+
+        <!-- Footer Branding -->
+        <div class="footer-branding">
+            <div class="footer-logo">
+                <svg width="14" height="14" viewBox="0 0 64 64" fill="none">
+                    <circle cx="32" cy="32" r="30" fill="#0f2757"/>
+                    <path d="M32 18L20 24L32 30L44 24L32 18Z" fill="white"/>
+                    <rect x="24" y="38" width="16" height="10" fill="#10b981"/>
+                </svg>
+                <span>POWERED BY EXTREMESOLUTIONS SOFTWARE V2.4 &bull; ES-SCHOOLS</span>
+            </div>
+            <div>VERIFIED ACADEMIC DOSSIER &bull; OFFICIAL SCHOOL AUDIT COPY</div>
+        </div>
+
     </div>
 
 </body>
