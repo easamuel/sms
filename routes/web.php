@@ -330,3 +330,23 @@ Route::prefix('payment/webhook')->name('payment.webhook.')->group(function () {
 });
 
 Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+
+// ==========================================
+// 9. FIELD SALES & PROOF MATERIALS
+// ==========================================
+Route::prefix('materials')->name('materials.')->group(function () {
+    Route::get('/', [SalesMaterialsController::class, 'index'])->name('index');
+    Route::get('/tally-broadsheet', [SalesMaterialsController::class, 'tally'])->name('tally');
+    Route::get('/terminal-report-card', [SalesMaterialsController::class, 'reportCard'])->name('report-card');
+    Route::get('/graduation-certificate', [SalesMaterialsController::class, 'certificate'])->name('certificate');
+    Route::get('/bursar-clearance-audit', [SalesMaterialsController::class, 'bursarClearance'])->name('bursar-clearance');
+    Route::get('/executive-one-pager', [SalesMaterialsController::class, 'executiveOnePager'])->name('executive-one-pager');
+});
+
+Route::get('/download-sales-materials', function () {
+    $zipPath = public_path('sales-materials/school-sales-materials-package.zip');
+    if (file_exists($zipPath)) {
+        return response()->download($zipPath, 'school-sales-materials-package.zip');
+    }
+    abort(404, 'Package not found');
+})->name('materials.download-zip');
