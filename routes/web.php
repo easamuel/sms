@@ -36,6 +36,7 @@ use App\Http\Controllers\Sms\ResultsEntryController;
 use App\Http\Controllers\Sms\SmsAdminController;
 use App\Http\Controllers\Sms\SmsLogoutController;
 use App\Http\Controllers\AdmissionController;
+use App\Http\Controllers\SalesMaterialsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,18 @@ Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/privacy-policy', function() { return view('policies.privacy-policy'); })->name('privacy-policy');
 Route::get('/terms-of-service', function() { return view('policies.terms-of-service'); })->name('terms-of-service');
 Route::get('/cookie-policy', function() { return view('policies.cookie-policy'); })->name('cookie-policy');
+
+// ==========================================
+// 1B. SALES PROOFS & OUTREACH MATERIALS (AMAZON & META SALES SYSTEM)
+// ==========================================
+Route::prefix('materials')->name('materials.')->group(function () {
+    Route::get('/', [SalesMaterialsController::class, 'index'])->name('index');
+    Route::get('/tally-broadsheet', [SalesMaterialsController::class, 'tally'])->name('tally');
+    Route::get('/terminal-report-card', [SalesMaterialsController::class, 'reportCard'])->name('report-card');
+    Route::get('/certificate', [SalesMaterialsController::class, 'certificate'])->name('certificate');
+    Route::get('/bursar-clearance', [SalesMaterialsController::class, 'bursarClearance'])->name('bursar-clearance');
+    Route::get('/executive-one-pager', [SalesMaterialsController::class, 'executiveOnePager'])->name('executive-one-pager');
+});
 
 // ==========================================
 // 2. AUTHENTICATION & DEMO LOGIN SWITCHER

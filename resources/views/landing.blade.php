@@ -1925,6 +1925,9 @@
             <a href="{{ route('admission.create') }}" style="color: #059669; font-weight: 700; background: #ecfdf5; border-color: #a7f3d0;">
                 <i class="fas fa-user-plus"></i> Online Admission [OPEN]
             </a>
+            <a href="{{ route('materials.index') }}" style="color: #2563eb; font-weight: 700; background: #eff6ff; border-color: #bfdbfe;">
+                <i class="fas fa-briefcase"></i> Field Sales &amp; Proofs Kit
+            </a>
             <a href="{{ route('contact') }}"><i class="fas fa-envelope" style="color: #1e3a8a;"></i> Contact Us</a>
             <a href="#audit" style="background: var(--accent-green); color: white !important; justify-content: center; font-weight: 700;">
                 <i class="fas fa-calendar-check" style="color: white;"></i> Request Free School Audit
@@ -2714,6 +2717,7 @@
                     <a href="#demos">Parent Demo</a>
                     <a href="#demos">Student Demo</a>
                     <a href="{{ route('school-management.demo-login') }}">Demo Role Chooser</a>
+                    <a href="{{ route('materials.index') }}" style="color: #60a5fa; font-weight: 700;"><i class="fas fa-briefcase"></i> Field Sales &amp; Proofs Kit</a>
                 </div>
             </div>
 
