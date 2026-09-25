@@ -7,14 +7,6 @@ show to Proprietors, Principals, Head Teachers, and Bursars.
 
 FILES IN THIS FOLDER:
 --------------------------------------------------------------------------------
-0. ExtremeSolutions-Principal-Pitch-Deck.pdf
-   - FORMAT: Widescreen Presentation (A4 Landscape Multi-Page PDF)
-   - FOR: In-Person Slide Presentation to Principals & School Leaders
-   - FRAMEWORK: StoryBrand 7 (SB7) + Amazon Customer Obsession + Meta Sales Strategy
-   - PURPOSE: An 8-slide high-impact executive presentation designed to hook the 
-     Principal, expose the agony of manual broadsheets/teller fraud, and present 
-     the 48-hour risk-free pilot offer.
-
 1. 01-Master-Broadsheet-Tally.pdf / .jpg
    - FORMAT: A4 Landscape
    - FOR: Principals & Examination Officers
