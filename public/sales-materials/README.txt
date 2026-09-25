@@ -37,6 +37,35 @@ FILES IN THIS FOLDER:
    - TALKING POINT: Amazon-style 1-page executive memo showing how Kingsway Model College 
      collected 98% fees in 14 days, with a 48-hour seamless onboarding guarantee.
 
+6. 06-Presentation-Folder-Overview.pdf / .jpg
+   - FORMAT: A4 Landscape
+   - FOR: Sales Overview
+   - TALKING POINT: Executive physical folder presentation overview on mahogany desk.
+
+7. 07-Customized-Student-ID-Card.pdf / .jpg
+   - FORMAT: High-res PVC Identity Card Mockup (Front & Back with Lanyard)
+   - FOR: Students & Parents
+   - TALKING POINT: Customized school student identity card with passport photo, class, 
+     admission number, blood group, parent emergency contact, barcode, and anti-forgery QR code.
+
+8. 08-Customized-Staff-Teacher-ID-Card.pdf / .jpg
+   - FORMAT: High-res PVC Identity Card Mockup (Front & Back with Lanyard)
+   - FOR: Teachers, HODs & Non-Academic Staff
+   - TALKING POINT: Standardized faculty credentials with teacher photograph, designation, 
+     staff ID, employee QR code, and proprietor authorization. Instills pride and institutional order.
+
+9. 09-Senior-Secondary-Graduation-Certificate.pdf / .jpg
+   - FORMAT: A4 Landscape (Rich Ivory Cardstock with Victorian Gold Foil Borders)
+   - FOR: Secondary School Graduands & Parents
+   - TALKING POINT: Senior Secondary School Certificate of Completion & Moral Conduct 
+     Testimonial with metallic gold seal, WAEC-level completion statement, and verification QR code.
+
+10. 10-Nursery-Primary-Graduation-Certificate.pdf / .jpg
+    - FORMAT: A4 Landscape (Vibrant Prestige Cardstock with Gold Star Seal & Ribbons)
+    - FOR: Nursery & Primary Transition (Primary Six to JSS 1)
+    - TALKING POINT: Colorful, prestigious primary leaving certificate that parents cherish, 
+      driving massive admissions into the junior secondary school.
+
 PRINTING INSTRUCTIONS:
 - Take these PDF or JPG files to any color cybercafé or print shop.
 - Recommend printing the Certificate on 250gsm or 300gsm card stock.
